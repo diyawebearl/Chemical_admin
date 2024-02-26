@@ -38,11 +38,32 @@ const Addadmin = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
+
+        if (name === "username") {
+            // Replace spaces with an empty string
+            const filteredValue = value.replace(/\s/g, '');
+
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: filteredValue
+            }));
+        } else if (name === "fullname") {
+            // Regular expression to allow only letters, spaces, and hyphens
+            const filteredValue = value.replace(/[^a-zA-Z\s-]/g, '');
+
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: filteredValue
+            }));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
     };
+
+
 
     const [successSB, setSuccessSB] = useState(false);
     const [errorSB, setErrorSB] = useState(false);
@@ -159,18 +180,18 @@ const Addadmin = () => {
             openErrorSB();
             return;
         }
-        if (username.length<4) {
+        if (username.length < 4) {
             setErrorMessage("Your username must contain at least 4 characters!")
             openErrorSB();
             return;
         }
-        
+
         if (!password) {
             setErrorMessage("Please Enter Password!")
             openErrorSB();
             return;
         }
-        if (password.length<4) {
+        if (password.length < 4) {
             setErrorMessage("Your password must contain at least 4 characters!")
             openErrorSB();
             return;
@@ -181,7 +202,7 @@ const Addadmin = () => {
             openErrorSB();
             return;
         }
-        if (fullname.length<4) {
+        if (fullname.length < 4) {
             setErrorMessage("Your fullname must contain at least 4 characters!")
             openErrorSB();
             return;
@@ -190,7 +211,7 @@ const Addadmin = () => {
 
         try {
             const token = `Bearer ${localStorage.getItem("chemToken")}`;
-    
+
             const response = await fetch(`${BASE_URL}/api/superadmin/addadmin`, {
                 method: "POST",
                 headers: {
@@ -203,7 +224,7 @@ const Addadmin = () => {
                     fullname
                 }),
             });
-    
+
             if (response.ok) {
                 const data = await response.json();
                 openSuccessSB();
@@ -258,24 +279,24 @@ const Addadmin = () => {
                                             />
                                         </MDBox>
                                         <MDInput
-    type={showNewPassword ? "text" : "password"}
-    label="Password"
-    name="password"
-    fullWidth
-    value={formData.password} // Update this line
-    onChange={handleChange} // Update this line
-    InputProps={{
-        endAdornment: (
-            <InputAdornment position="end">
-                <IconButton onClick={handleShowNewPassword}>
-                    {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-            </InputAdornment>
-        ),
-    }}
-    style={{ marginBottom: "20px" }}
-/>
-                                        <MDBox mb={2}  mt={2} >
+                                            type={showNewPassword ? "text" : "password"}
+                                            label="Password"
+                                            name="password"
+                                            fullWidth
+                                            value={formData.password} // Update this line
+                                            onChange={handleChange} // Update this line
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton onClick={handleShowNewPassword}>
+                                                            {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                            style={{ marginBottom: "20px" }}
+                                        />
+                                        <MDBox mb={2} mt={2} >
                                             <MDInput
                                                 type="text"
                                                 label="Full Name"

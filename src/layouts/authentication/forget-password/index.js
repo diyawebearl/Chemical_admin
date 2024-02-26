@@ -21,6 +21,7 @@ function ForgetPassword() {
   const [otpInput, setOtpInput] = useState("");
   const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setCOnfirmPassword] = useState("");
   const navigate = useNavigate();
   const [errorSB, setErrorSB] = useState(false);
   const openErrorSB = () => setErrorSB(true);
@@ -34,6 +35,7 @@ function ForgetPassword() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showNewPassword1, setShowNewPassword1] = useState(false);
 
   const handleContactNumberChange = (e) => {
     const value = e.target.value;
@@ -92,13 +94,31 @@ function ForgetPassword() {
     setNewPassword(e.target.value);
   };
 
+  const handleConfirmPasswordChange = (e) => {
+    setCOnfirmPassword(e.target.value);
+  };
+
   const handleShowNewPassword = () => {
     setShowNewPassword(!showNewPassword);
+  };
+
+  const handleShowNewPassword1 = () => {
+    setShowNewPassword1(!showNewPassword1);
   };
 
   const handleSubmitNewPassword = async () => {
     if (!newPassword) {
       setErrorMessage("Please Enter New Password");
+      openErrorSB();
+      return;
+    }
+    if (!confirmPassword) {
+      setErrorMessage("Please Enter Confirm Password");
+      openErrorSB();
+      return;
+    }
+    if (newPassword != confirmPassword) {
+      setErrorMessage("New Password And Confirm Password Not Matched!");
       openErrorSB();
       return;
     }
@@ -209,30 +229,53 @@ function ForgetPassword() {
                   onChange={handleContactNumberChange}
                   onKeyDown={handleKeyDown}
                   maxLength={10}
+                  onInput={(e) => (e.target.value) = e.target.value.replace(/[^0-9]/g, '')}
                   fullWidth
                 />
               )}
             </MDBox>
             {isOtpVerified && (
-              <MDBox mb={2}>
-                <MDInput
-                  type={showNewPassword ? "text" : "password"}
-                  label="Enter New Password"
-                  name="password"
-                  halfWidth
-                  value={newPassword}
-                  onChange={handleNewPasswordChange}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleShowNewPassword}>
-                          {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                  style={{ marginBottom: "20px" }}
-                />
+              <MDBox>
+                <MDBox mb={2}>
+                  <MDInput
+                    type={showNewPassword ? "text" : "password"}
+                    label="Enter New Password"
+                    name="password"
+                    fullWidth
+                    value={newPassword}
+                    onChange={handleNewPasswordChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleShowNewPassword}>
+                            {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    style={{ marginBottom: "20px" }}
+                  />
+                </MDBox>
+                <MDBox mb={2}>
+                  <MDInput
+                    type={showNewPassword1 ? "text" : "password"}
+                    label="Enter Confirm Password"
+                    name="password"
+                    fullWidth
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleShowNewPassword1}>
+                            {showNewPassword1 ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    style={{ marginBottom: "20px" }}
+                  />
+                </MDBox>
               </MDBox>
             )}
             <MDBox mt={4} mb={1}>
@@ -293,6 +336,7 @@ function ForgetPassword() {
               className="w-50 text-center"
               value={otpInput.slice(0, 6)}
               onKeyDown={handleKeyDown}
+              onInput={(e) => (e.target.value) = e.target.value.replace(/[^0-9]/g, '')}
               maxLength={6}
               onChange={(e) => setOtpInput(e.target.value)}
               fullWidth

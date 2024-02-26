@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 // react-router-dom components
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
@@ -162,7 +162,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     localStorage.clear("userToken")
     handleClose11()
     navigate("/authentication/sign-in")
-    
+
   }
 
   return (
@@ -192,7 +192,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
           >
             <MDTypography component="h6" variant="button" fontWeight="medium" color={textColor}>
-            AnBiZz 
+              AnBiZz
             </MDTypography>
           </MDBox>
         </MDBox>
@@ -205,53 +205,53 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       />
       <List>{renderRoutes}</List>
 
-     
-      <MDButton variant="text" color="info" style={{ background: "linear-gradient(195deg, #49a3f1, #1A73E8)", margin: "10px 45px 10px 45px", color: "white", borderRadius: "0.5rem"}} onClick={handleShow11}>
-          {/* <SidenavCollapse
+
+      <MDButton variant="text" color="info" style={{ background: "linear-gradient(195deg, #49a3f1, #1A73E8)", margin: "10px 45px 10px 45px", color: "white", borderRadius: "0.5rem" }} onClick={handleShow11}>
+        {/* <SidenavCollapse
             name={nSign Outame}
             icon={icon}
             active={key === collapseName}
             noCollapse={noCollapse}
           // /> */}
-       
-          
-           <Icon fontSize="small" color="white" sx={{marginRight: 1}}>login</Icon>
-       
-      Sign Out
-    </MDButton>
-    <Modal
-          show={show11}
-          onHide={handleClose11}
-          backdrop='static'
-          keyboard={false}
-          style={{ zIndex: "10101010" }}
-          centered
-        >
 
-<Modal.Body>
-            <div className='pt-3 pb-2 px-3 text-center'>
-              <FontAwesomeIcon
-                icon={faRightFromBracket}
-                className='mb-3'
-                style={{ fontSize: "50px" }}
-              />
-              <h5 className='text-center'>Are You Sure You Want To Logout?</h5>
-              <div className='logout-btn d-flex justify-content-center mt-3'>
-                
+
+        <Icon fontSize="small" color="white" sx={{ marginRight: 1 }}>login</Icon>
+
+        Sign Out
+      </MDButton>
+      <Modal
+        show={show11}
+        onHide={handleClose11}
+        backdrop='static'
+        keyboard={false}
+        style={{ zIndex: "10101010" }}
+        centered
+      >
+
+        <Modal.Body>
+          <div className='pt-3 pb-2 px-3 text-center'>
+            <FontAwesomeIcon
+              icon={faRightFromBracket}
+              className='mb-3'
+              style={{ fontSize: "50px" }}
+            />
+            <h5 className='text-center'>Are You Sure You Want To Logout?</h5>
+            <div className='logout-btn d-flex justify-content-center mt-3'>
+
               <MDButton variant="gradient" color="info" onClick={handleClose11} style={{ color: "white", borderRadius: "0.5rem", marginRight: "8px" }}>
                 No
               </MDButton>
               <MDButton variant="gradient" color="info" onClick={handleLogout} style={{ color: "white", borderRadius: "0.5rem" }}>
-              Yes
-            </MDButton>
-              </div>
+                Yes
+              </MDButton>
             </div>
-          </Modal.Body>
-        </Modal>
+          </div>
+        </Modal.Body>
+      </Modal>
 
-      
-        
-  {/* {
+
+
+      {/* {
     type: "collapse",
     name: "Sign Out",
     key: "sign-in",

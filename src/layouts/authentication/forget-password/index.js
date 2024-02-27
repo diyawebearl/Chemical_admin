@@ -91,11 +91,11 @@ function ForgetPassword() {
   };
 
   const handleNewPasswordChange = (e) => {
-    setNewPassword(e.target.value);
+    setNewPassword(e.target.value.trim());
   };
 
   const handleConfirmPasswordChange = (e) => {
-    setCOnfirmPassword(e.target.value);
+    setCOnfirmPassword(e.target.value.trim());
   };
 
   const handleShowNewPassword = () => {

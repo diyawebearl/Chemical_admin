@@ -35,55 +35,228 @@ import projectsTableData from "layouts/tables/data/projectsTableData";
 import axios from "axios";
 import { BASE_URL } from "BASE_URL";
 import { useEffect, useState } from "react";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+
+//countries , state and city
+import countries from "../../CountryStateCity.json"
 
 function Company() {
+  const [categoryList, setCategoryList] = useState([])
+  const [myData, setMyData] = useState([])
+  const [myData2, setMyData2] = useState([])
+  const [myData3, setMyData3] = useState([])
+  const [myData4, setMyData4] = useState([])
+  const [myData5, setMyData5] = useState([])
+  const { columns, rows } = authorsTableData(categoryList);
+
+  const india = countries && countries.find((e) => e.name === "India")
 
 
-  const shouldShowAddButton = () => {
-    const screenWidth =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth;
-    return screenWidth < 850;
-};
+  const fetchUserList = async () => {
+    try {
+      const token = `Bearer ${localStorage.getItem("chemToken")}`;
+      const response = await axios.get(
+        `${BASE_URL}/company/all`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setCategoryList(response.data.companies);
+      setMyData(response.data.companies);
+      setMyData2(response.data.companies);
+      setMyData3(response.data.companies);
+      setMyData4(response.data.companies);
+      setMyData5(response.data.companies);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-const [categoryList, setCategoryList] = useState([])
+  useEffect(() => {
+    fetchUserList();
+  }, []);
 
-const fetchUserList = async () => {
-  try {
-    const token = `Bearer ${localStorage.getItem("chemToken")}`;
-    const response = await axios.get(
-      `${BASE_URL}/company/all`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-    setCategoryList(response.data.companies);
-  } catch (error) {
-    console.log(error);
+
+
+
+  const handleCompanyChange = (e) => {
+    const company = e.target.value.toLowerCase();
+
+    const filteredData = myData.filter((rows) => {
+      const name = rows?.company_name?.toLowerCase();
+      const nameMatch = name.includes(company);
+
+      return nameMatch;
+    })
+    setCategoryList(filteredData)
+    setMyData2(filteredData)
+    setMyData3(filteredData)
   }
-};
 
-useEffect(() => {
-  fetchUserList();
-}, []);
+  const handleGstChange = (e) => {
+    const gst = e.target.value.toLowerCase();
 
-useEffect(() => {
-  fetchUserList();
-}, []);
+    if (myData.length != categoryList) {
+      const filtered = myData2;
+      const filteredData = filtered.filter((rows) => {
+        const gstSearch = rows?.gst?.toLowerCase();
+        const gstMatch = gstSearch.includes(gst);
+
+        return gstMatch;
+      })
+
+      setCategoryList(filteredData)
+      setMyData3(filteredData)
+    } else {
+      const filtered = myData;
+      const filteredData = filtered.filter((rows) => {
+        const gstSearch = rows?.gst?.toLowerCase();
+        const gstMatch = gstSearch.includes(gst);
+
+        return gstMatch;
+      })
+
+      setCategoryList(filteredData)
+      setMyData3(filteredData)
+    }
+  }
+
+  const handleMobileChange = (e) => {
+    const number = e.target.value.toLowerCase();
+
+    if (myData.length != categoryList) {
+      const filtered = myData3;
+      const filteredData = filtered.filter((rows) => {
+        const numberSearch = rows?.mobile_num?.toLowerCase();
+        const numberMatch = numberSearch.includes(number);
+
+        return numberMatch;
+      })
+
+      setCategoryList(filteredData)
+      setMyData4(filteredData)
+    } else {
+      const filtered = myData;
+      const filteredData = filtered.filter((rows) => {
+        const numberSearch = rows?.mobile_num?.toLowerCase();
+        const numberMatch = numberSearch.includes(number);
+
+        return numberMatch;
+      })
+
+      setCategoryList(filteredData)
+      setMyData4(filteredData)
+    }
+  }
 
 
+  // const [state, setState] = useState([])
+  // const [cities, setCities] = useState([])
+  // console.log(cities);
 
+  const handleModeChange = (e) => {
+    const mode = e.target.value.toLowerCase();
+  }
 
-const { columns, rows } = authorsTableData( categoryList );
+  const handleStateChange = (e) => {
+    // setState(e.target.value)
+    // const state = e.target.value.toLowerCase();
+
+    // const selectedCityArray = india && india.states.find((e) => e.name === state) 
+
+    // setCities(selectedCityArray)
+
+  }
+
+  const handleCityChange = (e) => {
+    // const city = e.target.value.toLowerCase();
+  }
+
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
+          <Grid item xs={12}>
+            <Grid container spacing={2}>
+              <Grid item xs={3}>
+                <FormControl fullWidth>
+                  <TextField id="outlined-basic" onChange={handleCompanyChange} label="Company Name" variant="outlined" />
+                </FormControl>
+              </Grid>
+              <Grid item xs={1.8}>
+                <FormControl fullWidth>
+                  <TextField id="outlined-basic" onChange={handleGstChange} label="GST" variant="outlined" />
+                </FormControl>
+              </Grid>
+              <Grid item xs={1.8}>
+                <FormControl fullWidth>
+                  <TextField id="outlined-basic" onChange={handleMobileChange} label="Mobile Number" variant="outlined" />
+                </FormControl>
+              </Grid>
+              <Grid item xs={1.8}>
+                <FormControl fullWidth>
+                  <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">Business Mode</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    onChange={handleModeChange}
+                    // value={age}
+                    label="Age"
+                    style={{ padding: "10px 0px" }}
+                  // onChange={handleChange}
+                  >
+                    <MenuItem value="">All</MenuItem>
+                    <MenuItem value="Manufecture">Manufecture</MenuItem>
+                    <MenuItem value="Trader">Trader</MenuItem>
+                    <MenuItem value="Both">Both</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={1.4}>
+                <FormControl fullWidth>
+                  <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">State</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    onChange={handleStateChange}
+                    label="state"
+                    style={{ padding: "10px 0px" }}
+                  >
+                    <MenuItem value="dff">All</MenuItem>
+                    {india && india.states.map((state) => {
+
+                      <MenuItem value="dfdsd">{state.name}</MenuItem>
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={1.4}>
+                <FormControl fullWidth>
+                  <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">City</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    onChange={handleCityChange}
+                    label="city"
+                    style={{ padding: "10px 0px" }}
+                  >
+                    <MenuItem value="why">All</MenuItem>
+                    {/* <MenuItem value="why">Ten</MenuItem> */}
+                    {/* <MenuItem value="so">Twenty</MenuItem> */}
+                    {/* <MenuItem value="ehy">Thirty</MenuItem> */}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </Grid>
           <Grid item xs={12}>
             <Card>
               <MDBox
@@ -97,17 +270,8 @@ const { columns, rows } = authorsTableData( categoryList );
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Company List
+                  {/* Company List ({filteredRows.length}) */}
                 </MDTypography>
-                {/* <Link to="" style={{ textDecoration: "none" }}>
-                  <MDButton
-                    variant="gradient"
-                    color="dark"
-                    style={{ position: "absolute", top: "-9px", right: "2%" }}
-                  >
-                    {shouldShowAddButton() ? "" : "Add Company"}
-                  </MDButton>
-                </Link> */}
               </MDBox>
               <MDBox pt={3}>
                 <DataTable

@@ -28,10 +28,12 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 import MDButton from "components/MDButton";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import FormControl from '@mui/material/FormControl';
 
 // Data
 import authorsTableData from "layouts/chemicallist/data/authorsTableData";
+import TextField from '@mui/material/TextField';
 
 const Chemicals = () => {
   const token = localStorage.getItem("chemToken");
@@ -42,7 +44,6 @@ const Chemicals = () => {
       navigate("/authentication/sign-in");
     }
   }, []);
-  const { columns, rows } = authorsTableData();
 
   const shouldShowAddButton = () => {
     const screenWidth =
@@ -52,11 +53,37 @@ const Chemicals = () => {
     return screenWidth < 850;
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredRows, setFilteredRows] = useState([]);
+
+  useEffect(() => {
+    // Filter rows based on searchTerm
+    const filtered = authorsTableData().rows.filter(row => {
+      // Modify the condition as per your filtering criteria
+      return (
+        row.company.props.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.cas.props.children.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+    setFilteredRows(filtered);
+  }, [searchTerm]);
+
+  const handleCompanyChange = (event) => {
+    setSearchTerm(event.target.value);
+  }
+
+  const { columns } = authorsTableData();
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
+        <Grid item xs={5}>
+          <FormControl fullWidth>
+            <TextField id="outlined-basic" onChange={handleCompanyChange} label="Search chemical or cas number" variant="outlined" />
+          </FormControl>
+        </Grid>
           <Grid item xs={12}>
             <Card>
               <MDBox
@@ -84,7 +111,7 @@ const Chemicals = () => {
               </MDBox>
               <MDBox pt={3}>
                 <DataTable
-                  table={{ columns, rows }}
+                  table={{ columns, rows: filteredRows }}
                   isSorted={false}
                   entriesPerPage={false}
                   showTotalEntries={false}

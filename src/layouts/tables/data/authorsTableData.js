@@ -89,14 +89,14 @@ export default function AuthorsTableData(categoryList) {
         company: (
           <Author name={category.company_name} email={category.emailid} />
         ),
-        address: (
-          <Job
-            title={category.address}
-            description={
-              category.city + "," + category.state + "," + category.country
-            }
-          />
-        ),
+        // address: (
+        //   <Job
+        //     title={category.address}
+        //     description={
+        //       category.city + "," + category.state + "," + category.country
+        //     }
+        //   />
+        // ),
         status: (
           <MDBox ml={-1}>
             <MDBadge
@@ -107,6 +107,16 @@ export default function AuthorsTableData(categoryList) {
             />
           </MDBox>
         ),
+        address: (
+          <MDTypography
+            component="a"
+            variant="caption"
+            color="text"
+            fontWeight="medium"
+          >
+            {category.address}
+          </MDTypography>
+        ),
         mode: (
           <MDTypography
             component="a"
@@ -114,7 +124,7 @@ export default function AuthorsTableData(categoryList) {
             color="text"
             fontWeight="medium"
           >
-            Manufecture
+            {/* Manufecture */}
           </MDTypography>
         ),
         mobile: (
@@ -124,7 +134,7 @@ export default function AuthorsTableData(categoryList) {
             color="text"
             fontWeight="medium"
           >
-            9033251903
+            {category.mobile_num}
           </MDTypography>
         ),
         landline: (
@@ -134,7 +144,7 @@ export default function AuthorsTableData(categoryList) {
             color="text"
             fontWeight="medium"
           >
-            {category.mobile_num}
+            {/* 9033251903 */}
           </MDTypography>
         ),
         pincode: (

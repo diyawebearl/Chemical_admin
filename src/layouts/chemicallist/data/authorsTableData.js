@@ -53,11 +53,11 @@ export default function data() {
     columns: [
       { Header: "chemical", accessor: "company", width: "18%", align: "left" },
       { Header: "cas", accessor: "cas", align: "left" },
-      { Header: "hsn code", accessor: "hsn", align: "left" },
+      { Header: "iupac name", accessor: "hsn", align: "left", width: "5%", },
       { Header: "mol weight", accessor: "weight", align: "left" },
       { Header: "synonums", accessor: "synonums", align: "left" },
-      { Header: "remarks", accessor: "remarks", width: "10%", align: "left" },
-      { Header: "uses", accessor: "uses", align: "left" },
+      { Header: "appearance", accessor: "remarks", width: "10%", align: "left" },
+      { Header: "storage", accessor: "uses", align: "left" , width: "10%" },
       { Header: "status", accessor: "status", align: "center" },
       { Header: "action", accessor: "action", align: "center" },
     ],
@@ -72,7 +72,7 @@ export default function data() {
         ),
         hsn: (
           <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            29332990
+            1-(2,4-Difluorophenyl)-2-(1H-1,2,4-triazol-1-yl)ethanone
           </MDTypography>
         ),
         weight: <Job title="187.24" />,
@@ -89,12 +89,12 @@ export default function data() {
             fontWeight="medium"
             sx={{ maxWidth: '200px', wordWrap: 'break-word' }} // Adjust maxWidth as needed
           >
-            Lorem ipsum dolor sit amet, consectetur <br /> adipisicing elit. Ullam illo nulla accusantium voluptatem, <br /> tempora aliquam deleniti beatae aliquid repellat <br /> laboriosam enim cumque voluptatum quae debitis fugit itaque id deserunt! Ex.
+            Pale Yellow Solid
           </MDTypography>
         ),
         uses: (
           <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            Fluconazol
+            Store in cool place. Keep container tightly closed in a dry and well-ventilated place.
           </MDTypography>
         ),
         status: (

@@ -260,35 +260,13 @@ const Addchemical = () => {
                                         <MDBox mb={2}>
                                             <MDInput
                                                 type="text"
-                                                label="HSN Code"
+                                                label="IUPAC name"
                                                 name="HSN_code"
                                                 value={formData.HSN_code}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
                                             />
-                                        </MDBox>
-                                        <MDBox mb={4}>
-                                            <Grid item xl={2}>
-                                                <div className="d-flex align-items-center" style={{ gap: "15px" }}>
-                                                    <h6 className="mb-0">STATUS</h6>
-                                                    <select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        label="City"
-                                                        name="status"
-                                                        onChange={handleChange}
-                                                        style={{ color: "#7b809a", background: "transparent", border: "1px solid #dadbda", height: "44px", padding: "0px 15px", borderRadius: "5px", fontSize: "14px" }}
-                                                        fullWidth
-                                                    >
-                                                        <option value="" >SELECT</option>
-                                                        <option value="active" >ACTIVE</option>
-                                                        <option value="inactive" >INACTIVE</option>
-                                                        <option value="pending" >PENDING</option>
-                                                        <option value="unavailable" >UNAVAILABLE</option>
-                                                    </select>
-                                                </div>
-                                            </Grid>
                                         </MDBox>
                                         <MDBox display="flex" alignItems="center">
                                             <MDBox
@@ -335,10 +313,9 @@ const Addchemical = () => {
                                         </MDBox>
 
                                         <MDBox mb={2}>
-                                            <TextField
-                                                multiline // Set to multiline
-                                                rows={4} // Adjust the number of rows as per your requirement
-                                                label="Uses"
+                                            <MDInput
+                                                type="text"
+                                                label="Appearance"
                                                 name="applicationUses"
                                                 value={formData.applicationUses}
                                                 onChange={handleChange}
@@ -347,16 +324,37 @@ const Addchemical = () => {
                                             />
                                         </MDBox>
                                         <MDBox mb={2}>
-                                            <TextField
-                                                multiline // Set to multiline
-                                                rows={4} // Adjust the number of rows as per your requirement
-                                                label="Remarks"
+                                            <MDInput
+                                                type="text"
+                                                label="Storage"
                                                 name="remarks"
                                                 value={formData.remarks}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
                                             />
+                                        </MDBox>
+                                        <MDBox mb={4}>
+                                            <Grid item xl={2}>
+                                                <div className="d-flex align-items-center" style={{ gap: "15px" }}>
+                                                    <h6 className="mb-0">STATUS</h6>
+                                                    <select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        label="City"
+                                                        name="status"
+                                                        onChange={handleChange}
+                                                        style={{ color: "#7b809a", background: "transparent", border: "1px solid #dadbda", height: "44px", padding: "0px 15px", borderRadius: "5px", fontSize: "14px" }}
+                                                        fullWidth
+                                                    >
+                                                        <option value="" >SELECT</option>
+                                                        <option value="active" >ACTIVE</option>
+                                                        <option value="inactive" >INACTIVE</option>
+                                                        <option value="pending" >PENDING</option>
+                                                        <option value="unavailable" >UNAVAILABLE</option>
+                                                    </select>
+                                                </div>
+                                            </Grid>
                                         </MDBox>
                                         <MDBox mt={4} mb={1}>
                                             <MDButton

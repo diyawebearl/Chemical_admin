@@ -79,7 +79,7 @@ const Changepassword = () => {
   const handlePasswordChange = (e) => {
     setPasswords({
       ...passwords,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.trim(),
     });
   };
 
@@ -99,25 +99,25 @@ const Changepassword = () => {
   const handleSubmit = async () => {
     const { oldPassword, newPassword, confirmPassword } = passwords;
 
-    if (!oldPassword && !newPassword && !confirmPassword) {
+    if (!oldPassword.trim() && !newPassword.trim() && !confirmPassword.trim()) {
       setErrorMessage("Please Fill All Fields!");
       openErrorSB();
       return;
     }
 
-    if (!oldPassword) {
+    if (!oldPassword.trim()) {
       setErrorMessage("Please Enter Old Password!");
       openErrorSB();
       return;
     }
 
-    if (!newPassword) {
+    if (!newPassword.trim()) {
       setErrorMessage("Please Enter New Password!");
       openErrorSB();
       return;
     }
 
-    if (!confirmPassword) {
+    if (!confirmPassword.trim()) {
       setErrorMessage("Please Confirm Your Password!");
       openErrorSB();
       return;
@@ -143,9 +143,9 @@ const Changepassword = () => {
         Authorization: token,
       },
       body: JSON.stringify({
-        username: username,
-        password: oldPassword,
-        newPassword: newPassword,
+        username: username.trim(),
+        password: oldPassword.trim(),
+        newPassword: newPassword.trim(),
       }),
     });
 

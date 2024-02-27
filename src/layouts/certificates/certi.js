@@ -40,8 +40,28 @@ import authorsTableData from "layouts/certificates/data/authorsTableData";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "BASE_URL";
 import axios from "axios";
+import MDSnackbar from "components/MDSnackbar";
 
 const Certificate = () => {
+
+  const [successSB, setSuccessSB] = useState(false);
+
+  const openSuccessSB = () => setSuccessSB(true);
+  const closeSuccessSB = () => setSuccessSB(false);  
+
+  const renderSuccessSB = (
+    <MDSnackbar
+        color="success"
+        icon="check"
+        title="Successfull Deleted"
+        content="Certificate Is Successfully Deleted."
+        dateTime="1 sec"
+        open={successSB}
+        onClose={closeSuccessSB}
+        close={closeSuccessSB}
+        bgWhite
+    />
+);
 
   const token = localStorage.getItem("chemToken");
 
@@ -71,6 +91,7 @@ const Certificate = () => {
       });
       fetchUserList();
       setOpenConfirmationDialog(false);
+      openSuccessSB();
     } catch (error) {
       console.log("Error deleting category:", error);
     }
@@ -172,6 +193,7 @@ const Certificate = () => {
           </MDButton>
         </DialogActions>
       </Dialog>
+      {renderSuccessSB}
     </DashboardLayout>
   );
 };

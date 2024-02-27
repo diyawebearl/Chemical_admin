@@ -49,7 +49,7 @@ export default function AuthorsTableData({handleDelete, ceritificateList}) {
     ],
 
 
-    rows: ceritificateList && ceritificateList.map((e) => ({
+    rows: ceritificateList && [...ceritificateList].reverse().map((e) => ({
       cas: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
           {e.certificate_name}

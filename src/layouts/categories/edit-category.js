@@ -68,8 +68,9 @@ const Editcategory = () => {
     const { _id } = useParams();
 
     const handleSubmit = async () => {
-        if (!category) {
+        if (!category.trim()) {
             openErrorSB();
+            return;
         }
 
         const token = `Bearer ${localStorage.getItem("chemToken")}`;
@@ -80,7 +81,7 @@ const Editcategory = () => {
                 Authorization: token,
             },
             body: JSON.stringify({
-                category_name: category
+                category_name: category.trim()
             }),
         });
 

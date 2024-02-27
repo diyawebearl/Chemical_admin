@@ -75,7 +75,7 @@ export default function AuthorsTableData({handleDelete, gradeList}) {
     ],
 
 
-    rows: gradeList && gradeList.map((e) => ({
+    rows: gradeList && [...gradeList].reverse().map((e) => ({
       grade: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
           {e.grade_name}

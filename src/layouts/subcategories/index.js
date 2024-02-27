@@ -40,8 +40,29 @@ import authorsTableData from "layouts/subcategories/data/authorsTableData";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "BASE_URL";
 import axios from "axios";
+import MDSnackbar from "components/MDSnackbar";
 
 const Subcategories = () => {
+
+  const [successSB, setSuccessSB] = useState(false);
+
+  const openSuccessSB = () => setSuccessSB(true);
+  const closeSuccessSB = () => setSuccessSB(false);  
+
+  const renderSuccessSB = (
+    <MDSnackbar
+        color="success"
+        icon="check"
+        title="Successfull Deleted"
+        content="Subcategory Is Successfully Deleted."
+        dateTime="1 sec"
+        open={successSB}
+        onClose={closeSuccessSB}
+        close={closeSuccessSB}
+        bgWhite
+    />
+);
+
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [deleteCategoryId, setDeleteCategoryId] = useState(null); // To store the category ID to be deleted
@@ -60,6 +81,7 @@ const Subcategories = () => {
       },
     });
     fetchUserList()
+    openSuccessSB();
     setOpenConfirmationDialog(false);
     // Reset deleteCategoryId after deletion
     setDeleteCategoryId(null);
@@ -160,6 +182,7 @@ const Subcategories = () => {
           </MDButton>
         </DialogActions>
       </Dialog>
+      {renderSuccessSB}
     </DashboardLayout>
   );
 };

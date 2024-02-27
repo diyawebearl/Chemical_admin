@@ -80,12 +80,12 @@ const Addgrade = () => {
             openErrorSB();
             return
         }
-        if (!category) {
+        if (!category.trim()) {
             setErrorMessage("Please Select Category")
             openErrorSB();
             return
         }
-        if (!Grade) {
+        if (!Grade.trim()) {
             setErrorMessage("Please Enter Grade")
             openErrorSB();
             return
@@ -99,7 +99,7 @@ const Addgrade = () => {
                 Authorization: token,
             },
             body: JSON.stringify({
-                grade_name: Grade,
+                grade_name: Grade.trim(),
                 category_id: category
             }),
         });

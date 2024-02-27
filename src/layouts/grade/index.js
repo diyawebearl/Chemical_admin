@@ -40,8 +40,30 @@ import authorsTableData from "layouts/grade/data/authorsTableData";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "BASE_URL";
 import axios from "axios";
+import MDSnackbar from "components/MDSnackbar";
 
 const Grade = () => {
+
+  const [successSB, setSuccessSB] = useState(false);
+
+  const openSuccessSB = () => setSuccessSB(true);
+  const closeSuccessSB = () => setSuccessSB(false);  
+
+  const renderSuccessSB = (
+    <MDSnackbar
+        color="success"
+        icon="check"
+        title="Successfull Deleted"
+        content="Grade Is Successfully Deleted."
+        dateTime="1 sec"
+        open={successSB}
+        onClose={closeSuccessSB}
+        close={closeSuccessSB}
+        bgWhite
+    />
+);
+
+
   const token = localStorage.getItem("chemToken");
 
   const navigate = useNavigate();
@@ -71,6 +93,7 @@ const Grade = () => {
 
     fetchUserList();
     setOpenConfirmationDialog(false);
+    openSuccessSB();
     // Reset deleteCategoryId after deletion
     setDeleteCategoryId(null);
   };
@@ -173,6 +196,7 @@ const Grade = () => {
           </MDButton>
         </DialogActions>
       </Dialog>
+      {renderSuccessSB}
     </DashboardLayout>
   );
 };

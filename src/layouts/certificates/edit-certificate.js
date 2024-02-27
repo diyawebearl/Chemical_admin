@@ -73,7 +73,7 @@ const Editcertificate = () => {
 
 
     const handleSubmit = async () => {
-        if (!certificateName) {
+        if (!certificateName.trim()) {
             openErrorSB();
             return;
         }
@@ -86,7 +86,7 @@ const Editcertificate = () => {
                 Authorization: token,
             },
             body: JSON.stringify({
-                certificate_name: certificateName
+                certificate_name: certificateName.trim()
             }),
         });
 

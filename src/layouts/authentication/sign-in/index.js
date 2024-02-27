@@ -178,7 +178,7 @@ function Basic() {
                 type="text"
                 label="Username"
                 value={name}
-                onChange={(event) => setUsername(event.target.value)}
+                onChange={(event) => setUsername(event.target.value.trim())}
                 fullWidth
               />
             </MDBox>
@@ -189,7 +189,7 @@ function Basic() {
                 name="password"
                 fullWidth
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(event) => setPassword(event.target.value.trim())}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">

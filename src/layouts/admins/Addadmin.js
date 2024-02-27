@@ -55,6 +55,14 @@ const Addadmin = () => {
                 ...prevData,
                 [name]: filteredValue
             }));
+        } else if (name === "password") {
+            // Trim spaces from the password value
+            const trimmedValue = value.trim();
+
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: trimmedValue
+            }));
         } else {
             setFormData((prevData) => ({
                 ...prevData,
@@ -62,6 +70,7 @@ const Addadmin = () => {
             }));
         }
     };
+
 
 
 
@@ -106,64 +115,6 @@ const Addadmin = () => {
     );
 
 
-    // const handleSubmit = async () => {
-
-    //     const { username, password, fullname } = formData;
-
-    //     if (!username && !password && !fullname) {
-    //         setErrorMessage("Please Fill All Fields!")
-    //         openErrorSB();
-    //         return;
-    //     }
-
-    //     if (!username) {
-    //         setErrorMessage("Please Enter Username!")
-    //         openErrorSB();
-    //         return;
-    //     }
-
-    //     if (!password) {
-    //         setErrorMessage("Please Enter Password!")
-    //         openErrorSB();
-    //         return;
-    //     }
-
-    //     if (!fullname) {
-    //         setErrorMessage("Please Enter Fullname!")
-    //         openErrorSB();
-    //         return;
-    //     }
-
-    //     try {
-
-    //         const response = await axios.post(
-    //             `${BASE_URL}api/admin/login`,
-    //             formData
-    //         );
-    //         if (response.data.status === "OK") {
-    //             openSuccessSB();
-    //             console.log(response.data.data.token);
-    //             localStorage.setItem("token", response.data.data.token);
-    //             localStorage.setItem("id", response.data.data._id);
-    //             navigate("/dashboard");
-    //         } else {
-    //             // Handle invalid login credentials
-    //             openErrorSB();
-    //         }
-    //     } catch (error) {
-    //         // Handle error
-    //         openErrorSB();
-    //     }
-
-
-    //     openSuccessSB();
-    //     setTimeout(() => {
-    //         navigate(-1)
-    //     }, 2000);
-
-    // }
-
-
     const handleSubmit = async () => {
         const { username, password, fullname } = formData;
 
@@ -197,7 +148,7 @@ const Addadmin = () => {
             return;
         }
 
-        if (!fullname) {
+        if (!fullname.trim()) {
             setErrorMessage("Please Enter Fullname!")
             openErrorSB();
             return;

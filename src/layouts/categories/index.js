@@ -41,8 +41,29 @@ import authorsTableData from "layouts/categories/data/authorsTableData";
 import { useState } from "react";
 import { BASE_URL } from "BASE_URL";
 import axios from "axios";
+import MDSnackbar from "components/MDSnackbar";
 
 const Categories = () => {
+
+  const [successSB, setSuccessSB] = useState(false);
+
+  const openSuccessSB = () => setSuccessSB(true);
+  const closeSuccessSB = () => setSuccessSB(false);  
+
+  const renderSuccessSB = (
+    <MDSnackbar
+        color="success"
+        icon="check"
+        title="Successfull Deleted"
+        content="Category Is Successfully Deleted."
+        dateTime="1 sec"
+        open={successSB}
+        onClose={closeSuccessSB}
+        close={closeSuccessSB}
+        bgWhite
+    />
+);
+
   const token = localStorage.getItem("chemToken");
 
   const navigate = useNavigate();
@@ -97,6 +118,7 @@ const Categories = () => {
       });
       setOpenConfirmationDialog(false);
       fetchUserList()
+      openSuccessSB();
     } catch (error) {
       console.log("Error deleting category:", error);
     }
@@ -171,6 +193,7 @@ const Categories = () => {
           </MDButton>
         </DialogActions>
       </Dialog>
+      {renderSuccessSB}
     </DashboardLayout>
   );
 };

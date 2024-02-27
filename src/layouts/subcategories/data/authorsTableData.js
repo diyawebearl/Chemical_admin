@@ -66,7 +66,7 @@ export default function AuthorsTableData({handleDelete, categoryList}) {
     ],
 
 
-    rows: categoryList && categoryList.map((category) => ({
+    rows: categoryList && [...categoryList].reverse().map((category) => ({
       subcategory: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
           {category.subcategory_name}

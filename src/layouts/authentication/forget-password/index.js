@@ -107,12 +107,12 @@ function ForgetPassword() {
   };
 
   const handleSubmitNewPassword = async () => {
-    if (!newPassword) {
+    if (!newPassword.trim()) {
       setErrorMessage("Please Enter New Password");
       openErrorSB();
       return;
     }
-    if (!confirmPassword) {
+    if (!confirmPassword.trim()) {
       setErrorMessage("Please Enter Confirm Password");
       openErrorSB();
       return;

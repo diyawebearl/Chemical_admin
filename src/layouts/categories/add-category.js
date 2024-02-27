@@ -66,8 +66,9 @@ const Addcategory = () => {
     }
 
     const handleSubmit = async() => {
-        if (!category) {
+        if (!category.trim()) {
             openErrorSB();
+            return;
         }
 
         const token = `Bearer ${localStorage.getItem("chemToken")}`;
@@ -78,7 +79,7 @@ const Addcategory = () => {
                 Authorization: token,
             },
             body: JSON.stringify({
-                category_name: category
+                category_name: category.trim()
             }),
         });
 

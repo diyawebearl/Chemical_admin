@@ -85,7 +85,7 @@ const Addsubcategory = () => {
             openErrorSB();
             return
         }
-        if (!subcategory) {
+        if (!subcategory.trim()) {
             setErrorMessage("Please Enter Subcategory!")
             openErrorSB();
             return
@@ -99,7 +99,7 @@ const Addsubcategory = () => {
                 Authorization: token,
             },
             body: JSON.stringify({
-                subcategory_name: subcategory,
+                subcategory_name: subcategory.trim(),
                 category_id: category
             }),
         });

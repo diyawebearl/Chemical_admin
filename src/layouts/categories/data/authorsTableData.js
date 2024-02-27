@@ -38,6 +38,7 @@ export default function AuthorsTableData({handleDelete, categoryList}) {
     navigate(`/edit-category/${_id}`)
   }
 
+
   return {
     columns: [
       { Header: "category name", accessor: "category", align: "left" },
@@ -46,7 +47,7 @@ export default function AuthorsTableData({handleDelete, categoryList}) {
     ],
 
 
-    rows: categoryList && categoryList.map((category) => ({
+    rows: categoryList && [...categoryList].reverse().map((category) => ({
       category: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
           {category.category_name}

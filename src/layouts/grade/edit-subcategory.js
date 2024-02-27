@@ -87,7 +87,7 @@ const Editgrade = () => {
             openErrorSB();
             return
         }
-        if (!Grade) {
+        if (!Grade.trim()) {
             setErrorMessage("Please Enter Grade")
             openErrorSB();
             return
@@ -101,7 +101,7 @@ const Editgrade = () => {
                 Authorization: token,
             },
             body: JSON.stringify({
-                grade_name: Grade,
+                grade_name: Grade.trim(),
                 category_id: category
             }),
         });

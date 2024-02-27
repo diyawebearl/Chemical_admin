@@ -85,7 +85,9 @@ function Employees() {
               fullName: companyDetails.contact_person_name,
               mobile: companyDetails.mobile_num,
               GST: companyDetails.gst,
+              business: "Manufecture",
               address: companyDetails.address,
+              pincode: companyDetails.pincode,
               country: companyDetails.country,
               state: companyDetails.state,
               city: companyDetails.city,
@@ -103,6 +105,7 @@ function Employees() {
             info={{
               website: companyDetails?.other_info?.website,
               mobile: companyDetails?.other_info?.other_contactno,
+              landline: "+91 111 111 1111",
               email: companyDetails?.other_info?.other_emailid
             }}
             social={[

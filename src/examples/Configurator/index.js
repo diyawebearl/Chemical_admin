@@ -138,7 +138,7 @@ function Configurator() {
         px={3}
       >
         <MDBox>
-          <MDTypography variant="h5">AnBiZz Configurator</MDTypography>
+          <MDTypography variant="h5">ChemBizZ Configurator</MDTypography>
           <MDTypography variant="body2" color="text">
             See our dashboard options.
           </MDTypography>

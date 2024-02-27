@@ -68,9 +68,13 @@ export default function AuthorsTableData(categoryList) {
   return {
     columns: [
       { Header: "company", accessor: "company", width: "18%", align: "left" },
-      { Header: "gst", accessor: "gst", align: "left" },
-      { Header: "address", accessor: "address", align: "left" },
       { Header: "contact person", accessor: "contact", align: "left" },
+      { Header: "gst", accessor: "gst", align: "left" },
+      { Header: "business mode", accessor: "mode", align: "left" },
+      { Header: "mobile number", accessor: "mobile", align: "left" },
+      { Header: "landline number", accessor: "landline", align: "left" },
+      { Header: "address", accessor: "address", align: "left" },
+      { Header: "pincode", accessor: "pincode", align: "left" },
       { Header: "country", accessor: "country", align: "left" },
       { Header: "state", accessor: "state", align: "left" },
       { Header: "city", accessor: "city", align: "left" },
@@ -102,6 +106,46 @@ export default function AuthorsTableData(categoryList) {
               size="sm"
             />
           </MDBox>
+        ),
+        mode: (
+          <MDTypography
+            component="a"
+            variant="caption"
+            color="text"
+            fontWeight="medium"
+          >
+            Manufecture
+          </MDTypography>
+        ),
+        mobile: (
+          <MDTypography
+            component="a"
+            variant="caption"
+            color="text"
+            fontWeight="medium"
+          >
+            9033251903
+          </MDTypography>
+        ),
+        landline: (
+          <MDTypography
+            component="a"
+            variant="caption"
+            color="text"
+            fontWeight="medium"
+          >
+            {category.mobile_num}
+          </MDTypography>
+        ),
+        pincode: (
+          <MDTypography
+            component="a"
+            variant="caption"
+            color="text"
+            fontWeight="medium"
+          >
+            {category.pincode}
+          </MDTypography>
         ),
         gst: (
           <MDTypography

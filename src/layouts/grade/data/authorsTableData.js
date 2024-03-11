@@ -34,32 +34,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function AuthorsTableData({handleDelete, gradeList}) {
 
-  // const [gradeList, setGradeList] = useState([])
-  // console.log(gradeList);
-
-  // const fetchUserList = async () => {
-  //   try {
-  //     const token = `Bearer ${localStorage.getItem("chemToken")}`;
-  //     const response = await axios.get(
-
-  //       `${BASE_URL}/api/grades/`,
-  //       {
-  //         headers: {
-  //           Authorization: token,
-  //         },
-  //       }
-  //     );
-      
-  //     setGradeList(response.data.grades);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchUserList();
-  // }, []);
-
   const navigate = useNavigate();
 
   const handleNav = (_id) => {

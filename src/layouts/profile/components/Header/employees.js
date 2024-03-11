@@ -72,7 +72,7 @@ function Employees() {
   }, []);
 
 
-  
+
   return (
 
     <MDBox mt={5} mb={3}>
@@ -85,7 +85,9 @@ function Employees() {
               fullName: companyDetails.contact_person_name,
               mobile: companyDetails.mobile_num,
               GST: companyDetails.gst,
-              business: "Manufecture",
+              business: Array.isArray(companyDetails.mode_of_business) && companyDetails.mode_of_business.length > 1
+                ? companyDetails.mode_of_business.join(', ')
+                : companyDetails.mode_of_business,
               address: companyDetails.address,
               pincode: companyDetails.pincode,
               country: companyDetails.country,
@@ -141,7 +143,7 @@ function Employees() {
           <Divider orientation="vertical" sx={{ mx: 0 }} />
         </Grid>
         <Grid item xs={12} xl={4}>
-          <ProfilesList title="Documents" profiles={profilesListData} shadow={false} />
+          <ProfilesList title="Documents" shadow={false} />
         </Grid>
       </Grid>
     </MDBox>

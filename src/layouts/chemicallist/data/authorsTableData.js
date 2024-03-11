@@ -27,7 +27,7 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import chemical from "assets/images/f1.svg";
 
-export default function data() {
+export default function AuthorsTableData(chemicalList) {
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -49,6 +49,7 @@ export default function data() {
     </MDBox>
   );
 
+  console.log(chemicalList);
   return {
     columns: [
       { Header: "chemical", accessor: "company", width: "18%", align: "left" },
@@ -57,28 +58,29 @@ export default function data() {
       { Header: "mol weight", accessor: "weight", align: "left" },
       { Header: "synonums", accessor: "synonums", align: "left" },
       { Header: "appearance", accessor: "remarks", width: "10%", align: "left" },
-      { Header: "storage", accessor: "uses", align: "left" , width: "10%" },
+      { Header: "storage", accessor: "uses", align: "left", width: "10%" },
       { Header: "status", accessor: "status", align: "center" },
       { Header: "action", accessor: "action", align: "center" },
     ],
 
-    rows: [
-      {
-        company: <Author name="DFTA " email="C10H7F2N3O" image={chemical} />,
+
+    rows: chemicalList &&
+      chemicalList.map((chemical) => ({
+        company: <Author name={chemical.name_of_chemical} email={chemical.molecularFormula} image={chemical.structure} />,
         cas: (
           <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            86404-63-9
+            {chemical.CAS_number}
           </MDTypography>
         ),
         hsn: (
           <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            1-(2,4-Difluorophenyl)-2-(1H-1,2,4-triazol-1-yl)ethanone
+            {chemical?.IUPAC_name}
           </MDTypography>
         ),
-        weight: <Job title="187.24" />,
+        weight: <Job title={chemical.mol_weight} />,
         synonums: (
           <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            Trityl Chloride
+            {chemical.synonums}
           </MDTypography>
         ),
         remarks: (
@@ -89,12 +91,12 @@ export default function data() {
             fontWeight="medium"
             sx={{ maxWidth: '200px', wordWrap: 'break-word' }} // Adjust maxWidth as needed
           >
-            Pale Yellow Solid
+            {chemical.Appearance}
           </MDTypography>
         ),
         uses: (
           <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            Store in cool place. Keep container tightly closed in a dry and well-ventilated place.
+            {chemical.storage}
           </MDTypography>
         ),
         status: (
@@ -108,7 +110,6 @@ export default function data() {
           </MDTypography>
         ),
 
-      },
-    ],
+      })),
   };
 }

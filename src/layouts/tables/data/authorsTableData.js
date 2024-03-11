@@ -39,21 +39,6 @@ export default function AuthorsTableData(categoryList) {
     </MDBox>
   );
 
-  const Job = ({ title, description }) => (
-    <MDBox lineHeight={1} textAlign="left">
-      <MDTypography
-        display="block"
-        variant="caption"
-        color="text"
-        fontWeight="medium"
-      >
-        {title}
-      </MDTypography>
-      <MDTypography variant="caption">{description}</MDTypography>
-    </MDBox>
-  );
-
-  console.log(categoryList);
 
   const navigate = useNavigate();
 
@@ -85,18 +70,10 @@ export default function AuthorsTableData(categoryList) {
 
     rows:
       categoryList &&
-      categoryList.map((category) => ({
+      [...categoryList].reverse().map((category) => ({
         company: (
           <Author name={category.company_name} email={category.emailid} />
         ),
-        // address: (
-        //   <Job
-        //     title={category.address}
-        //     description={
-        //       category.city + "," + category.state + "," + category.country
-        //     }
-        //   />
-        // ),
         status: (
           <MDBox ml={-1}>
             <MDBadge

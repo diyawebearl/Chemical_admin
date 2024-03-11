@@ -34,10 +34,36 @@ import FormControl from '@mui/material/FormControl';
 // Data
 import authorsTableData from "layouts/chemicallist/data/authorsTableData";
 import TextField from '@mui/material/TextField';
+import axios from "axios";
+import { BASE_URL } from "BASE_URL";
 
 const Chemicals = () => {
   const token = localStorage.getItem("chemToken");
   const navigate = useNavigate();
+
+  const [chemicalList, setChemicalList] = useState([])
+  const { columns, rows } = authorsTableData(chemicalList);
+
+  const fetchUserList = async () => {
+    try {
+      const token = `Bearer ${localStorage.getItem("chemToken")}`;
+      const response = await axios.get(
+        `${BASE_URL}/api/product/displayAllProducts`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setChemicalList(response.data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserList();
+  }, []);
 
   useEffect(() => {
     if (!token) {
@@ -56,23 +82,19 @@ const Chemicals = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredRows, setFilteredRows] = useState([]);
 
-  useEffect(() => {
-    // Filter rows based on searchTerm
-    const filtered = authorsTableData().rows.filter(row => {
-      // Modify the condition as per your filtering criteria
-      return (
-        row.company.props.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        row.cas.props.children.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
-    setFilteredRows(filtered);
-  }, [searchTerm]);
+  // useEffect(() => {
+  //   const filtered = authorsTableData().rows.filter(row => {
+  //     return (
+  //       row.company.props.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //       row.cas.props.children.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //   });
+  //   setFilteredRows(filtered);
+  // }, [searchTerm]);
 
   const handleCompanyChange = (event) => {
     setSearchTerm(event.target.value);
   }
-
-  const { columns } = authorsTableData();
 
   return (
     <DashboardLayout>
@@ -111,7 +133,7 @@ const Chemicals = () => {
               </MDBox>
               <MDBox pt={3}>
                 <DataTable
-                  table={{ columns, rows: filteredRows }}
+                  table={{ columns, rows }}
                   isSorted={false}
                   entriesPerPage={false}
                   showTotalEntries={false}

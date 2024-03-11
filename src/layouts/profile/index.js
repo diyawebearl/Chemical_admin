@@ -59,6 +59,8 @@ import axios from "axios";
 import { BASE_URL } from "BASE_URL";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Banking from "./components/Header/banking";
+import Address from "./components/Header/address";
 
 function Fulldetail() {
 
@@ -94,8 +96,10 @@ function Fulldetail() {
           { label: "Profile", icon: "homework" },
           { label: "employee", icon: "people" },
           { label: "catelog", icon: "note" },
+          { label: "banking", icon: "note" },
+          { label: "address", icon: "note" },
         ]}
-        tabContents={[<Employees />, <Certificates />, <New />]}
+        tabContents={[<Employees />, <Certificates />, <New />, <Banking />, <Address/>]}
       >
         <MDBox mt={5} mb={3}>
           <Grid container spacing={1}>

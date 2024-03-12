@@ -10,7 +10,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import { Audio } from "react-loader-spinner";
 import MDAvatar from "components/MDAvatar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -20,31 +20,83 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import MDSnackbar from "components/MDSnackbar";
 import TextField from '@mui/material/TextField';
+import { BASE_URL } from "BASE_URL";
 // import
 const Editchemical = () => {
+
+    const { _id } = useParams()
+
+    const [exist, setExist] = useState("")
+
+    useEffect(() => {
+        const fetchChemical = async () => {
+            try {
+                const token = `Bearer ${localStorage.getItem("chemToken")}`;
+                const response = await axios.get(
+                    `${BASE_URL}/api/product/displayProduct/${_id}`,
+                    {
+                        headers: {
+                            Authorization: token
+                        }
+                    }
+                );
+                setExist(response.data);
+                setFormData({
+                    name_of_chemical: response.data.name_of_chemical,
+                    molecularFormula: response.data.molecularFormula,
+                    CAS_number: response.data.CAS_number,
+                    IUPAC_name: response.data.IUPAC_name,
+                    status: response.data.status,
+                    mol_weight: response.data.mol_weight,
+                    synonums: response.data.synonums,
+                    Appearance: response.data.Appearance,
+                    storage: response.data.storage
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchChemical();
+    }, [_id]);
 
     const [errorMessage, setErrorMessage] = useState("")
 
     const [formData, setFormData] = useState({
-        name: "",
-        formula: "",
-        cas: "",
-        hsn: "",
+        name_of_chemical: "",
+        molecularFormula: "",
+        CAS_number: "",
+        IUPAC_name: "",
         status: "",
-        photo: "",
-        weight: "",
+        structure: "",
+        mol_weight: "",
         synonums: "",
-        uses: "",
-        remarks: ""
+        Appearance: "",
+        storage: ""
     });
 
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
+        const { name, value, files } = e.target;
+        const newValue = name === 'status' ? (value === 'active' ? true : false) : value;
+
+        if (name === 'structure' && files.length > 0) {
+            const selectedFile = files[0];
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: URL.createObjectURL(selectedFile) // Update the image preview
+            }));
+            setFormData((prevTemp) => ({ ...prevTemp, structure: selectedFile })); // Update the temp state with the selected file
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: newValue
+            }));
+        }
     };
+
+
+
+    const [successMessage, setSuccessMessage] = useState("");
 
     const [successSB, setSuccessSB] = useState(false);
     const [errorSB, setErrorSB] = useState(false);
@@ -58,8 +110,8 @@ const Editchemical = () => {
         <MDSnackbar
             color="success"
             icon="check"
-            title="Successfull Added"
-            content="Chemical Updated Successefully."
+            title="Successfully"
+            content={successMessage}
             dateTime="1 sec"
             open={successSB}
             onClose={closeSuccessSB}
@@ -83,36 +135,36 @@ const Editchemical = () => {
     );
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
-        const { name, formula, cas, hsn, status, photo, weight,synonums, uses, remarks } = formData;
+        const { name_of_chemical, molecularFormula, CAS_number, IUPAC_name, status, structure, mol_weight, synonums, Appearance, storage } = formData;
 
-        if (!name && !formula && !cas && !hsn && !status && !photo && !weight && !synonums && !uses && !remarks) {
+        if (!name_of_chemical && !molecularFormula && !CAS_number && !IUPAC_name && !status && !structure && !mol_weight && !synonums && !Appearance && !storage) {
             setErrorMessage("Please Fill All Fields!")
             openErrorSB();
             return;
         }
 
-        if (!name) {
+        if (!name_of_chemical) {
             setErrorMessage("Please Enter Chemical Name!")
             openErrorSB();
             return;
         }
 
-        if (!formula) {
+        if (!molecularFormula) {
             setErrorMessage("Please Enter Chemical Formula!")
             openErrorSB();
             return;
         }
 
-        if (!cas) {
+        if (!CAS_number) {
             setErrorMessage("Please Enter CAS Number!")
             openErrorSB();
             return;
         }
 
-        if (!hsn) {
-            setErrorMessage("Please Enter HSN Code!")
+        if (!IUPAC_name) {
+            setErrorMessage("Please Enter IUPAC Name!")
             openErrorSB();
             return;
         }
@@ -123,31 +175,85 @@ const Editchemical = () => {
             return;
         }
 
-        if (!photo) {
+        if (!structure) {
             setErrorMessage("Please Select Chemical Photo!")
             openErrorSB();
             return;
         }
 
-        if (!weight) {
+        if (!mol_weight) {
             setErrorMessage("Please Enter Chemical Mol Weight!")
             openErrorSB();
             return;
         }
 
-        if (!remarks) {
-            setErrorMessage("Please Enter Remarks!")
+        if (!storage) {
+            setErrorMessage("Please Enter storage!")
             openErrorSB();
             return;
         }
 
+        const token = `Bearer ${localStorage.getItem("chemToken")}`;
+
+        const stringFields = {
+            name_of_chemical: String(name_of_chemical),
+            molecularFormula: String(molecularFormula),
+            CAS_number: String(CAS_number),
+            IUPAC_name: String(IUPAC_name),
+            synonums: String(synonums),
+            Appearance: String(Appearance),
+            storage: String(storage)
+        };
+
+        // Create FormData object
+        const formDataToSend = new FormData();
+        formDataToSend.append("name_of_chemical", stringFields.name_of_chemical);
+        formDataToSend.append("molecularFormula", stringFields.molecularFormula);
+        formDataToSend.append("CAS_number", stringFields.CAS_number);
+        formDataToSend.append("IUPAC_name", stringFields.IUPAC_name);
+        formDataToSend.append("status", status);
+        formDataToSend.append("structure", structure);
+        formDataToSend.append("mol_weight", mol_weight);
+        formDataToSend.append("synonums", stringFields.synonums);
+        formDataToSend.append("Appearance", stringFields.Appearance);
+        formDataToSend.append("storage", stringFields.storage);
+
+        const response = await axios.put(`${BASE_URL}/api/product/editProduct/${_id}`, formDataToSend, {
+            headers: {
+                Authorization: token,
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
 
         openSuccessSB();
+        setSuccessMessage("Chemical Successfully Edited")
         setTimeout(() => {
             navigate(-1)
         }, 2000);
 
     }
+
+    const handleDelete = async () => {
+        try {
+            const token = `Bearer ${localStorage.getItem("chemToken")}`;
+            await axios.delete(`${BASE_URL}/api/product/deleteProduct/${_id}`, {
+                headers: {
+                    Authorization: token
+                }
+            });
+            openSuccessSB();
+            setSuccessMessage("Chemical Successfully Deleted")
+            setTimeout(() => {
+                navigate(-1);
+            }, 2000);
+        } catch (error) {
+            console.log(error);
+            setErrorMessage("Failed to delete chemical.");
+            openErrorSB();
+        }
+    };
+
     return (
         <DashboardLayout>
             <DashboardNavbar />
@@ -179,8 +285,8 @@ const Editchemical = () => {
                                             <MDInput
                                                 type="text"
                                                 label="Chemical Name"
-                                                name="name"
-                                                value={formData.name}
+                                                name="name_of_chemical"
+                                                value={formData.name_of_chemical}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
@@ -190,8 +296,8 @@ const Editchemical = () => {
                                             <MDInput
                                                 type="text"
                                                 label="Molecular Formula"
-                                                name="formula"
-                                                value={formData.formula}
+                                                name="molecularFormula"
+                                                value={formData.molecularFormula}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
@@ -201,8 +307,8 @@ const Editchemical = () => {
                                             <MDInput
                                                 type="text"
                                                 label="CAS Number"
-                                                name="cas"
-                                                value={formData.cas}
+                                                name="CAS_number"
+                                                value={formData.CAS_number}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
@@ -211,35 +317,13 @@ const Editchemical = () => {
                                         <MDBox mb={2}>
                                             <MDInput
                                                 type="text"
-                                                label="HSN Code"
-                                                name="hsn"
-                                                value={formData.hsn}
+                                                label="IUPAC name"
+                                                name="IUPAC_name"
+                                                value={formData.IUPAC_name}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
                                             />
-                                        </MDBox>
-                                        <MDBox mb={4}>
-                                            <Grid item xl={2}>
-                                                <div className="d-flex align-items-center" style={{ gap: "15px" }}>
-                                                    <h6 className="mb-0">STATUS</h6>
-                                                    <select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        label="City"
-                                                        name="status"
-                                                        onChange={handleChange}
-                                                        style={{ color: "#7b809a", background: "transparent", border: "1px solid #dadbda", height: "44px", padding: "0px 15px", borderRadius: "5px", fontSize: "14px" }}
-                                                        fullWidth
-                                                    >
-                                                        <option value="" >SELECT</option>
-                                                        <option value="active" >ACTIVE</option>
-                                                        <option value="inactive" >INACTIVE</option>
-                                                        <option value="pending" >PENDING</option>
-                                                        <option value="unavailable" >UNAVAILABLE</option>
-                                                    </select>
-                                                </div>
-                                            </Grid>
                                         </MDBox>
                                         <MDBox display="flex" alignItems="center">
                                             <MDBox
@@ -254,7 +338,7 @@ const Editchemical = () => {
                                             />
                                             <input
                                                 type="file"
-                                                name="photo"
+                                                name="structure"
                                                 onChange={handleChange}
                                                 accept="image/jpeg, image/png, image/jpg"
                                                 style={{ marginLeft: "20px" }}
@@ -266,8 +350,8 @@ const Editchemical = () => {
                                             <MDInput
                                                 type="text"
                                                 label="Mol Weight"
-                                                name="weight"
-                                                value={formData.weight}
+                                                name="mol_weight"
+                                                value={formData.mol_weight}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
@@ -286,39 +370,69 @@ const Editchemical = () => {
                                         </MDBox>
 
                                         <MDBox mb={2}>
-                                            <TextField
-                                                multiline // Set to multiline
-                                                rows={4} // Adjust the number of rows as per your requirement
-                                                label="Uses"
-                                                name="uses"
-                                                value={formData.uses}
+                                            <MDInput
+                                                type="text"
+                                                label="Appearance"
+                                                name="Appearance"
+                                                value={formData.Appearance}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
                                             />
                                         </MDBox>
                                         <MDBox mb={2}>
-                                            <TextField
-                                                multiline // Set to multiline
-                                                rows={4} // Adjust the number of rows as per your requirement
-                                                label="Remarks"
-                                                name="remarks"
-                                                value={formData.remarks}
+                                            <MDInput
+                                                type="text"
+                                                label="Storage"
+                                                name="storage"
+                                                value={formData.storage}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
                                             />
                                         </MDBox>
+                                        <MDBox mb={4}>
+                                            <Grid item xl={2}>
+                                                <div className="d-flex align-items-center" style={{ gap: "15px" }}>
+                                                    <h6 className="mb-0">STATUS</h6>
+                                                    <select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        name="status"
+                                                        onChange={handleChange}
+                                                        style={{ color: "#7b809a", background: "transparent", border: "1px solid #dadbda", height: "44px", padding: "0px 15px", borderRadius: "5px", fontSize: "14px" }}
+                                                        fullWidth
+                                                    >
+                                                        <option value="" >SELECT</option>
+                                                        <option value="active" >ACTIVE</option>
+                                                        <option value="inactive" >INACTIVE</option>
+                                                        <option value="pending" >PENDING</option>
+                                                        <option value="unavailable" >UNAVAILABLE</option>
+                                                    </select>
+                                                </div>
+                                            </Grid>
+                                        </MDBox>
                                         <MDBox mt={4} mb={1}>
-                                            <MDButton
-                                                variant="gradient"
-                                                color="info"
-                                                fullWidth
-                                                type="submit"
-                                            onClick={handleSubmit}
-                                            >
-                                                Submit
-                                            </MDButton>
+                                            <MDBox display="flex" gap="10px">
+                                                <MDButton
+                                                    variant="gradient"
+                                                    color="error"
+                                                    fullWidth
+                                                    type="submit"
+                                                    onClick={handleDelete}
+                                                >
+                                                    Delete
+                                                </MDButton>
+                                                <MDButton
+                                                    variant="gradient"
+                                                    color="info"
+                                                    fullWidth
+                                                    type="submit"
+                                                    onClick={handleSubmit}
+                                                >
+                                                    Submit
+                                                </MDButton>
+                                            </MDBox>
                                             {renderSuccessSB}
                                             {renderErrorSB}
                                         </MDBox>

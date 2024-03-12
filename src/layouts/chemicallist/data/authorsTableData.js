@@ -26,6 +26,7 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import chemical from "assets/images/f1.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthorsTableData(chemicalList) {
   const Author = ({ image, name, email }) => (
@@ -49,7 +50,12 @@ export default function AuthorsTableData(chemicalList) {
     </MDBox>
   );
 
-  console.log(chemicalList);
+  const navigate = useNavigate();
+
+  const handleNavigate = (id) => {
+    navigate(`/edit-chemical/${id}`)
+  }
+  
   return {
     columns: [
       { Header: "chemical", accessor: "company", width: "18%", align: "left" },
@@ -105,7 +111,7 @@ export default function AuthorsTableData(chemicalList) {
           </MDBox>
         ),
         action: (
-          <MDTypography component="a" href="/edit-chemical" variant="caption" color="text" fontWeight="medium">
+          <MDTypography component="a" onClick={() => handleNavigate(chemical._id)} variant="caption" color="text" fontWeight="medium">
             Edit
           </MDTypography>
         ),

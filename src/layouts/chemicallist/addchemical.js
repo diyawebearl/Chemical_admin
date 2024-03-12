@@ -30,13 +30,13 @@ const Addchemical = () => {
         name_of_chemical: "",
         molecularFormula: "",
         CAS_number: "",
-        HSN_code: "",
+        IUPAC_name: "",
         status: "",
         structure: "",
         mol_weight: "",
         synonums: "",
-        applicationUses: "",
-        remarks: ""
+        Appearance: "",
+        storage: ""
     });
 
     console.log(formData.structure);
@@ -102,9 +102,9 @@ const Addchemical = () => {
 
     const handleSubmit = async () => {
 
-        const { name_of_chemical, molecularFormula, CAS_number, HSN_code, status, structure, mol_weight, synonums, applicationUses, remarks } = formData;
+        const { name_of_chemical, molecularFormula, CAS_number, IUPAC_name, status, structure, mol_weight, synonums, Appearance, storage } = formData;
 
-        if (!name_of_chemical && !molecularFormula && !CAS_number && !HSN_code && !status && !structure && !mol_weight && !synonums && !applicationUses && !remarks) {
+        if (!name_of_chemical && !molecularFormula && !CAS_number && !IUPAC_name && !status && !structure && !mol_weight && !synonums && !Appearance && !storage) {
             setErrorMessage("Please Fill All Fields!")
             openErrorSB();
             return;
@@ -128,7 +128,7 @@ const Addchemical = () => {
             return;
         }
 
-        if (!HSN_code) {
+        if (!IUPAC_name) {
             setErrorMessage("Please Enter HSN Code!")
             openErrorSB();
             return;
@@ -152,8 +152,8 @@ const Addchemical = () => {
             return;
         }
 
-        if (!remarks) {
-            setErrorMessage("Please Enter Remarks!")
+        if (!storage) {
+            setErrorMessage("Please Enter storage!")
             openErrorSB();
             return;
         }
@@ -164,10 +164,10 @@ const Addchemical = () => {
             name_of_chemical: String(name_of_chemical),
             molecularFormula: String(molecularFormula),
             CAS_number: String(CAS_number),
-            HSN_code: String(HSN_code),
+            IUPAC_name: String(IUPAC_name),
             synonums: String(synonums),
-            applicationUses: String(applicationUses),
-            remarks: String(remarks)
+            Appearance: String(Appearance),
+            storage: String(storage)
         };
 
         // Create FormData object
@@ -175,13 +175,13 @@ const Addchemical = () => {
         formDataToSend.append("name_of_chemical", stringFields.name_of_chemical);
         formDataToSend.append("molecularFormula", stringFields.molecularFormula);
         formDataToSend.append("CAS_number", stringFields.CAS_number);
-        formDataToSend.append("HSN_code", stringFields.HSN_code);
+        formDataToSend.append("IUPAC_name", stringFields.IUPAC_name);
         formDataToSend.append("status", status);
         formDataToSend.append("structure", structure);
         formDataToSend.append("mol_weight", mol_weight);
         formDataToSend.append("synonums", stringFields.synonums);
-        formDataToSend.append("applicationUses", stringFields.applicationUses);
-        formDataToSend.append("remarks", stringFields.remarks);
+        formDataToSend.append("Appearance", stringFields.Appearance);
+        formDataToSend.append("storage", stringFields.storage);
 
         const response = await axios.post(`${BASE_URL}/api/product/create`, formDataToSend, {
             headers: {
@@ -261,8 +261,8 @@ const Addchemical = () => {
                                             <MDInput
                                                 type="text"
                                                 label="IUPAC name"
-                                                name="HSN_code"
-                                                value={formData.HSN_code}
+                                                name="IUPAC_name"
+                                                value={formData.IUPAC_name}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
@@ -316,8 +316,8 @@ const Addchemical = () => {
                                             <MDInput
                                                 type="text"
                                                 label="Appearance"
-                                                name="applicationUses"
-                                                value={formData.applicationUses}
+                                                name="Appearance"
+                                                value={formData.Appearance}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
@@ -327,8 +327,8 @@ const Addchemical = () => {
                                             <MDInput
                                                 type="text"
                                                 label="Storage"
-                                                name="remarks"
-                                                value={formData.remarks}
+                                                name="storage"
+                                                value={formData.storage}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 style={{ marginBottom: "20px" }}
@@ -341,7 +341,6 @@ const Addchemical = () => {
                                                     <select
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
-                                                        label="City"
                                                         name="status"
                                                         onChange={handleChange}
                                                         style={{ color: "#7b809a", background: "transparent", border: "1px solid #dadbda", height: "44px", padding: "0px 15px", borderRadius: "5px", fontSize: "14px" }}

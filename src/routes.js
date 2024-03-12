@@ -192,7 +192,7 @@ const routes = [
     name: "Edit Chemical",
     key: "edit-chemical",
     icon: <Icon fontSize="small">add_box</Icon>,
-    route: "/edit-chemical",
+    route: "/edit-chemical/:_id",
     component: <Editchemical />,
   },
   {

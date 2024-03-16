@@ -72,6 +72,8 @@ import Subcategories from "layouts/subcategories";
 import Grade from "layouts/grade";
 import Addgrade from "layouts/grade/add-subcategory";
 import Editgrade from "layouts/grade/edit-subcategory";
+import Inquiries from "layouts/Inquiries/Inquiries";
+import Inquiry_detail from "layouts/inquiry detail/Inquiry-detail";
 
 
 const routes = [
@@ -114,6 +116,14 @@ const routes = [
     icon: <Icon fontSize="small">apartment</Icon>,
     route: "/company",
     component: <Company />,
+  },
+  {
+    type: "collapse",
+    name: "Inquiries",
+    key: "inquiries",
+    icon: <Icon fontSize="small">apartment</Icon>,
+    route: "/inquiries",
+    component: <Inquiries />,
   },
   // {
   //   type: "collapse",
@@ -186,6 +196,14 @@ const routes = [
     icon: <Icon fontSize="small">add_box</Icon>,
     route: "/insert-chemical",
     component: <Addchemical />,
+  },
+  {
+    type: "routes",
+    name: "Inquiry Detail",
+    key: "inquiry-detail",
+    icon: <Icon fontSize="small">add_box</Icon>,
+    route: "/inquiry-detail/:_id",
+    component: <Inquiry_detail />,
   },
   {
     type: "routes",

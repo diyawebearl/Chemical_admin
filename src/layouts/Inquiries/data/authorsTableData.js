@@ -80,7 +80,7 @@ export default function AuthorsTableData({ categoryList, productNameFilter, sele
             color="text"
             fontWeight="medium"
           >
-            {category?.inq_qty_type}
+            {category?.inq_type}
           </MDTypography>
         ),
         quantity: (

@@ -142,11 +142,10 @@ function Inquiry_detail() {
                 <ProfileInfoCard
                   title="Inquiry Details"
                   info={{
-                    inquiry_type: companyDetails?.inq_qty_type,
+                    inquiry_type: companyDetails?.inq_type,
                     inquiry_date: `${companyDetails?.createdAt?.slice(0, 10)}`,
                     inquiry_quantity: `${companyDetails?.inquiry_qty} ${companyDetails?.qty_type}`,
                     price_range: `${companyDetails?.min_price} ₹ - ${companyDetails?.max_price} ₹`,
-                    payment_status: 'payment status'
                     // one_lot_quantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
                     // one_lot_qty_price: companyDetails.one_lot_qty_price,
 
@@ -154,6 +153,7 @@ function Inquiry_detail() {
                   action={{ route: "", tooltip: "Edit Profile" }}
                   shadow={false}
                   status={companyDetails?.status}
+                  pstatus={companyDetails?.payment_status}
 
                 />
               </>
@@ -161,7 +161,7 @@ function Inquiry_detail() {
               <ProfileInfoCard
                 title="Inquiry Details"
                 info={{
-                  inquiry_type: companyDetails?.inq_qty_type,
+                  inquiry_type: companyDetails?.inq_type,
                   inquiry_date: `${companyDetails?.createdAt?.slice(0, 10)}`,
                   inquiry_quantity: `${companyDetails.inquiry_qty} ${companyDetails.qty_type}`,
                   price: `${companyDetails.min_price} ₹`,
@@ -195,7 +195,7 @@ function Inquiry_detail() {
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
-              status={buyer?.status}
+              // status={buyer?.status}
             />
           </Grid>
           <Grid item xs={12} md={6} xl={6} sx={{ display: "flex" }}>
@@ -218,7 +218,7 @@ function Inquiry_detail() {
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
-              status={seller?.status}
+              // status={seller?.status}
             />
           </Grid>
         </Grid>

@@ -29,6 +29,10 @@ import DataTable from "examples/Tables/DataTable";
 import MDButton from "components/MDButton";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+
 // Data
 import authorsTableData from "layouts/Inquiries/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
@@ -45,13 +49,9 @@ import TextField from '@mui/material/TextField';
 import countries from "../../CountryStateCity.json"
 
 function Inquiries() {
-  const [categoryList, setCategoryList] = useState([])
-  const [myData, setMyData] = useState([])
-  const [myData2, setMyData2] = useState([])
-  const [myData3, setMyData3] = useState([])
-  const [myData4, setMyData4] = useState([])
-  const [myData5, setMyData5] = useState([])
-  const { columns, rows } = authorsTableData(categoryList);
+  const [categoryList, setCategoryList] = useState([]);
+  const [productNameFilter, setProductNameFilter] = useState("");
+  const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
 
   const india = countries && countries.find((e) => e.name === "India")
 
@@ -68,11 +68,6 @@ function Inquiries() {
         }
       );
       setCategoryList(response.data.inquiryList);
-      setMyData(response.data.companies);
-      setMyData2(response.data.companies);
-      setMyData3(response.data.companies);
-      setMyData4(response.data.companies);
-      setMyData5(response.data.companies);
     } catch (error) {
       console.log(error);
     }
@@ -82,22 +77,20 @@ function Inquiries() {
     fetchUserList();
   }, []);
 
+  const handleProductNameChange = (event) => {
+    setProductNameFilter(event.target.value);
+  };
 
+  const { columns, rows } = authorsTableData({
+    categoryList,
+    productNameFilter,
+    selectedDateRange,
+  });
 
+  const handleDateRangeChange = (dateRange) => {
+    setSelectedDateRange(dateRange);
+  };
 
-  const handleCompanyChange = (e) => {
-    const company = e.target.value.toLowerCase();
-
-    const filteredData = myData.filter((rows) => {
-      const name = rows?.company_name?.toLowerCase();
-      const nameMatch = name.includes(company);
-
-      return nameMatch;
-    })
-    setCategoryList(filteredData)
-    setMyData2(filteredData)
-    setMyData3(filteredData)
-  }
 
 
   return (
@@ -109,70 +102,24 @@ function Inquiries() {
             <Grid container spacing={2}>
               <Grid item xs={3}>
                 <FormControl fullWidth>
-                  <TextField id="outlined-basic" onChange={handleCompanyChange} label="Product Name" variant="outlined" />
+                  <TextField id="outlined-basic" label="Product Name" variant="outlined"
+                    value={productNameFilter}
+                    onChange={handleProductNameChange}
+                  />
                 </FormControl>
               </Grid>
-              {/* <Grid item xs={1.8}>
+              <Grid item xs={6}>
                 <FormControl fullWidth>
-                  <TextField id="outlined-basic" onChange={handleGstChange} label="GST" variant="outlined" />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateRangePicker
+                      value={selectedDateRange}
+                      onChange={handleDateRangeChange}
+                      startText="Check-in"
+                      endText="Check-out"
+                    />
+                  </LocalizationProvider>
                 </FormControl>
               </Grid>
-              <Grid item xs={1.8}>
-                <FormControl fullWidth>
-                  <TextField id="outlined-basic" onChange={handleMobileChange} label="Mobile Number" variant="outlined" />
-                </FormControl>
-              </Grid> */}
-              {/* <Grid item xs={1.8}>
-                <FormControl fullWidth>
-                  <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">Business Mode</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    onChange={handleModeChange}
-                    // value={age}
-                    label="Age"
-                    style={{ padding: "10px 0px" }}
-                  // onChange={handleChange}
-                  >
-                    <MenuItem value="">All</MenuItem>
-                    <MenuItem value="Manufecture">Manufecture</MenuItem>
-                    <MenuItem value="Trader">Trader</MenuItem>
-                    <MenuItem value="Both">Both</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={1.4}>
-                <FormControl fullWidth>
-                  <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">State</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    onChange={handleStateChange}
-                    label="state"
-                    style={{ padding: "10px 0px" }}
-                  >
-                    <MenuItem value="dff">All</MenuItem>
-                    {india && india.states.map((state) => {
-
-                      <MenuItem value="dfdsd">{state.name}</MenuItem>
-                    })}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={1.4}>
-                <FormControl fullWidth>
-                  <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">City</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    onChange={handleCityChange}
-                    label="city"
-                    style={{ padding: "10px 0px" }}
-                  >
-                    <MenuItem value="why">All</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid> */}
             </Grid>
           </Grid>
           <Grid item xs={12}>
@@ -188,7 +135,6 @@ function Inquiries() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  {/* Company List ({filteredRows.length}) */}
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>

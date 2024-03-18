@@ -20,7 +20,7 @@ import MDAvatar from "components/MDAvatar";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
+import ProfileInfoCard from "examples/Cards/InfoCards/Inquiry-detail";
 import ProfilesList from "examples/Lists/ProfilesList";
 import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
 
@@ -57,7 +57,6 @@ function Inquiry_detail() {
   const [product, setProduct] = useState("")
   const [buyer, setBuyer] = useState("")
   const [seller, setSeller] = useState("")
-  console.log(seller);
 
   const fetchUserList = async () => {
     try {
@@ -69,7 +68,7 @@ function Inquiry_detail() {
       });
       setCompanyDetails(response?.data?.inquiryList?.[0])
       setProduct(response?.data?.inquiryList?.[0]?.product)
-      setSeller(response?.data?.inquiryList?.[0]?.seller_company_id)
+      setSeller(response?.data?.inquiryList?.[0]?.seller_company)
       setBuyer(response?.data?.inquiryList?.[0]?.buyer_company_id)
     } catch (error) {
       console.log(error);
@@ -119,10 +118,10 @@ function Inquiry_detail() {
               title="Product information"
               info={{
                 product: product.name_of_chemical,
-                CAS: product.CAS_number,
-                IUPAC: product.IUPAC_name,
-                Molecularformula: product.molecularFormula,
-                molweight: product.mol_weight,
+                CAS_number: product.CAS_number,
+                IUPAC_name: product.IUPAC_name,
+                Molecular_formula: product.molecularFormula,
+                mol_weight: product.mol_weight,
                 storage: product.storage,
                 synonums: product.synonums,
                 appearance: product.Appearance,
@@ -138,10 +137,10 @@ function Inquiry_detail() {
               title="Inquiry Details"
               info={{
                 quantity: `${companyDetails.inquiry_qty} ${companyDetails.inq_qty_type}`,
-                minprice: companyDetails.min_price,
-                maxprice: companyDetails.max_price,
-                onelotquantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
-                onelotqtyprice: companyDetails.one_lot_qty_price,
+                min_price: companyDetails.min_price,
+                max_price: companyDetails.max_price,
+                one_lot_quantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
+                one_lot_qty_price: companyDetails.one_lot_qty_price,
                 purity: companyDetails.purity,
                 supply_capacity: companyDetails.supply_capacity,
                 country: companyDetails.country_origin,
@@ -161,7 +160,7 @@ function Inquiry_detail() {
                 contact_person_name: buyer.contact_person_name,
                 emailid: buyer.emailid,
                 mobile_num: buyer.mobile_num,
-                gst: buyer.gst,
+                gst_number: buyer.gst,
                 mode_of_business: buyer?.mode_of_business?.join(", "),
                 address: buyer.address,
                 country: buyer.country,
@@ -180,18 +179,18 @@ function Inquiry_detail() {
             <ProfileInfoCard
               title="Seller Company Details"
               info={{
-                company_name: buyer.company_name,
-                contact_person_name: buyer.contact_person_name,
-                emailid: buyer.emailid,
-                mobile_num: buyer.mobile_num,
-                gst: buyer.gst,
-                mode_of_business: buyer?.mode_of_business?.join(", "),
-                address: buyer.address,
-                country: buyer.country,
-                state: buyer.state,
-                city: buyer.city,
-                pincode: buyer.pincode,
-                status: buyer.status,
+                company_name: seller.company_name,
+                contact_person_name: seller.contact_person_name,
+                emailid: seller.emailid,
+                mobile_number: seller.mobile_num,
+                gst: seller.gst,
+                mode_of_business: seller?.mode_of_business?.join(", "),
+                address: seller.address,
+                country: seller.country,
+                state: seller.state,
+                city: seller.city,
+                pincode: seller.pincode,
+                status: seller.status,
               }}
 
               action={{ route: "", tooltip: "Edit Profile" }}

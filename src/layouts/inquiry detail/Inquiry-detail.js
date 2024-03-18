@@ -69,7 +69,7 @@ function Inquiry_detail() {
       setCompanyDetails(response?.data?.inquiryList?.[0])
       setProduct(response?.data?.inquiryList?.[0]?.product)
       setSeller(response?.data?.inquiryList?.[0]?.seller_company)
-      setBuyer(response?.data?.inquiryList?.[0]?.buyer_company_id)
+      setBuyer(response?.data?.inquiryList?.[0]?.buyer_company)
     } catch (error) {
       console.log(error);
     }
@@ -195,7 +195,7 @@ function Inquiry_detail() {
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
-              // status={buyer?.status}
+              bstatus={buyer?.status}
             />
           </Grid>
           <Grid item xs={12} md={6} xl={6} sx={{ display: "flex" }}>
@@ -218,7 +218,7 @@ function Inquiry_detail() {
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
-              // status={seller?.status}
+              sstatus={seller?.status}
             />
           </Grid>
         </Grid>

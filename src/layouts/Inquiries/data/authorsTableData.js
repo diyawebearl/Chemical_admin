@@ -19,14 +19,14 @@ export default function AuthorsTableData({ categoryList, productNameFilter, sele
 
   const isInDateRange = (date) => {
     const [startDate, endDate] = selectedDateRange;
-    if (!startDate || !endDate) return true; // No range selected, include all
+    if (!startDate || !endDate) return true; 
     return date >= startDate && date <= endDate;
   };
 
   const navigate = useNavigate();
 
   const handleNavigate = (_id) => {
-    navigate(`/inquiry-detail/${_id}`);
+    navigate(`/inquiries/inquiry-detail/${_id}`);
   };
 
   return {

@@ -191,10 +191,10 @@ const routes = [
   // },
   {
     type: "routes",
-    name: "Insert Chemical",
+    name: "chemicals",
     key: "insert-chemical",
     icon: <Icon fontSize="small">add_box</Icon>,
-    route: "/insert-chemical",
+    route: "/chemicals/insert-chemical",
     component: <Addchemical />,
   },
   {
@@ -202,7 +202,7 @@ const routes = [
     name: "Inquiry Detail",
     key: "inquiry-detail",
     icon: <Icon fontSize="small">add_box</Icon>,
-    route: "/inquiry-detail/:_id",
+    route: "/inquiries/inquiry-detail/:_id",
     component: <Inquiry_detail />,
   },
   {
@@ -210,7 +210,7 @@ const routes = [
     name: "Edit Chemical",
     key: "edit-chemical",
     icon: <Icon fontSize="small">add_box</Icon>,
-    route: "/edit-chemical/:_id",
+    route: "/chemicals/edit-chemical/:_id",
     component: <Editchemical />,
   },
   {

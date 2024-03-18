@@ -33,9 +33,8 @@ import MDTypography from "components/MDTypography";
 import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
 
-function ProfileInfoCard({ title, description, info, social, action, shadow, status, coaLink, pstatus }) {
+function ProfileInfoCard({ title, description, info, social, action, shadow, status, coaLink, pstatus, sstatus, bstatus }) {
 
-  console.log(pstatus);
   const labels = [];
   const values = [];
   const { socialMediaColors } = colors;
@@ -105,14 +104,40 @@ function ProfileInfoCard({ title, description, info, social, action, shadow, sta
   let backgroundColor1;
   let color1;
   if (pstatus === 'pending') {
-    backgroundColor = 'yellow';
-    color = 'black'
+    backgroundColor1 = 'yellow';
+    color1 = 'black'
   } else if (pstatus === 'active') {
-    backgroundColor = 'green';
-    color = 'white'
+    backgroundColor1 = 'green';
+    color1 = 'white'
   } else if (pstatus === 'inactive') {
-    backgroundColor = 'red';
-    color = 'white'
+    backgroundColor1 = 'red';
+    color1 = 'white'
+  }
+
+  let backgroundColor2;
+  let color2;
+  if (sstatus === 'pending') {
+    backgroundColor2 = 'yellow';
+    color2 = 'black'
+  } else if (sstatus === 'active') {
+    backgroundColor2 = 'green';
+    color2 = 'white'
+  } else if (sstatus === 'inactive') {
+    backgroundColor2 = 'red';
+    color2 = 'white'
+  }
+
+  let backgroundColor3;
+  let color3;
+  if (bstatus === 'pending') {
+    backgroundColor3 = 'yellow';
+    color3 = 'black'
+  } else if (sstatus === 'active') {
+    backgroundColor3 = 'green';
+    color3 = 'white'
+  } else if (bstatus === 'inactive') {
+    backgroundColor3 = 'red';
+    color3 = 'white'
   }
 
   return (
@@ -135,7 +160,7 @@ function ProfileInfoCard({ title, description, info, social, action, shadow, sta
           )}
         </MDBox>
       </MDBox>
-      {status && ( // Conditionally render status section if status is available
+      {status && (
         <MDBox pl={2}>
           <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
             Inquiry Status: &nbsp;
@@ -145,22 +170,42 @@ function ProfileInfoCard({ title, description, info, social, action, shadow, sta
           </MDTypography>
         </MDBox>
       )}
-      {pstatus && ( // Conditionally render status section if status is available
+      {pstatus && (
         <MDBox pl={2}>
           <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
             Payment Status: &nbsp;
           </MDTypography>
-          <MDTypography variant="button" fontWeight="regular" style={{ backgroundColor1, color1, padding: "4px 10px", textTransform: "capitalize", borderRadius: "4px" }}>
-            &nbsp;{status}
+          <MDTypography variant="button" fontWeight="regular" style={{ backgroundColor: backgroundColor1, color: color1, padding: "4px 10px", textTransform: "capitalize", borderRadius: "4px" }}>
+            &nbsp;{pstatus}
           </MDTypography>
         </MDBox>
       )}
+      {sstatus && (
+        <MDBox pl={2}>
+          <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
+            status: &nbsp;
+          </MDTypography>
+          <MDTypography variant="button" fontWeight="regular" style={{ backgroundColor: backgroundColor2, color: color2, padding: "4px 10px", textTransform: "capitalize", borderRadius: "4px" }}>
+            &nbsp;{sstatus}
+          </MDTypography>
+        </MDBox>
+      )}
+      {bstatus && (
+        <MDBox pl={2}>
+          <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
+            status: &nbsp;
+          </MDTypography>
+          <MDTypography variant="button" fontWeight="regular" style={{ backgroundColor: backgroundColor3, color: color3, padding: "4px 10px", textTransform: "capitalize", borderRadius: "4px" }}>
+            &nbsp;{bstatus}
+          </MDTypography>
+        </MDBox>
+      )}
+
       {coaLink && (
         <MDBox pl={2}>
           <MDBox>
-            <a href={coaLink} target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>
+            <a href={coaLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline" }}>
               COA
-              {/* <button>View COA</button> */}
             </a>
           </MDBox>
         </MDBox>
@@ -187,6 +232,9 @@ ProfileInfoCard.propTypes = {
   shadow: PropTypes.bool,
   status: PropTypes.string, // Adding prop type for status
   coaLink: PropTypes.string,
+  pstatus: PropTypes.string,
+  sstatus: PropTypes.string,
+  bstatus: PropTypes.string,
 };
 
 export default ProfileInfoCard;

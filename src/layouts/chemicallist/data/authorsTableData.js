@@ -53,7 +53,7 @@ export default function AuthorsTableData(chemicalList, searchTerm) {
   const navigate = useNavigate();
 
   const handleNavigate = (id) => {
-    navigate(`/edit-chemical/${id}`)
+    navigate(`/chemicals/edit-chemical/${id}`)
   }
 
   const filteredList = chemicalList.filter(chemical => {

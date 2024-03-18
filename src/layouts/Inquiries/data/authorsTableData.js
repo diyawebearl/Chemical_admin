@@ -44,7 +44,7 @@ export default function AuthorsTableData({ categoryList, productNameFilter, sele
     rows: categoryList
       .filter(
         (item) =>
-          item.product.name_of_chemical
+          item?.product?.name_of_chemical
             .toLowerCase()
             .includes(productNameFilter.toLowerCase()) &&
           isInDateRange(new Date(item.createdAt))

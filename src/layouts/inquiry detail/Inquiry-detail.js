@@ -117,14 +117,14 @@ function Inquiry_detail() {
             <ProfileInfoCard
               title="Product information"
               info={{
-                product: product.name_of_chemical,
-                CAS_number: product.CAS_number,
-                IUPAC_name: product.IUPAC_name,
-                Molecular_formula: product.molecularFormula,
-                mol_weight: product.mol_weight,
-                storage: product.storage,
-                synonums: product.synonums,
-                appearance: product.Appearance,
+                product: product?.name_of_chemical,
+                CAS_number: product?.CAS_number,
+                IUPAC_name: product?.IUPAC_name,
+                Molecular_formula: product?.molecularFormula,
+                mol_weight: product?.mol_weight,
+                storage: product?.storage,
+                synonums: product?.synonums,
+                appearance: product?.Appearance,
                 purity: companyDetails.purity,
                 supply_capacity: companyDetails.supply_capacity,
                 country_origin: companyDetails.country_origin,
@@ -132,7 +132,7 @@ function Inquiry_detail() {
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
-              coaLink={companyDetails.COA}
+              coaLink={companyDetails?.COA}
             />
           </Grid>
           <Grid item xs={12} md={6} xl={6} sx={{ display: "flex" }}>
@@ -142,10 +142,10 @@ function Inquiry_detail() {
                 <ProfileInfoCard
                   title="Inquiry Details"
                   info={{
-                    inquiry_type: companyDetails.inq_qty_type,
+                    inquiry_type: companyDetails?.inq_qty_type,
                     inquiry_date: `${companyDetails?.createdAt?.slice(0, 10)}`,
-                    inquiry_quantity: `${companyDetails.inquiry_qty} ${companyDetails.qty_type}`,
-                    price_range: `${companyDetails.min_price} ₹ - ${companyDetails.max_price} ₹`,
+                    inquiry_quantity: `${companyDetails?.inquiry_qty} ${companyDetails?.qty_type}`,
+                    price_range: `${companyDetails?.min_price} ₹ - ${companyDetails?.max_price} ₹`,
                     payment_status: 'payment status'
                     // one_lot_quantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
                     // one_lot_qty_price: companyDetails.one_lot_qty_price,
@@ -153,7 +153,7 @@ function Inquiry_detail() {
                   }}
                   action={{ route: "", tooltip: "Edit Profile" }}
                   shadow={false}
-                  status={companyDetails.status}
+                  status={companyDetails?.status}
 
                 />
               </>
@@ -161,7 +161,7 @@ function Inquiry_detail() {
               <ProfileInfoCard
                 title="Inquiry Details"
                 info={{
-                  inquiry_type: companyDetails.inq_qty_type,
+                  inquiry_type: companyDetails?.inq_qty_type,
                   inquiry_date: `${companyDetails?.createdAt?.slice(0, 10)}`,
                   inquiry_quantity: `${companyDetails.inquiry_qty} ${companyDetails.qty_type}`,
                   price: `${companyDetails.min_price} ₹`,
@@ -169,8 +169,8 @@ function Inquiry_detail() {
 
                 action={{ route: "", tooltip: "Edit Profile" }}
                 shadow={false}
-                status={companyDetails.status}
-                pstatus={companyDetails.status}
+                status={companyDetails?.status}
+                pstatus={companyDetails?.payment_status}
 
               />
             )}
@@ -180,22 +180,22 @@ function Inquiry_detail() {
             <ProfileInfoCard
               title="Buyer Company Details"
               info={{
-                company_name: buyer.company_name,
-                contact_person_name: buyer.contact_person_name,
-                emailid: buyer.emailid,
-                mobile_num: buyer.mobile_num,
-                gst_number: buyer.gst,
+                company_name: buyer?.company_name,
+                contact_person_name: buyer?.contact_person_name,
+                emailid: buyer?.emailid,
+                mobile_num: buyer?.mobile_num,
+                gst_number: buyer?.gst,
                 mode_of_business: buyer?.mode_of_business?.join(", "),
-                address: buyer.address,
-                country: buyer.country,
-                state: buyer.state,
-                city: buyer.city,
-                pincode: buyer.pincode,
+                address: buyer?.address,
+                country: buyer?.country,
+                state: buyer?.state,
+                city: buyer?.city,
+                pincode: buyer?.pincode,
               }}
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
-              status={buyer.status}
+              status={buyer?.status}
             />
           </Grid>
           <Grid item xs={12} md={6} xl={6} sx={{ display: "flex" }}>
@@ -203,22 +203,22 @@ function Inquiry_detail() {
             <ProfileInfoCard
               title="Seller Company Details"
               info={{
-                company_name: seller.company_name,
-                contact_person_name: seller.contact_person_name,
-                emailid: seller.emailid,
-                mobile_number: seller.mobile_num,
-                gst: seller.gst,
+                company_name: seller?.company_name,
+                contact_person_name: seller?.contact_person_name,
+                emailid: seller?.emailid,
+                mobile_number: seller?.mobile_num,
+                gst: seller?.gst,
                 mode_of_business: seller?.mode_of_business?.join(", "),
-                address: seller.address,
-                country: seller.country,
-                state: seller.state,
-                city: seller.city,
-                pincode: seller.pincode,
+                address: seller?.address,
+                country: seller?.country,
+                state: seller?.state,
+                city: seller?.city,
+                pincode: seller?.pincode,
               }}
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
-              status={seller.status}
+              status={seller?.status}
             />
           </Grid>
         </Grid>

@@ -114,7 +114,7 @@ function Inquiries() {
                     <DateRangePicker
                       value={selectedDateRange}
                       onChange={handleDateRangeChange}
-                      startText="Check-in"
+                      startText="Check"
                       endText="Check-out"
                     />
                   </LocalizationProvider>

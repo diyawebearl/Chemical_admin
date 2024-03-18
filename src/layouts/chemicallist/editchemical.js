@@ -77,7 +77,6 @@ const Editchemical = () => {
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        const newValue = name === 'status' ? (value === 'active' ? true : false) : value;
 
         if (name === 'structure' && files.length > 0) {
             const selectedFile = files[0];
@@ -89,7 +88,7 @@ const Editchemical = () => {
         } else {
             setFormData((prevData) => ({
                 ...prevData,
-                [name]: newValue
+                [name]: value
             }));
         }
     };
@@ -145,31 +144,31 @@ const Editchemical = () => {
             return;
         }
 
-        if (!name_of_chemical) {
+        if (!name_of_chemical.trim()) {
             setErrorMessage("Please Enter Chemical Name!")
             openErrorSB();
             return;
         }
 
-        if (!molecularFormula) {
+        if (!molecularFormula.trim()) {
             setErrorMessage("Please Enter Chemical Formula!")
             openErrorSB();
             return;
         }
 
-        if (!CAS_number) {
+        if (!CAS_number.trim()) {
             setErrorMessage("Please Enter CAS Number!")
             openErrorSB();
             return;
         }
 
-        if (!IUPAC_name) {
+        if (!IUPAC_name.trim()) {
             setErrorMessage("Please Enter IUPAC Name!")
             openErrorSB();
             return;
         }
 
-        if (!status) {
+        if (!status.trim()) {
             setErrorMessage("Please Select Status!")
             openErrorSB();
             return;
@@ -181,14 +180,26 @@ const Editchemical = () => {
             return;
         }
 
-        if (!mol_weight) {
+        if (!mol_weight.trim()) {
             setErrorMessage("Please Enter Chemical Mol Weight!")
             openErrorSB();
             return;
         }
 
-        if (!storage) {
+        if (!storage.trim()) {
             setErrorMessage("Please Enter storage!")
+            openErrorSB();
+            return;
+        }
+
+        if (!Appearance.trim()) {
+            setErrorMessage("Please Enter Appearance!")
+            openErrorSB();
+            return;
+        }
+
+        if (!synonums.trim()) {
+            setErrorMessage("Please Enter Synonums!")
             openErrorSB();
             return;
         }

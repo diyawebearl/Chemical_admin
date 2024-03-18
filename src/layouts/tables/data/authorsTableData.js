@@ -18,13 +18,8 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
 import MDBadge from "components/MDBadge";
 
-// Images
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
 import { useNavigate } from "react-router-dom";
 
 export default function AuthorsTableData(categoryList) {
@@ -101,7 +96,7 @@ export default function AuthorsTableData(categoryList) {
             color="text"
             fontWeight="medium"
           >
-            {/* Manufecture */}
+            {category.mode_of_business.join(",")}
           </MDTypography>
         ),
         mobile: (
@@ -121,7 +116,7 @@ export default function AuthorsTableData(categoryList) {
             color="text"
             fontWeight="medium"
           >
-            {/* 9033251903 */}
+            {category.landline_num}
           </MDTypography>
         ),
         pincode: (

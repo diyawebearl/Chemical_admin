@@ -125,31 +125,55 @@ function Inquiry_detail() {
                 storage: product.storage,
                 synonums: product.synonums,
                 appearance: product.Appearance,
+                purity: companyDetails.purity,
+                supply_capacity: companyDetails.supply_capacity,
+                country_origin: companyDetails.country_origin,
               }}
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
+              coaLink={companyDetails.COA}
             />
           </Grid>
           <Grid item xs={12} md={6} xl={6} sx={{ display: "flex" }}>
             <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
-            <ProfileInfoCard
-              title="Inquiry Details"
-              info={{
-                quantity: `${companyDetails.inquiry_qty} ${companyDetails.inq_qty_type}`,
-                min_price: companyDetails.min_price,
-                max_price: companyDetails.max_price,
-                one_lot_quantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
-                one_lot_qty_price: companyDetails.one_lot_qty_price,
-                purity: companyDetails.purity,
-                supply_capacity: companyDetails.supply_capacity,
-                country: companyDetails.country_origin,
-                status: companyDetails.status,
-              }}
+            {companyDetails.inq_qty_type == "inquiry" ? (
+              <>
+                <ProfileInfoCard
+                  title="Inquiry Details"
+                  info={{
+                    inquiry_type: companyDetails.inq_qty_type,
+                    inquiry_date: `${companyDetails?.createdAt?.slice(0, 10)}`,
+                    inquiry_quantity: `${companyDetails.inquiry_qty} ${companyDetails.qty_type}`,
+                    price_range: `${companyDetails.min_price} ₹ - ${companyDetails.max_price} ₹`,
+                    payment_status: 'payment status'
+                    // one_lot_quantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
+                    // one_lot_qty_price: companyDetails.one_lot_qty_price,
 
-              action={{ route: "", tooltip: "Edit Profile" }}
-              shadow={false}
-            />
+                  }}
+                  action={{ route: "", tooltip: "Edit Profile" }}
+                  shadow={false}
+                  status={companyDetails.status}
+
+                />
+              </>
+            ) : (
+              <ProfileInfoCard
+                title="Inquiry Details"
+                info={{
+                  inquiry_type: companyDetails.inq_qty_type,
+                  inquiry_date: `${companyDetails?.createdAt?.slice(0, 10)}`,
+                  inquiry_quantity: `${companyDetails.inquiry_qty} ${companyDetails.qty_type}`,
+                  price: `${companyDetails.min_price} ₹`,
+                }}
+
+                action={{ route: "", tooltip: "Edit Profile" }}
+                shadow={false}
+                status={companyDetails.status}
+                pstatus={companyDetails.status}
+
+              />
+            )}
           </Grid>
           <Grid item xs={12} md={6} xl={6} sx={{ display: "flex" }}>
             <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
@@ -167,11 +191,11 @@ function Inquiry_detail() {
                 state: buyer.state,
                 city: buyer.city,
                 pincode: buyer.pincode,
-                status: buyer.status,
               }}
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
+              status={buyer.status}
             />
           </Grid>
           <Grid item xs={12} md={6} xl={6} sx={{ display: "flex" }}>
@@ -190,11 +214,11 @@ function Inquiry_detail() {
                 state: seller.state,
                 city: seller.city,
                 pincode: seller.pincode,
-                status: seller.status,
               }}
 
               action={{ route: "", tooltip: "Edit Profile" }}
               shadow={false}
+              status={seller.status}
             />
           </Grid>
         </Grid>

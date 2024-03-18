@@ -34,6 +34,7 @@ export default function AuthorsTableData({ categoryList, productNameFilter, sele
       { Header: "product", accessor: "product", width: "18%", align: "left" },
       { Header: "buyer company", accessor: "buyer", align: "left" },
       { Header: "seller company", accessor: "seller", align: "left" },
+      { Header: "inquiry type", accessor: "type", align: "left" },
       { Header: "inquiry quantity", accessor: "quantity", align: "left" },
       { Header: "inquiry date", accessor: "date", align: "left" },
       { Header: "status", accessor: "status", align: "center" },
@@ -70,6 +71,16 @@ export default function AuthorsTableData({ categoryList, productNameFilter, sele
             fontWeight="medium"
           >
             {category?.seller_company?.company_name}
+          </MDTypography>
+        ),
+        type: (
+          <MDTypography
+            component="a"
+            variant="caption"
+            color="text"
+            fontWeight="medium"
+          >
+            {category?.inq_qty_type}
           </MDTypography>
         ),
         quantity: (

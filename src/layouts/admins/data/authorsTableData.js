@@ -67,12 +67,12 @@ const Data = () => {
     rows: [...adminList].reverse().map((admin) => ({
       employee: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-          {admin.username}
+          {admin.fullname}
         </MDTypography>
       ),
       username: (
         <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-          {admin.fullname}
+          {admin.username}
         </MDTypography>
       ),
       status: (

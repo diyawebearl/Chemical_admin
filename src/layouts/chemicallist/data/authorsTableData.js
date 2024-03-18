@@ -28,7 +28,7 @@ import team4 from "assets/images/team-4.jpg";
 import chemical from "assets/images/f1.svg";
 import { useNavigate } from "react-router-dom";
 
-export default function AuthorsTableData(chemicalList) {
+export default function AuthorsTableData(chemicalList, searchTerm) {
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -55,7 +55,14 @@ export default function AuthorsTableData(chemicalList) {
   const handleNavigate = (id) => {
     navigate(`/edit-chemical/${id}`)
   }
-  
+
+  const filteredList = chemicalList.filter(chemical => {
+    return (
+      chemical.name_of_chemical.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      chemical.CAS_number.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   return {
     columns: [
       { Header: "chemical", accessor: "company", width: "18%", align: "left" },
@@ -70,52 +77,51 @@ export default function AuthorsTableData(chemicalList) {
     ],
 
 
-    rows: chemicalList &&
-      chemicalList.map((chemical) => ({
-        company: <Author name={chemical.name_of_chemical} email={chemical.molecularFormula} image={chemical.structure} />,
-        cas: (
-          <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            {chemical.CAS_number}
-          </MDTypography>
-        ),
-        hsn: (
-          <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            {chemical?.IUPAC_name}
-          </MDTypography>
-        ),
-        weight: <Job title={chemical.mol_weight} />,
-        synonums: (
-          <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            {chemical.synonums}
-          </MDTypography>
-        ),
-        remarks: (
-          <MDTypography
-            component="a"
-            variant="caption"
-            color="text"
-            fontWeight="medium"
-            sx={{ maxWidth: '200px', wordWrap: 'break-word' }} // Adjust maxWidth as needed
-          >
-            {chemical.Appearance}
-          </MDTypography>
-        ),
-        uses: (
-          <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
-            {chemical.storage}
-          </MDTypography>
-        ),
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="active" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        action: (
-          <MDTypography component="a" onClick={() => handleNavigate(chemical._id)} variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
+    rows: filteredList.reverse().map(chemical => ({
+      company: <Author name={chemical.name_of_chemical} email={chemical.molecularFormula} image={chemical.structure} />,
+      cas: (
+        <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
+          {chemical.CAS_number}
+        </MDTypography>
+      ),
+      hsn: (
+        <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
+          {chemical?.IUPAC_name}
+        </MDTypography>
+      ),
+      weight: <Job title={chemical.mol_weight} />,
+      synonums: (
+        <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
+          {chemical.synonums}
+        </MDTypography>
+      ),
+      remarks: (
+        <MDTypography
+          component="a"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+          sx={{ maxWidth: '200px', wordWrap: 'break-word' }} // Adjust maxWidth as needed
+        >
+          {chemical.Appearance}
+        </MDTypography>
+      ),
+      uses: (
+        <MDTypography component="a" variant="caption" color="text" fontWeight="medium">
+          {chemical.storage}
+        </MDTypography>
+      ),
+      status: (
+        <MDBox ml={-1}>
+          <MDBadge badgeContent="active" color="success" variant="gradient" size="sm" />
+        </MDBox>
+      ),
+      action: (
+        <MDTypography component="a" onClick={() => handleNavigate(chemical._id)} variant="caption" color="text" fontWeight="medium">
+          Edit
+        </MDTypography>
+      ),
 
-      })),
+    })),
   };
 }

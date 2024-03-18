@@ -39,12 +39,11 @@ const Addchemical = () => {
         storage: ""
     });
 
-    console.log(formData.structure);
+    console.log(formData);
 
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        const newValue = name === 'status' ? (value === 'active' ? true : false) : value;
 
         if (name === 'structure' && files.length > 0) {
             const selectedFile = files[0];
@@ -56,7 +55,7 @@ const Addchemical = () => {
         } else {
             setFormData((prevData) => ({
                 ...prevData,
-                [name]: newValue
+                [name]: value
             }));
         }
     };
@@ -104,37 +103,37 @@ const Addchemical = () => {
 
         const { name_of_chemical, molecularFormula, CAS_number, IUPAC_name, status, structure, mol_weight, synonums, Appearance, storage } = formData;
 
-        if (!name_of_chemical && !molecularFormula && !CAS_number && !IUPAC_name && !status && !structure && !mol_weight && !synonums && !Appearance && !storage) {
+        if (!name_of_chemical.trim() && !molecularFormula.trim() && !CAS_number.trim() && !IUPAC_name.trim() && !status.trim() && !structure && !mol_weight && !synonums.trim() && !Appearance.trim() && !storage.trim()) {
             setErrorMessage("Please Fill All Fields!")
             openErrorSB();
             return;
         }
 
-        if (!name_of_chemical) {
+        if (!name_of_chemical.trim()) {
             setErrorMessage("Please Enter Chemical Name!")
             openErrorSB();
             return;
         }
 
-        if (!molecularFormula) {
+        if (!molecularFormula.trim()) {
             setErrorMessage("Please Enter Chemical Formula!")
             openErrorSB();
             return;
         }
 
-        if (!CAS_number) {
+        if (!CAS_number.trim()) {
             setErrorMessage("Please Enter CAS Number!")
             openErrorSB();
             return;
         }
 
-        if (!IUPAC_name) {
+        if (!IUPAC_name.trim()) {
             setErrorMessage("Please Enter HSN Code!")
             openErrorSB();
             return;
         }
 
-        if (!status) {
+        if (!status.trim()) {
             setErrorMessage("Please Select Status!")
             openErrorSB();
             return;
@@ -152,7 +151,7 @@ const Addchemical = () => {
             return;
         }
 
-        if (!storage) {
+        if (!storage.trim()) {
             setErrorMessage("Please Enter storage!")
             openErrorSB();
             return;

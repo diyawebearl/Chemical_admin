@@ -42,7 +42,6 @@ const Chemicals = () => {
   const navigate = useNavigate();
 
   const [chemicalList, setChemicalList] = useState([])
-  const { columns, rows } = authorsTableData(chemicalList);
 
   const fetchUserList = async () => {
     try {
@@ -80,21 +79,12 @@ const Chemicals = () => {
   };
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredRows, setFilteredRows] = useState([]);
-
-  // useEffect(() => {
-  //   const filtered = authorsTableData().rows.filter(row => {
-  //     return (
-  //       row.company.props.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //       row.cas.props.children.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //   });
-  //   setFilteredRows(filtered);
-  // }, [searchTerm]);
 
   const handleCompanyChange = (event) => {
     setSearchTerm(event.target.value);
   }
+
+  const { columns, rows } = authorsTableData(chemicalList, searchTerm);
 
   return (
     <DashboardLayout>

@@ -46,11 +46,6 @@ import countries from "../../CountryStateCity.json"
 
 function Company() {
   const [categoryList, setCategoryList] = useState([])
-  const [myData, setMyData] = useState([])
-  const [myData2, setMyData2] = useState([])
-  const [myData3, setMyData3] = useState([])
-  const [myData4, setMyData4] = useState([])
-  const [myData5, setMyData5] = useState([])
   const { columns, rows } = authorsTableData(categoryList);
 
   const india = countries && countries.find((e) => e.name === "India")
@@ -68,11 +63,6 @@ function Company() {
         }
       );
       setCategoryList(response.data.companies);
-      setMyData(response.data.companies);
-      setMyData2(response.data.companies);
-      setMyData3(response.data.companies);
-      setMyData4(response.data.companies);
-      setMyData5(response.data.companies);
     } catch (error) {
       console.log(error);
     }
@@ -82,100 +72,38 @@ function Company() {
     fetchUserList();
   }, []);
 
-
-
-
   const handleCompanyChange = (e) => {
-    const company = e.target.value.toLowerCase();
 
-    const filteredData = myData.filter((rows) => {
-      const name = rows?.company_name?.toLowerCase();
-      const nameMatch = name.includes(company);
-
-      return nameMatch;
-    })
-    setCategoryList(filteredData)
-    setMyData2(filteredData)
-    setMyData3(filteredData)
   }
 
   const handleGstChange = (e) => {
-    const gst = e.target.value.toLowerCase();
 
-    if (myData.length != categoryList) {
-      const filtered = myData2;
-      const filteredData = filtered.filter((rows) => {
-        const gstSearch = rows?.gst?.toLowerCase();
-        const gstMatch = gstSearch.includes(gst);
-
-        return gstMatch;
-      })
-
-      setCategoryList(filteredData)
-      setMyData3(filteredData)
-    } else {
-      const filtered = myData;
-      const filteredData = filtered.filter((rows) => {
-        const gstSearch = rows?.gst?.toLowerCase();
-        const gstMatch = gstSearch.includes(gst);
-
-        return gstMatch;
-      })
-
-      setCategoryList(filteredData)
-      setMyData3(filteredData)
-    }
   }
 
   const handleMobileChange = (e) => {
-    const number = e.target.value.toLowerCase();
 
-    if (myData.length != categoryList) {
-      const filtered = myData3;
-      const filteredData = filtered.filter((rows) => {
-        const numberSearch = rows?.mobile_num?.toLowerCase();
-        const numberMatch = numberSearch.includes(number);
-
-        return numberMatch;
-      })
-
-      setCategoryList(filteredData)
-      setMyData4(filteredData)
-    } else {
-      const filtered = myData;
-      const filteredData = filtered.filter((rows) => {
-        const numberSearch = rows?.mobile_num?.toLowerCase();
-        const numberMatch = numberSearch.includes(number);
-
-        return numberMatch;
-      })
-
-      setCategoryList(filteredData)
-      setMyData4(filteredData)
-    }
   }
 
-
-  // const [state, setState] = useState([])
-  // const [cities, setCities] = useState([])
-  // console.log(cities);
-
   const handleModeChange = (e) => {
-    const mode = e.target.value.toLowerCase();
+
   }
 
   const handleStateChange = (e) => {
-    // setState(e.target.value)
-    // const state = e.target.value.toLowerCase();
+    const selectedState = e.target.value;
 
-    // const selectedCityArray = india && india.states.find((e) => e.name === state) 
+    console.log(india.states);
 
-    // setCities(selectedCityArray)
+    const state = india.states.find((state) => state.name === selectedState);
+    if (state) {
+      console.log(state.cities);
+    } else {
+      console.log("State not found");
+    }
+  };
 
-  }
 
   const handleCityChange = (e) => {
-    // const city = e.target.value.toLowerCase();
+
   }
 
 
@@ -208,10 +136,8 @@ function Company() {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     onChange={handleModeChange}
-                    // value={age}
                     label="Age"
                     style={{ padding: "10px 0px" }}
-                  // onChange={handleChange}
                   >
                     <MenuItem value="">All</MenuItem>
                     <MenuItem value="Manufecture">Manufecture</MenuItem>
@@ -231,10 +157,9 @@ function Company() {
                     style={{ padding: "10px 0px" }}
                   >
                     <MenuItem value="dff">All</MenuItem>
-                    {india && india.states.map((state) => {
-
+                    {india && india.states.map((state) => (
                       <MenuItem value="dfdsd">{state.name}</MenuItem>
-                    })}
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>

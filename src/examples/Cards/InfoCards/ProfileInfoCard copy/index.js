@@ -13,10 +13,10 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// react-routers components
+// react-router components
 import { Link } from "react-router-dom";
 
-// prop-types is library for typechecking of props
+// prop-types is a library for type-checking of props
 import PropTypes from "prop-types";
 
 // @mui material components
@@ -33,7 +33,7 @@ import MDTypography from "components/MDTypography";
 import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
 
-function ProfileInfoCard({ title, description, info, social, action, shadow }) {
+function ProfileInfoCard({ title, description, info, social, action, shadow, status, coaLink, pstatus }) {
   const labels = [];
   const values = [];
   const { socialMediaColors } = colors;
@@ -87,27 +87,40 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
     </MDBox>
   ));
 
+  let backgroundColor;
+  let color;
+  if (status === 'pending') {
+    backgroundColor = 'yellow';
+    color = 'black'
+  } else if (status === 'active') {
+    backgroundColor = 'green';
+    color = 'white'
+  } else if (status === 'inactive') {
+    backgroundColor = 'red';
+    color = 'white'
+  }
+
+  let backgroundColor1;
+  let color1;
+  if (pstatus === 'pending') {
+    backgroundColor = 'yellow';
+    color = 'black'
+  } else if (pstatus === 'active') {
+    backgroundColor = 'green';
+    color = 'white'
+  } else if (pstatus === 'inactive') {
+    backgroundColor = 'red';
+    color = 'white'
+  }
+
   return (
     <Card sx={{ height: "100%", boxShadow: !shadow && "none" }}>
       <MDBox display="flex" justifyContent="space-between" alignItems="center" pt={2} px={2}>
         <MDTypography variant="h4" fontWeight="medium" textTransform="capitalize">
           {title}
         </MDTypography>
-        {/* <MDTypography component={Link} to={action.route} variant="body2" color="secondary">
-          <Tooltip title={action.tooltip} placement="top">
-            <Icon>edit</Icon>
-          </Tooltip>
-        </MDTypography> */}
       </MDBox>
-      <MDBox p={2}>
-        {/* <MDBox mb={2} lineHeight={1}>
-          <MDTypography variant="button" color="text" fontWeight="light">
-            {description}
-          </MDTypography>
-        </MDBox>
-        <MDBox opacity={0.3}>
-          <Divider />
-        </MDBox> */}
+      <MDBox pl={2} pt={2} pr={2}>
         <MDBox>
           {renderItems}
           {renderSocial && (
@@ -120,10 +133,39 @@ function ProfileInfoCard({ title, description, info, social, action, shadow }) {
           )}
         </MDBox>
       </MDBox>
+      {status && ( // Conditionally render status section if status is available
+        <MDBox pl={2}>
+          <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
+            Inquiry Status: &nbsp;
+          </MDTypography>
+          <MDTypography variant="button" fontWeight="regular" style={{ backgroundColor, color, padding: "4px 10px", textTransform: "capitalize", borderRadius: "4px" }}>
+            &nbsp;{status}
+          </MDTypography>
+        </MDBox>
+      )}
+      {pstatus && ( // Conditionally render status section if status is available
+        <MDBox pl={2}>
+          <MDTypography variant="button" fontWeight="bold" textTransform="capitalize">
+            Payment Status: &nbsp;
+          </MDTypography>
+          <MDTypography variant="button" fontWeight="regular" style={{ backgroundColor1, color1, padding: "4px 10px", textTransform: "capitalize", borderRadius: "4px" }}>
+            &nbsp;{status}
+          </MDTypography>
+        </MDBox>
+      )}
+      {coaLink && (
+        <MDBox pl={2}>
+          <MDBox>
+            <a href={coaLink} target="_blank" rel="noopener noreferrer" style={{textDecoration: "underline"}}>
+              COA
+              {/* <button>View COA</button> */}
+            </a>
+          </MDBox>
+        </MDBox>
+      )}
     </Card>
   );
 }
-
 
 // Setting default props for the ProfileInfoCard
 ProfileInfoCard.defaultProps = {
@@ -141,6 +183,8 @@ ProfileInfoCard.propTypes = {
     tooltip: PropTypes.string.isRequired,
   }).isRequired,
   shadow: PropTypes.bool,
+  status: PropTypes.string, // Adding prop type for status
+  coaLink: PropTypes.string,
 };
 
 export default ProfileInfoCard;

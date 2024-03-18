@@ -65,7 +65,7 @@ import Address from "./components/Header/address";
 function Fulldetail() {
 
 
-  const {_id} = useParams();
+  const { _id } = useParams();
 
   const [companyDetails, setCompanyDetails] = useState("")
 
@@ -99,7 +99,7 @@ function Fulldetail() {
           { label: "banking", icon: "note" },
           { label: "address", icon: "note" },
         ]}
-        tabContents={[<Employees />, <Certificates />, <New />, <Banking />, <Address/>]}
+        tabContents={[<Employees />, <Certificates />, <New />, <Banking />, <Address />]}
       >
         <MDBox mt={5} mb={3}>
           <Grid container spacing={1}>

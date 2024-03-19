@@ -40,16 +40,26 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+// import columns from "./data/authorsTableData"
 
 //countries , state and city
 import countries from "../../CountryStateCity.json"
 
 function Company() {
-  const [categoryList, setCategoryList] = useState([])
-  const { columns, rows } = authorsTableData(categoryList);
+  const [categoryList, setCategoryList] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [filters, setFilters] = useState({
+    companyName: "",
+    gstNumber: "",
+    mobileNumber: "",
+    mode: "",
+    state: "",
+    city: ""
+  });
 
-  const india = countries && countries.find((e) => e.name === "India")
+  console.log(filteredData);
 
+  const india = countries && countries.find((e) => e.name === "India");
 
   const fetchUserList = async () => {
     try {
@@ -63,6 +73,7 @@ function Company() {
         }
       );
       setCategoryList(response.data.companies);
+      setFilteredData(response.data.companies);
     } catch (error) {
       console.log(error);
     }
@@ -72,39 +83,96 @@ function Company() {
     fetchUserList();
   }, []);
 
-  const handleCompanyChange = (e) => {
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value
+    }));
+  };
 
-  }
+  const applyFilters = () => {
+    let filtered = [...categoryList];
 
-  const handleGstChange = (e) => {
+    if (filters.companyName) {
+      filtered = filtered.filter(item =>
+        item.company_name.toLowerCase().includes(filters.companyName.toLowerCase())
+      );
+    }
+    if (filters.gstNumber) {
+      filtered = filtered.filter(item =>
+        item.gst.toLowerCase().includes(filters.gstNumber.toLowerCase())
+      );
+    }
+    if (filters.mobileNumber) {
+      filtered = filtered.filter(item =>
+        item.mobile_num.toLowerCase().includes(filters.mobileNumber.toLowerCase())
+      );
+    }
+    if (filters.mode) {
+      filtered = filtered.filter(item =>
+        item.mode_of_business.toLowerCase().includes(filters.mode.toLowerCase())
+      );
+    }
+    if (filters.state) {
+      filtered = filtered.filter(item =>
+        item.state.toLowerCase().includes(filters.state.toLowerCase())
+      );
+    }
+    if (filters.city) {
+      filtered = filtered.filter(item =>
+        item.city.toLowerCase().includes(filters.city.toLowerCase())
+      );
+    }
 
-  }
+    setFilteredData(filtered);
+  };
 
-  const handleMobileChange = (e) => {
+  useEffect(() => {
+    applyFilters();
+  }, [filters]);
 
-  }
-
-  const handleModeChange = (e) => {
-
-  }
+  const [states, setStates] = useState([])
+  const [cities, setCities] = useState([])
 
   const handleStateChange = (e) => {
     const selectedState = e.target.value;
-
-    console.log(india.states);
-
-    const state = india.states.find((state) => state.name === selectedState);
-    if (state) {
-      console.log(state.cities);
+    if (selectedState === "") {
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        state: "",
+        city: "" 
+      }));
     } else {
-      console.log("State not found");
+      // If a specific state is selected, filter based on that state
+      const state = india.states.find((state) => state.name === selectedState);
+      if (state) {
+        // Update the filters state with the selected state
+        setStates(state);
+        setFilters(prevFilters => ({
+          ...prevFilters,
+          state: selectedState,
+          city: '' // Clear the city when a new state is selected
+        }));
+        // Update the cities based on the selected state
+        setCities(state.cities);
+      } else {
+        console.log("State not found");
+      }
     }
   };
 
 
   const handleCityChange = (e) => {
+    // Update the filters state with the selected city
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      city: e.target.value
+    }));
+  };
 
-  }
+
+  const { columns, rows } = authorsTableData(filteredData)
 
 
   return (
@@ -116,17 +184,17 @@ function Company() {
             <Grid container spacing={2}>
               <Grid item xs={3}>
                 <FormControl fullWidth>
-                  <TextField id="outlined-basic" onChange={handleCompanyChange} label="Company Name" variant="outlined" />
+                  <TextField id="outlined-basic" name="companyName" value={filters.companyName} onChange={handleFilterChange} label="Company Name" variant="outlined" />
                 </FormControl>
               </Grid>
               <Grid item xs={1.8}>
                 <FormControl fullWidth>
-                  <TextField id="outlined-basic" onChange={handleGstChange} label="GST" variant="outlined" />
+                  <TextField id="outlined-basic" name="gstNumber" value={filters.gstNumber} onChange={handleFilterChange} label="GST" variant="outlined" />
                 </FormControl>
               </Grid>
               <Grid item xs={1.8}>
                 <FormControl fullWidth>
-                  <TextField id="outlined-basic" onChange={handleMobileChange} label="Mobile Number" variant="outlined" />
+                  <TextField id="outlined-basic" name="mobileNumber" value={filters.mobileNumber} onChange={handleFilterChange} label="Mobile Number" variant="outlined" />
                 </FormControl>
               </Grid>
               <Grid item xs={1.8}>
@@ -135,7 +203,8 @@ function Company() {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    onChange={handleModeChange}
+                    onChange={handleFilterChange}
+                    value={filters.mode}
                     label="Age"
                     style={{ padding: "10px 0px" }}
                   >
@@ -153,12 +222,13 @@ function Company() {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     onChange={handleStateChange}
+                    value={filters.state}
                     label="state"
                     style={{ padding: "10px 0px" }}
                   >
-                    <MenuItem value="dff">All</MenuItem>
+                    <MenuItem value="">All</MenuItem>
                     {india && india.states.map((state) => (
-                      <MenuItem value="dfdsd">{state.name}</MenuItem>
+                      <MenuItem value={state.name}>{state.name}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -170,13 +240,16 @@ function Company() {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     onChange={handleCityChange}
+                    value={filters.city}
                     label="city"
                     style={{ padding: "10px 0px" }}
                   >
                     <MenuItem value="why">All</MenuItem>
-                    {/* <MenuItem value="why">Ten</MenuItem> */}
-                    {/* <MenuItem value="so">Twenty</MenuItem> */}
-                    {/* <MenuItem value="ehy">Thirty</MenuItem> */}
+                    {cities && cities.map((e) => (
+                      <MenuItem value={e.name}>{e.name}</MenuItem>
+                    ))}
+
+
                   </Select>
                 </FormControl>
               </Grid>

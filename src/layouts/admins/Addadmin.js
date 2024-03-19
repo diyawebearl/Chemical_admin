@@ -131,11 +131,6 @@ const Addadmin = () => {
             openErrorSB();
             return;
         }
-        if (username.length < 4) {
-            setErrorMessage("Your username must contain at least 4 characters!")
-            openErrorSB();
-            return;
-        }
 
         if (!password) {
             setErrorMessage("Please Enter Password!")
@@ -150,11 +145,6 @@ const Addadmin = () => {
 
         if (!fullname.trim()) {
             setErrorMessage("Please Enter Fullname!")
-            openErrorSB();
-            return;
-        }
-        if (fullname.length < 4) {
-            setErrorMessage("Your fullname must contain at least 4 characters!")
             openErrorSB();
             return;
         }

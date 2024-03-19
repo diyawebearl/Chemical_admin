@@ -41,6 +41,7 @@ const Editchemical = () => {
                     }
                 );
                 setExist(response.data);
+                console.log(response.data);
                 setFormData({
                     name_of_chemical: response.data.name_of_chemical,
                     molecularFormula: response.data.molecularFormula,
@@ -50,7 +51,8 @@ const Editchemical = () => {
                     mol_weight: response.data.mol_weight,
                     synonums: response.data.synonums,
                     Appearance: response.data.Appearance,
-                    storage: response.data.storage
+                    storage: response.data.storage,
+                    structure: response.data.structure
                 });
             } catch (error) {
                 console.log(error);
@@ -73,6 +75,8 @@ const Editchemical = () => {
         Appearance: "",
         storage: ""
     });
+
+    console.log(formData.structure);
 
 
     const handleChange = (e) => {
@@ -340,6 +344,7 @@ const Editchemical = () => {
                                             <MDBox
                                                 component="img"
                                                 alt="Preview"
+                                                src={formData.structure}
                                                 style={{
                                                     width: "3rem",
                                                     height: "3rem",
@@ -350,6 +355,7 @@ const Editchemical = () => {
                                             <input
                                                 type="file"
                                                 name="structure"
+                                                src={formData.structure}
                                                 onChange={handleChange}
                                                 accept="image/jpeg, image/png, image/jpg"
                                                 style={{ marginLeft: "20px" }}
@@ -411,6 +417,7 @@ const Editchemical = () => {
                                                         id="demo-simple-select"
                                                         name="status"
                                                         onChange={handleChange}
+                                                        value={formData.status}
                                                         style={{ color: "#7b809a", background: "transparent", border: "1px solid #dadbda", height: "44px", padding: "0px 15px", borderRadius: "5px", fontSize: "14px" }}
                                                         fullWidth
                                                     >

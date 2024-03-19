@@ -5,7 +5,7 @@ import MDTypography from "components/MDTypography";
 import MDBadge from "components/MDBadge";
 import { useNavigate } from "react-router-dom";
 
-export default function AuthorsTableData({ categoryList, productNameFilter, selectedDateRange }) {
+export default function AuthorsTableData({ categoryList, productNameFilter, statusFilter, buyerFilter, sellerFilter, inquiryTypeFilter, stateFilter, cityFilter, selectedDate }) {
   const Author = ({ name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDBox ml={2} lineHeight={1}>
@@ -16,12 +16,6 @@ export default function AuthorsTableData({ categoryList, productNameFilter, sele
       </MDBox>
     </MDBox>
   );
-
-  const isInDateRange = (date) => {
-    const [startDate, endDate] = selectedDateRange;
-    if (!startDate || !endDate) return true; 
-    return date >= startDate && date <= endDate;
-  };
 
   const navigate = useNavigate();
 
@@ -44,10 +38,14 @@ export default function AuthorsTableData({ categoryList, productNameFilter, sele
     rows: categoryList
       .filter(
         (item) =>
-          item?.product?.name_of_chemical
-            .toLowerCase()
-            .includes(productNameFilter.toLowerCase()) &&
-          isInDateRange(new Date(item.createdAt))
+          item?.product?.name_of_chemical.toLowerCase().includes(productNameFilter.toLowerCase()) &&
+          (statusFilter === "" || item.status.toLowerCase() === statusFilter.toLowerCase()) && // Filter by status
+          (buyerFilter === "" || item.buyer_company_id.company_name.toLowerCase().includes(buyerFilter.toLowerCase())) && // Filter by buyer
+          (sellerFilter === "" || item.seller_company.company_name.toLowerCase().includes(sellerFilter.toLowerCase())) && // Filter by seller
+          (inquiryTypeFilter === "" || item.inq_type.toLowerCase().includes(inquiryTypeFilter.toLowerCase())) && // Filter by inquiry type
+          (stateFilter === "" || item.buyer_company_id.state.toLowerCase().includes(stateFilter.toLowerCase())) &&  // Filter by state
+          (cityFilter === "" || item.buyer_company_id.city.toLowerCase().includes(cityFilter.toLowerCase())) && // Filter by city
+          (!selectedDate || new Date(item.createdAt).toDateString() === selectedDate.toDateString()) // Filter by selected date or display all if selectedDate is null
       )
       .map((category) => ({
         product: (

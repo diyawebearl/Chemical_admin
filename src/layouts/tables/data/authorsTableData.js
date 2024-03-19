@@ -22,7 +22,7 @@ import MDBadge from "components/MDBadge";
 
 import { useNavigate } from "react-router-dom";
 
-export default function AuthorsTableData(categoryList) {
+export default function AuthorsTableData(filteredData) {
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDBox ml={2} lineHeight={1}>
@@ -64,8 +64,8 @@ export default function AuthorsTableData(categoryList) {
     ],
 
     rows:
-      categoryList &&
-      [...categoryList].reverse().map((category) => ({
+      filteredData &&
+      [...filteredData].reverse().map((category) => ({
         company: (
           <Author name={category.company_name} email={category.emailid} />
         ),

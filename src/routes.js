@@ -74,6 +74,8 @@ import Addgrade from "layouts/grade/add-subcategory";
 import Editgrade from "layouts/grade/edit-subcategory";
 import Inquiries from "layouts/Inquiries/Inquiries";
 import Inquiry_detail from "layouts/inquiry detail/Inquiry-detail";
+import Pdf from "layouts/pdf";
+import Expiry from "layouts/Expiry/Expiry";
 
 
 const routes = [
@@ -124,6 +126,14 @@ const routes = [
     icon: <Icon fontSize="small">apartment</Icon>,
     route: "/inquiries",
     component: <Inquiries />,
+  },
+  {
+    type: "collapse",
+    name: "Expiry Days",
+    key: "expiry",
+    icon: <Icon fontSize="small">apartment</Icon>,
+    route: "/expiry-days",
+    component: <Expiry />,
   },
   // {
   //   type: "collapse",
@@ -197,6 +207,14 @@ const routes = [
     route: "/chemicals/insert-chemical",
     component: <Addchemical />,
   },
+  // {
+  //   type: "collapse",
+  //   name: "pdf",
+  //   key: "pdf",
+  //   icon: <Icon fontSize="small">add_box</Icon>,
+  //   route: "/pdf",
+  //   component: <Pdf />,
+  // },
   {
     type: "routes",
     name: "Inquiry Detail",

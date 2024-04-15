@@ -55,27 +55,27 @@ import EditCompanyStatus from "layouts/tables/Editstatus";
 import Addcertificate from "layouts/certificates/add-certificate";
 import Editcertificate from "layouts/certificates/edit-certificate";
 import Fulldetail from "layouts/profile";
-import Cover from "layouts/authentication/sign-up";
 import Changepassword from "layouts/change-password";
 import Admins from "layouts/admins";
 import Addadmin from "layouts/admins/Addadmin";
 import Editadmin from "layouts/admins/Editadmin";
 import Sellling from "layouts/selling";
 import Sells from "layouts/selling-inquiry-details";
-import Certificate from "layouts/certificates/certi";
-import Categories from "layouts/categories";
 import Addcategory from "layouts/categories/add-category";
 import Editcategory from "layouts/categories/edit-category";
 import Addsubcategory from "layouts/subcategories/add-subcategory";
 import Editsubcategory from "layouts/subcategories/edit-subcategory";
-import Subcategories from "layouts/subcategories";
-import Grade from "layouts/grade";
 import Addgrade from "layouts/grade/add-subcategory";
 import Editgrade from "layouts/grade/edit-subcategory";
 import Inquiries from "layouts/Inquiries/Inquiries";
 import Inquiry_detail from "layouts/inquiry detail/Inquiry-detail";
-import Pdf from "layouts/pdf";
 import Expiry from "layouts/Expiry/Expiry";
+import Packages from "layouts/packages";
+import ManageFeature from "layouts/feature";
+import InsertPackage from "layouts/packages/insert";
+import InsertMembershipFeature from "layouts/feature/insert";
+import EditMembershipPackage from "layouts/feature/edit";
+import EditPackage from "layouts/packages/edit";
 
 
 const routes = [
@@ -126,6 +126,22 @@ const routes = [
     icon: <Icon fontSize="small">apartment</Icon>,
     route: "/inquiries",
     component: <Inquiries />,
+  },
+  {
+    type: "collapse",
+    name: "Packages",
+    key: "packages",
+    icon: <Icon fontSize="small">apartment</Icon>,
+    route: "/packages",
+    component: <Packages />,
+  },
+  {
+    type: "collapse",
+    name: "packages features",
+    key: "packages-features",
+    icon: <Icon fontSize="small">apartment</Icon>,
+    route: "/package-features",
+    component: <ManageFeature />,
   },
   {
     type: "collapse",
@@ -342,6 +358,38 @@ const routes = [
     icon: <Icon fontSize="small">add_box</Icon>,
     route: "/edit-grade/:_id",
     component: <Editgrade />,
+  },
+  {
+    type: "routes",
+    name: "Insert Package",
+    key: "insert-package",
+    icon: <Icon fontSize="small">add_box</Icon>,
+    route: "/insert-package",
+    component: <InsertPackage />,
+  },
+  {
+    type: "routes",
+    name: "Insert Package Featured",
+    key: "insert-package-featured",
+    icon: <Icon fontSize="small">add_box</Icon>,
+    route: "/insert-package-featured",
+    component: <InsertMembershipFeature />,
+  },
+  {
+    type: "routes",
+    name: "Edit Package Featured",
+    key: "edit-package-featured",
+    icon: <Icon fontSize="small">add_box</Icon>,
+    route: "/edit-package-featured/:_id",
+    component: <EditMembershipPackage />,
+  },
+  {
+    type: "routes",
+    name: "Edit Package ",
+    key: "edit-package",
+    icon: <Icon fontSize="small">add_box</Icon>,
+    route: "/edit-package/:_id",
+    component: <EditPackage />,
   },
 ];
 

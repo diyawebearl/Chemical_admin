@@ -39,7 +39,6 @@ function Projects() {
   const [checkPhotoUrl, setCheckPhotoUrl] = useState("");
   
   const openModal = (url) => {
-    console.log("hyyyy");
     setCheckPhotoUrl(url);
     setIsModalOpen(true);
   };

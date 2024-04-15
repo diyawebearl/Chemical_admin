@@ -7,15 +7,16 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 export default function Data(openModal) {
+  
   const { _id } = useParams();
   const [companyDetails, setCompanyDetails] = useState("");
 
   const arrayMy = [
-    {name: "whyso"},
-    {name: "whyso"},
-    {name: "whyso"},
-    {name: "whyso"},
-    {name: "whyso"},
+    { name: "whyso" },
+    { name: "whyso" },
+    { name: "whyso" },
+    { name: "whyso" },
+    { name: "whyso" },
   ]
 
   const fetchUserList = async () => {
@@ -29,7 +30,7 @@ export default function Data(openModal) {
           },
         }
       );
-      setCompanyDetails(response?.data?.company?.employee_details);
+      setCompanyDetails(response?.data?.company?.bank_details);
     } catch (error) {
       console.log(error);
     }
@@ -54,30 +55,30 @@ export default function Data(openModal) {
     ],
 
     rows:
-      arrayMy && Array.isArray(arrayMy)
-        ? arrayMy.map((e) => ({
+      companyDetails
+        ? companyDetails.map((e) => ({
           bank_name: (
-            <MDTypography variant="a">state bank of india</MDTypography>
+            <MDTypography variant="a">{e.bank_name}</MDTypography>
           ),
-          ifsc_code: <MDTypography variant="a">1234567890</MDTypography>,
-          country: <MDTypography variant="a">India</MDTypography>,
-          state: <MDTypography variant="a">Gujarat</MDTypography>,
-          city: <MDTypography variant="a">Ahmedabad</MDTypography>,
-          pincode: <MDTypography variant="a">123456</MDTypography>,
-          branch_code: <MDTypography variant="a">1234</MDTypography>,
+          ifsc_code: <MDTypography variant="a">{e.IFSC_code}</MDTypography>,
+          country: <MDTypography variant="a">{e.country}</MDTypography>,
+          state: <MDTypography variant="a">{e.state}</MDTypography>,
+          city: <MDTypography variant="a">{e.city}</MDTypography>,
+          pincode: <MDTypography variant="a">{e.pinCode}</MDTypography>,
+          branch_code: <MDTypography variant="a">{e.branch_code}</MDTypography>,
           view_check:
-            <MDTypography variant="a" style={{ color: 'blue', textDecoration: 'underline', cursor: "pointer" }} onClick={openModal}>
+            <MDTypography variant="a" style={{ color: 'blue', textDecoration: 'underline', cursor: "pointer" }} onClick={() => openModal(e.doc_file)}>
               View Check
             </MDTypography>,
           account_no: (
             <MDTypography variant="caption" color="text" fontWeight="medium">
-              1234567890
+              {e.account_number}
             </MDTypography>
           ),
           completion: (
             <MDBox ml={-1}>
               <MDBadge
-                badgeContent={e.status === "active" ? "active" : "inactive"}
+                badgeContent={e.status === "Active" ? "active" : "inactive"}
                 color={e.status === "active" ? "success" : "danger"}
                 variant="gradient"
                 size="sm"

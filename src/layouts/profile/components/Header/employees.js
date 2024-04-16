@@ -26,22 +26,10 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
-
-// Overview page components
-import Header from "layouts/profile/components/Header";
-import PlatformSettings from "layouts/profile/components/PlatformSettings";
-
-// Data
-import profilesListData from "layouts/profile/data/profilesListData";
 
 import axios from "axios";
 import { BASE_URL } from "BASE_URL";
@@ -52,6 +40,7 @@ function Employees() {
 
   const { _id } = useParams();
   const [companyDetails, setCompanyDetails] = useState("")
+  console.log(companyDetails);
 
   const fetchUserList = async () => {
     try {
@@ -71,7 +60,16 @@ function Employees() {
     fetchUserList();
   }, []);
 
+  const bookingDateStr = companyDetails?.booking_details?.[0]?.bookingDate;
+  let remainingDays = null;
+  if (bookingDateStr) {
+    const [day, month, year] = bookingDateStr.split('-').map(Number);
+    const bookingDate = new Date(year, month - 1, day);
+    remainingDays = Math.ceil((bookingDate - new Date()) / (1000 * 60 * 60 * 24));
+  }
 
+  const membershipFeatures = companyDetails.membership_features;
+  const featuresString = membershipFeatures ? membershipFeatures.map(feature => feature.feature_name).join(', ') : '';
 
   return (
 
@@ -101,46 +99,80 @@ function Employees() {
           />
         </Grid>
         <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-          <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
-          <ProfileInfoCard
-            title="Other Information"
-            info={{
-              website: companyDetails?.other_info?.website,
-              mobile: companyDetails?.other_info?.other_contactno,
-              landline: "+91 111 111 1111",
-              email: companyDetails?.other_info?.other_emailid
-            }}
-            social={[
-              {
-                link: "YOUR_LINKEDIN_LINK_HERE",
-                icon: <FacebookIcon />,
-                color: "facebook",
-              },
-              {
-                link: "YOUR_LINKEDIN_LINK_HERE",
-                icon: <TwitterIcon />,
-                color: "twitter",
-              },
-              {
-                link: "YOUR_LINKEDIN_LINK_HERE",
-                icon: <InstagramIcon />,
-                color: "instagram",
-              },
-              {
-                link: "YOUR_YOUTUBE_LINK_HERE",
-                icon: <YouTubeIcon />,
-                color: "youtube",
-              },
-              {
-                link: "YOUR_LINKEDIN_LINK_HERE",
-                icon: <LinkedInIcon />,
-                color: "linkedin",
-              },
-            ]}
-            action={{ route: "", tooltip: "Edit Profile" }}
-            shadow={false}
-          />
-          <Divider orientation="vertical" sx={{ mx: 0 }} />
+          <Grid container spacing={1}>
+            <Grid item xs={12} md={12} xl={12} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+              <ProfileInfoCard
+                title="Other Information"
+                info={{
+                  website: companyDetails?.other_info?.website,
+                  mobile: companyDetails?.other_info?.other_contactno,
+                  landline: "+91 111 111 1111",
+                  email: companyDetails?.other_info?.other_emailid
+                }}
+                social={[
+                  {
+                    link: "YOUR_LINKEDIN_LINK_HERE",
+                    icon: <FacebookIcon />,
+                    color: "facebook",
+                  },
+                  {
+                    link: "YOUR_LINKEDIN_LINK_HERE",
+                    icon: <TwitterIcon />,
+                    color: "twitter",
+                  },
+                  {
+                    link: "YOUR_LINKEDIN_LINK_HERE",
+                    icon: <InstagramIcon />,
+                    color: "instagram",
+                  },
+                  {
+                    link: "YOUR_YOUTUBE_LINK_HERE",
+                    icon: <YouTubeIcon />,
+                    color: "youtube",
+                  },
+                  {
+                    link: "YOUR_LINKEDIN_LINK_HERE",
+                    icon: <LinkedInIcon />,
+                    color: "linkedin",
+                  },
+                ]}
+                action={{ route: "", tooltip: "Edit Profile" }}
+                shadow={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} xl={12} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+              <ProfileInfoCard
+                title="Booked Packages"
+                info={{
+                  packageName: companyDetails.booking_details?.[0]?.book_package,
+                  bookingDate: companyDetails.booking_details?.[0]?.bookingDate,
+                  paymentStatus: companyDetails.booking_details?.[0]?.payment_status,
+                  remainingDays: remainingDays !== null ? `${remainingDays} days` : "N/A",
+                }}
+
+                action={{ route: "", tooltip: "Edit Profile" }}
+                shadow={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={12} xl={12} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+              <ProfileInfoCard
+                title="Booked Package Detail"
+                info={{
+                  planName: companyDetails.membership_plans?.[0]?.plan_name,
+                  planDays: companyDetails.membership_plans?.[0]?.plan_days,
+                  planOriginalPrice: companyDetails.membership_plans?.[0]?.plan_original_price,
+                  planSellingPrice: companyDetails.membership_plans?.[0]?.plan_selling_price,
+                  planFeatures: featuresString,
+                }}
+
+                action={{ route: "", tooltip: "Edit Profile" }}
+                shadow={false}
+              />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs={12} xl={4}>
           <ProfilesList title="Documents" shadow={false} />

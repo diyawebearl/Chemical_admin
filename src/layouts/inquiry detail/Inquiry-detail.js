@@ -148,6 +148,9 @@ function Inquiry_detail() {
                     price_range: `${companyDetails?.min_price} ₹ - ${companyDetails?.max_price} ₹`,
                     // one_lot_quantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
                     // one_lot_qty_price: companyDetails.one_lot_qty_price,
+                    payment_type: companyDetails.payment_type,
+                    payment_terms: companyDetails.payment_terms,
+                    delivery_time: companyDetails.delivery_time,
 
                   }}
                   action={{ route: "", tooltip: "Edit Profile" }}
@@ -165,6 +168,12 @@ function Inquiry_detail() {
                   inquiry_date: `${companyDetails?.createdAt?.slice(0, 10)}`,
                   inquiry_quantity: `${companyDetails.inquiry_qty} ${companyDetails.qty_type}`,
                   price: `${companyDetails.min_price} ₹`,
+                  one_lot_quantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
+                  one_lot_qty_price: companyDetails.one_lot_qty_price,
+                  total_lot: companyDetails.total_lot,
+                  payment_type: companyDetails.payment_type,
+                  payment_terms: companyDetails.payment_terms,
+                  delivery_time: companyDetails.delivery_time,
                 }}
 
                 action={{ route: "", tooltip: "Edit Profile" }}

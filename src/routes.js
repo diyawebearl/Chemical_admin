@@ -76,6 +76,8 @@ import InsertPackage from "layouts/packages/insert";
 import InsertMembershipFeature from "layouts/feature/insert";
 import EditMembershipPackage from "layouts/feature/edit";
 import EditPackage from "layouts/packages/edit";
+import PoData from "layouts/poData";
+import SalesData from "layouts/salesData";
 
 
 const routes = [
@@ -142,6 +144,22 @@ const routes = [
     icon: <Icon fontSize="small">apartment</Icon>,
     route: "/package-features",
     component: <ManageFeature />,
+  },
+  {
+    type: "collapse",
+    name: "Po Data",
+    key: "po-data",
+    icon: <Icon fontSize="small">apartment</Icon>,
+    route: "/po-data",
+    component: <PoData />,
+  },
+  {
+    type: "collapse",
+    name: "Sales Data",
+    key: "sales-data",
+    icon: <Icon fontSize="small">apartment</Icon>,
+    route: "/sales-data",
+    component: <SalesData />,
   },
   {
     type: "collapse",

@@ -58,6 +58,7 @@ export default function AuthorsTableData(filteredData) {
       { Header: "country", accessor: "country", align: "left" },
       { Header: "state", accessor: "state", align: "left" },
       { Header: "city", accessor: "city", align: "left" },
+      { Header: "membership status", accessor: "membstaus", align: "left" },
       { Header: "status", accessor: "status", align: "center" },
       { Header: "action", accessor: "action", align: "center" },
       { Header: "view", accessor: "view", align: "center" },
@@ -68,6 +69,16 @@ export default function AuthorsTableData(filteredData) {
       [...filteredData].reverse().map((category) => ({
         company: (
           <Author name={category.company_name} email={category.emailid} />
+        ),
+        membstaus: (
+          <MDBox ml={-1}>
+            <MDBadge
+              badgeContent={category.membership_status}
+              color={category.status === "active" ? "success" : "error"}
+              variant="gradient"
+              size="sm"
+            />
+          </MDBox>
         ),
         status: (
           <MDBox ml={-1}>

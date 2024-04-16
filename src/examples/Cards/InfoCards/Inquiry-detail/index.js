@@ -34,6 +34,7 @@ import colors from "assets/theme/base/colors";
 import typography from "assets/theme/base/typography";
 
 function ProfileInfoCard({ title, description, info, social, action, shadow, status, coaLink, pstatus, sstatus, bstatus }) {
+  console.log(pstatus);
 
   const labels = [];
   const values = [];

@@ -2,11 +2,7 @@ import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 
 // @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import MessageIcon from '@mui/icons-material/Message';
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -21,24 +17,9 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/Inquiry-detail";
-import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
 
-// Overview page components
-import Header from "layouts/inquiry detail/components/Header";
-
-// Data
-import profilesListData from "layouts/profile/data/profilesListData";
-
-// Images
-import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
-import homeDecor4 from "assets/images/home-decor-4.jpeg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { Paper } from "@material-ui/core";
 
 import backgroundImage from "assets/images/bg-profile.jpeg";
 
@@ -48,6 +29,76 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { Audio } from "react-loader-spinner";
 import { BASE_URL } from "BASE_URL";
+import { TextInput } from "components/Textinput/TextInput.js";
+import { MessageLeft, MessageRight } from "./Messages";
+import { IconButton } from "@mui/material";
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    width: "80vw",
+    height: "80vh",
+    maxWidth: "500px",
+    maxHeight: "700px",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    position: "relative"
+  },
+  paper2: {
+    width: "80vw",
+    maxWidth: "500px",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    position: "relative"
+  },
+  container: {
+    width: "100vw",
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  messagesBody: {
+    width: "calc( 100% - 20px )",
+    margin: 10,
+    overflowY: "scroll",
+    height: "calc( 100% - 80px )",
+    // Hide scrollbar
+    scrollbarWidth: "none", /* Firefox */
+    "-ms-overflow-style": "none" /* IE and Edge */
+  },
+  // Hide scrollbar for Chrome, Safari, and Opera
+  "&::-webkit-scrollbar": {
+    display: "none"
+  },
+  header: {
+    width: "100%",
+    borderBottom: "1px solid black",
+    padding: "4px 20px",
+    marginBottom: "20px"
+  },
+  userPhoto: {
+    width: 50, // Adjust the width as needed
+    height: 50, // Adjust the height as needed
+    borderRadius: "50%",
+    marginRight: theme.spacing(1) // Adjust the margin as needed
+  },
+  userName: {
+    fontWeight: "bold",
+    marginRight: theme.spacing(1),
+    fontSize: "14px"
+  },
+  lastOnline: {
+    fontStyle: "italic"
+  },
+  messageIcon: {
+    position: "absolute",
+    bottom: "10px",
+    right: "10px",
+    zIndex: "2"
+  }
+}));
 
 function Inquiry_detail() {
 
@@ -57,6 +108,7 @@ function Inquiry_detail() {
   const [product, setProduct] = useState("")
   const [buyer, setBuyer] = useState("")
   const [seller, setSeller] = useState("")
+  const [messages, setMessages] = useState([])
 
   const fetchUserList = async () => {
     try {
@@ -74,22 +126,91 @@ function Inquiry_detail() {
       console.log(error);
     }
   };
+  const fetchMessageList = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/chat/display/${_id}`, {
+        headers: {
+          // Authorization: token,
+        },
+      });
+      setMessages(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchUserList();
+    fetchMessageList();
   }, []);
+
+  const classes = useStyles();
+
+  const [isMessageBoxOpen, setMessageBoxOpen] = useState(false);
+
+  const toggleMessageBox = () => {
+    setMessageBoxOpen(!isMessageBoxOpen);
+  };
 
 
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <div className={classes.messageIcon} style={{ position: "fixed", bottom: "4.1%", right: "7%", zIndex: "2", backgroundColor: "white", boxShadow: " rgba(0, 0, 0, 0.14) 0px 3px 8px", borderRadius: "50%", padding: "7px 6px", }}>
+        <IconButton onClick={toggleMessageBox}>
+          <MessageIcon style={{ color: "darkBlue", height: "20px" }} />
+        </IconButton>
+      </div>
+
+      {isMessageBoxOpen && (
+        <div>
+          <div className={classes.messageIcon} style={{ position: "fixed", bottom: "4.1%", right: "7%", zIndex: "2", backgroundColor: "white", boxShadow: " rgba(0, 0, 0, 0.14) 0px 3px 8px", borderRadius: "50%", padding: "7px 6px", }}>
+            <Paper className={classes.paper} zDepth={2}>
+              <div className={classes.header}>
+                <div className={classes.userName}>ID : 29038HDJSK91U</div>
+                <div className={classes.userName}><span className={classes.userName}>Inquiry Date :</span>10-12-2024</div>
+              </div>
+              <Paper id="style-1" className={classes.messagesBody}>
+                {messages.map((message) => {
+                  // Determine if the message was sent by the current user
+                  const isCurrentUser = message.senderId === message?.inquiryDetails?.[0]?.seller_company_id;
+                  return (
+                    // Conditionally render MessageLeft or MessageRight based on isCurrentUser
+                    isCurrentUser ? (
+                      <MessageLeft
+                        key={message._id}
+                        message={message.message}
+                        timestamp={message.Datetime?.slice(0,10)}
+                        photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+                        displayName={companyDetails?.seller_company?.company_name}
+                        avatarDisp={true}
+                      />
+                    ) : (
+                      <MessageRight
+                        key={message._id}
+                        // message={message.message}
+                        timestamp={message.Datetime?.slice(0,10)}
+                        photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+                        displayName={companyDetails?.buyer_company?.company_name}
+                        avatarDisp={true}
+                      />
+                    )
+                  );
+                })}
+              </Paper>
+              {/* <TextInput /> */}
+            </Paper>
+          </div>
+        </div>
+      )}
       <MDBox mb={2}
         display="flex"
         alignItems="center"
         position="relative"
         minHeight="18.75rem"
         borderRadius="xl"
+        onClick={() => setMessageBoxOpen(false)}
         sx={{
           backgroundImage: ({ functions: { rgba, linearGradient }, palette: { gradients } }) =>
             `${linearGradient(
@@ -109,6 +230,7 @@ function Inquiry_detail() {
           py: 2,
           px: 2,
         }}
+        onClick={() => setMessageBoxOpen(false)}
       >
         <Grid container spacing={3}>
 

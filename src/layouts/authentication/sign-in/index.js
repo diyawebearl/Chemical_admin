@@ -120,13 +120,13 @@ function Basic() {
       });
         
       if (!response.ok) {
-        // Handle cases where the API call fails
         throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
       console.log(data);
       if (data.success) {
+        localStorage.setItem("admin_id", data.user._id)
         navigate("/dashboard");
         openSuccessSB();
         localStorage.setItem("chemToken", data.token);

@@ -78,6 +78,8 @@ import EditMembershipPackage from "layouts/feature/edit";
 import EditPackage from "layouts/packages/edit";
 import PoData from "layouts/poData";
 import SalesData from "layouts/salesData";
+import Terms from "layouts/term&condition/terms";
+import Pdf from "layouts/pdf";
 
 
 const routes = [
@@ -169,6 +171,14 @@ const routes = [
     route: "/expiry-days",
     component: <Expiry />,
   },
+  {
+    type: "collapse",
+    name: "terms & condition",
+    key: "Term-and-condition",
+    icon: <Icon fontSize="small">apartment</Icon>,
+    route: "/term-and-condition",
+    component: <Terms />,
+  },
   // {
   //   type: "collapse",
   //   name: "Categories",
@@ -241,14 +251,14 @@ const routes = [
     route: "/chemicals/insert-chemical",
     component: <Addchemical />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "pdf",
-  //   key: "pdf",
-  //   icon: <Icon fontSize="small">add_box</Icon>,
-  //   route: "/pdf",
-  //   component: <Pdf />,
-  // },
+  {
+    type: "collapse",
+    name: "pdf",
+    key: "pdf",
+    icon: <Icon fontSize="small">add_box</Icon>,
+    route: "/pdf",
+    component: <Pdf />,
+  },
   {
     type: "routes",
     name: "Inquiry Detail",

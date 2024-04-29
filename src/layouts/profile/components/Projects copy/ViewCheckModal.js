@@ -10,7 +10,7 @@ const ViewCheckModal = ({ isOpen, onClose, checkPhotoUrl }) => {
       <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
         <MDBox p={4} bgcolor="background.paper" boxShadow={24}>
           {/* Display check photo */}
-          <img src={cancel} alt="cancel check image" style={{ maxWidth: "100%", maxHeight: "100%" }} />
+          <img src={checkPhotoUrl} alt="image not found" style={{ maxWidth: "100%", maxHeight: "100%" }} />
         </MDBox>
       </div>
     </Modal>

@@ -9,7 +9,8 @@ import MDTypography from "components/MDTypography";
 export default function Data(openModal) {
   
   const { _id } = useParams();
-  const [companyDetails, setCompanyDetails] = useState("");
+  const [companyDetails, setCompanyDetails] = useState([]);
+  console.log(companyDetails);
 
   const arrayMy = [
     { name: "whyso" },
@@ -49,7 +50,6 @@ export default function Data(openModal) {
       { Header: "state", accessor: "state", align: "center" },
       { Header: "city", accessor: "city", align: "center" },
       { Header: "pincode", accessor: "pincode", align: "center" },
-      { Header: "branch code", accessor: "branch_code", align: "center" },
       { Header: "view check", accessor: "view_check", align: "center" },
       { Header: "status", accessor: "completion", align: "center" },
     ],
@@ -65,9 +65,8 @@ export default function Data(openModal) {
           state: <MDTypography variant="a">{e.state}</MDTypography>,
           city: <MDTypography variant="a">{e.city}</MDTypography>,
           pincode: <MDTypography variant="a">{e.pinCode}</MDTypography>,
-          branch_code: <MDTypography variant="a">{e.branch_code}</MDTypography>,
           view_check:
-            <MDTypography variant="a" style={{ color: 'blue', textDecoration: 'underline', cursor: "pointer" }} onClick={() => openModal(e.doc_file)}>
+            <MDTypography variant="a" style={{ color: 'blue', textDecoration: 'underline', cursor: "pointer" }} onClick={() => openModal(e.cancel_cheque_photo)}>
               View Check
             </MDTypography>,
           account_no: (

@@ -32,29 +32,30 @@ import { useEffect, useState } from "react";
 import FormControl from '@mui/material/FormControl';
 
 // Data
-import authorsTableData from "layouts/chemicallist/data/authorsTableData";
+import authorsTableData from "layouts/suggestedchemicals/data/authorsTableData";
 import TextField from '@mui/material/TextField';
 import axios from "axios";
 import { BASE_URL } from "BASE_URL";
 
-const Chemicals = () => {
+const Suggested = () => {
   const token = localStorage.getItem("chemToken");
   const navigate = useNavigate();
 
   const [chemicalList, setChemicalList] = useState([])
+  console.log(chemicalList);
 
   const fetchUserList = async () => {
     try {
       const token = `Bearer ${localStorage.getItem("chemToken")}`;
       const response = await axios.get(
-        `${BASE_URL}/api/product/displayAllProducts`,
+        `${BASE_URL}/api/productByCompany/displayList`,
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      setChemicalList(response.data.products);
+      setChemicalList(response.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -109,17 +110,8 @@ const Chemicals = () => {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Chemical List
+                  Suggested Chemical List
                 </MDTypography>
-                <Link to="/chemicals/insert-chemical" style={{ textDecoration: "none" }}>
-                  <MDButton
-                    variant="gradient"
-                    color="dark"
-                    style={{ position: "absolute", top: "-9px", right: "2%" }}
-                  >
-                    {shouldShowAddButton() ? "" : "+ Add Chemical"}
-                  </MDButton>
-                </Link>
               </MDBox>
               <MDBox pt={3}>
                 <DataTable
@@ -139,4 +131,4 @@ const Chemicals = () => {
   );
 };
 
-export default Chemicals;
+export default Suggested;

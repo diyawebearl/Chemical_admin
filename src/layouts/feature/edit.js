@@ -88,7 +88,7 @@ const EditMembershipPackage = () => {
       return;
     }
     try {
-      const token = localStorage.getItem("token");
+      const token = `Bearer ${localStorage.getItem("chemToken")}`;
       const response = await axios.put(
         `${BASE_URL}/api/membership_feature/update/${_id}`,
         {

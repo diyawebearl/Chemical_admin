@@ -38,11 +38,6 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
-import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -79,7 +74,10 @@ import EditPackage from "layouts/packages/edit";
 import PoData from "layouts/poData";
 import SalesData from "layouts/salesData";
 import Terms from "layouts/term&condition/terms";
-import Pdf from "layouts/pdf";
+import Design from "layouts/design";
+import AddDesign from "layouts/design/AddDesign";
+import Suggested from "layouts/suggestedchemicals/chemical";
+import EditSuggestedChemical from "layouts/suggestedchemicals/editsuggestedchemical";
 
 
 const routes = [
@@ -114,6 +112,14 @@ const routes = [
     icon: <Icon fontSize="small">science</Icon>,
     route: "/chemicals",
     component: <Chemicals />,
+  },
+  {
+    type: "collapse",
+    name: "Suggested Chemicals",
+    key: "suggested-chemical",
+    icon: <Icon fontSize="small">science</Icon>,
+    route: "/suggested-chemical",
+    component: <Suggested />,
   },
   {
     type: "collapse",
@@ -253,11 +259,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "pdf",
-    key: "pdf",
+    name: "Design",
+    key: "design",
     icon: <Icon fontSize="small">add_box</Icon>,
-    route: "/pdf",
-    component: <Pdf />,
+    route: "/design",
+    component: <Design />,
   },
   {
     type: "routes",
@@ -282,6 +288,14 @@ const routes = [
     icon: <Icon fontSize="small">add_box</Icon>,
     route: "/edit-company/:_id",
     component: <EditCompanyStatus />,
+  },
+  {
+    type: "routes",
+    name: "Edit Suggested Chemical",
+    key: "edit-suggested-chemical",
+    icon: <Icon fontSize="small">add_box</Icon>,
+    route: "/chemical/edit-suggested-chemical/:_id",
+    component: <EditSuggestedChemical />,
   },
   {
     type: "routes",
@@ -418,6 +432,14 @@ const routes = [
     icon: <Icon fontSize="small">add_box</Icon>,
     route: "/edit-package/:_id",
     component: <EditPackage />,
+  },
+  {
+    type: "routes",
+    name: "Add Design ",
+    key: "add-design",
+    icon: <Icon fontSize="small">add_box</Icon>,
+    route: "/add-design",
+    component: <AddDesign />,
   },
 ];
 

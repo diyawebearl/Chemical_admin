@@ -128,7 +128,7 @@ const InsertMembershipFeature = () => {
                 type="text"
                 label="membershipFeature"
                 name="membershipFeature"
-                value={membershipFeature.trim()}
+                value={membershipFeature}
                 onChange={handleChange}
                 fullWidth
                 style={{ marginBottom: "20px" }}

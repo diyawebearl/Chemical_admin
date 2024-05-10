@@ -258,12 +258,11 @@ const EditPackage = () => {
       return;
     }
     try {
-      const token = localStorage.getItem("token");
+      const token = `Bearer ${localStorage.getItem("chemToken")}`;
       const response = await axios.put(
-        `${BASE_URL}/api/membership_plan/${_id}`,
+        `${BASE_URL}/api/membership_plan/update/${_id}`,
         {
           ...formData,
-          // membership_feature_id: formData.checkedItems, // Include the membership_feature_id array in the request payload
         },
         {
           headers: {

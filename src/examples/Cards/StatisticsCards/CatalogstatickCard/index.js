@@ -49,7 +49,7 @@ function CatalogStatisticsCard({ color, title, count, percentage, icon, price, q
               color: "#7b809a",
               background: "transparent",
               border: "1px solid #dadbda",
-              width: "80%",
+              width: "50px",
               height: "28px",
               borderRadius: "5px",
               fontSize: "14px",

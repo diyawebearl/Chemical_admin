@@ -112,27 +112,27 @@ function Employees() {
                 }}
                 social={[
                   {
-                    link: "YOUR_LINKEDIN_LINK_HERE",
+                    link: companyDetails?.other_info?.fb,
                     icon: <FacebookIcon />,
                     color: "facebook",
                   },
                   {
-                    link: "YOUR_LINKEDIN_LINK_HERE",
+                    link: companyDetails?.other_info?.twitter,
                     icon: <TwitterIcon />,
                     color: "twitter",
                   },
                   {
-                    link: "YOUR_LINKEDIN_LINK_HERE",
+                    link: companyDetails?.other_info?.insta,
                     icon: <InstagramIcon />,
                     color: "instagram",
                   },
+                  // {
+                  //   link: "YOUR_YOUTUBE_LINK_HERE",
+                  //   icon: <YouTubeIcon />,
+                  //   color: "youtube",
+                  // },
                   {
-                    link: "YOUR_YOUTUBE_LINK_HERE",
-                    icon: <YouTubeIcon />,
-                    color: "youtube",
-                  },
-                  {
-                    link: "YOUR_LINKEDIN_LINK_HERE",
+                    link: companyDetails?.other_info?.linkedin,
                     icon: <LinkedInIcon />,
                     color: "linkedin",
                   },
@@ -141,37 +141,41 @@ function Employees() {
                 shadow={false}
               />
             </Grid>
-            <Grid item xs={12} md={12} xl={12} sx={{ display: "flex" }}>
-              <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
-              <ProfileInfoCard
-                title="Booked Packages"
-                info={{
-                  packageName: companyDetails.booking_details?.[0]?.book_package,
-                  bookingDate: companyDetails.booking_details?.[0]?.bookingDate,
-                  paymentStatus: companyDetails.booking_details?.[0]?.payment_status,
-                  remainingDays: remainingDays !== null ? `${remainingDays} days` : "N/A",
-                }}
+            {companyDetails?.membership_plans?.length > 0 && (
+              <Grid item xs={12} md={12} xl={12} sx={{ display: "flex" }}>
+                <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+                <ProfileInfoCard
+                  title="Booked Packages"
+                  info={{
+                    packageName: companyDetails.booking_details?.[0]?.book_package,
+                    bookingDate: companyDetails.booking_details?.[0]?.bookingDate,
+                    paymentStatus: companyDetails.booking_details?.[0]?.payment_status,
+                    remainingDays: remainingDays !== null ? `${remainingDays} days` : "N/A",
+                  }}
 
-                action={{ route: "", tooltip: "Edit Profile" }}
-                shadow={false}
-              />
-            </Grid>
-            <Grid item xs={12} md={12} xl={12} sx={{ display: "flex" }}>
-              <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
-              <ProfileInfoCard
-                title="Booked Package Detail"
-                info={{
-                  planName: companyDetails.membership_plans?.[0]?.plan_name,
-                  planDays: companyDetails.membership_plans?.[0]?.plan_days,
-                  planOriginalPrice: companyDetails.membership_plans?.[0]?.plan_original_price,
-                  planSellingPrice: companyDetails.membership_plans?.[0]?.plan_selling_price,
-                  planFeatures: featuresString,
-                }}
+                  action={{ route: "", tooltip: "Edit Profile" }}
+                  shadow={false}
+                />
+              </Grid>
+            )}
+            {companyDetails?.membership_plans?.length > 0 && (
+              <Grid item xs={12} md={12} xl={12} sx={{ display: "flex" }}>
+                <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+                <ProfileInfoCard
+                  title="Booked Package Detail"
+                  info={{
+                    planName: companyDetails.membership_plans?.[0]?.plan_name,
+                    planDays: companyDetails.membership_plans?.[0]?.plan_days,
+                    planOriginalPrice: companyDetails.membership_plans?.[0]?.plan_original_price,
+                    planSellingPrice: companyDetails.membership_plans?.[0]?.plan_selling_price,
+                    planFeatures: featuresString,
+                  }}
 
-                action={{ route: "", tooltip: "Edit Profile" }}
-                shadow={false}
-              />
-            </Grid>
+                  action={{ route: "", tooltip: "Edit Profile" }}
+                  shadow={false}
+                />
+              </Grid>
+            )}
           </Grid>
         </Grid>
         <Grid item xs={12} xl={4}>

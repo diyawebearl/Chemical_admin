@@ -101,6 +101,8 @@ const Addchemical = () => {
 
     const handleSubmit = async () => {
 
+        let p_url;
+
         const { name_of_chemical, molecularFormula, CAS_number, IUPAC_name, status, structure, mol_weight, synonums, Appearance, storage } = formData;
 
         if (!name_of_chemical.trim() && !molecularFormula.trim() && !CAS_number.trim() && !IUPAC_name.trim() && !status.trim() && !structure && !mol_weight && !synonums.trim() && !Appearance.trim() && !storage.trim()) {
@@ -181,6 +183,7 @@ const Addchemical = () => {
         formDataToSend.append("synonums", stringFields.synonums);
         formDataToSend.append("Appearance", stringFields.Appearance);
         formDataToSend.append("storage", stringFields.storage);
+        formDataToSend.append("p_url", "");
 
         const response = await axios.post(`${BASE_URL}/api/product/create`, formDataToSend, {
             headers: {

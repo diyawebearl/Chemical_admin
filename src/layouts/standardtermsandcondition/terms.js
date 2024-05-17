@@ -12,7 +12,7 @@ import { BASE_URL } from "BASE_URL";
 import MDSnackbar from "components/MDSnackbar";
 import axios from "axios";
 
-function Terms() {
+function StandardTerms() {
     const [successSB, setSuccessSB] = useState(false);
     const [errorSB, setErrorSB] = useState(false);
     const [message, setMessage] = useState("");
@@ -56,7 +56,7 @@ function Terms() {
     const fetchTerms = async () => {
         const token = `Bearer ${localStorage.getItem("chemToken")}`;
         try {
-            const res = await fetch(`${BASE_URL}/api/admin_teams_and_condition/display?adminId=${localStorage.getItem("admin_id")}`, {
+            const res = await fetch(`${BASE_URL}/api/standard_terms_and_condition/display`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -65,13 +65,8 @@ function Terms() {
             });
             const data = await res.json();
             console.log(data);
-            if (data && data.data) {
-                setTerms(data.data?.[0]?.values || "");  
-                setTermsId(data.data?.[0]?._id || "");  
-            } else {
-                setMessage("Failed to fetch terms and conditions.");
-                openErrorSB();
-            }
+            setTerms(data.data?.[0]?.details)
+            setTermsId(data.data?.[0]?._id)
         } catch (error) {
             setMessage("Error fetching terms and conditions.");
             openErrorSB();
@@ -94,8 +89,8 @@ function Terms() {
 
         try {
             const response = await axios.put(
-                `${BASE_URL}/api/admin_teams_and_condition/update?adminId=${localStorage.getItem("admin_id")}`,
-                { values: terms },
+                `${BASE_URL}/api/standard_terms_and_condition/update/${termsId}`,
+                { details: terms },
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -107,7 +102,7 @@ function Terms() {
             console.log(response.status);
 
             if (response.status === 200) {
-                setMessage("Terms & Condition Updated Successfully");
+                setMessage("Standard Terms & Condition Updated Successfully");
                 openSuccessSB();
             } else {
                 setMessage("Failed to update Terms & Condition.");
@@ -156,4 +151,4 @@ function Terms() {
     );
 }
 
-export default Terms;
+export default StandardTerms;

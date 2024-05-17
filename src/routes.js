@@ -78,6 +78,7 @@ import Design from "layouts/design";
 import AddDesign from "layouts/design/AddDesign";
 import Suggested from "layouts/suggestedchemicals/chemical";
 import EditSuggestedChemical from "layouts/suggestedchemicals/editsuggestedchemical";
+import StandardTerms from "layouts/standardtermsandcondition/terms";
 
 
 const routes = [
@@ -179,11 +180,19 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "terms & condition",
-    key: "Term-and-condition",
+    name: "Terms & Condition",
+    key: "Terms",
     icon: <Icon fontSize="small">apartment</Icon>,
-    route: "/term-and-condition",
+    route: "/Terms-and-condition",
     component: <Terms />,
+  },
+  {
+    type: "collapse",
+    name: "Standard Terms & Condition",
+    key: "Standard",
+    icon: <Icon fontSize="small">apartment</Icon>,
+    route: "/Standard-Term-and-condition",
+    component: <StandardTerms />,
   },
   // {
   //   type: "collapse",

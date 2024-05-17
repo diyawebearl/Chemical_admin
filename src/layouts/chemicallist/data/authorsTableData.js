@@ -113,7 +113,7 @@ export default function AuthorsTableData(chemicalList, searchTerm) {
       ),
       status: (
         <MDBox ml={-1}>
-          <MDBadge badgeContent="active" color="success" variant="gradient" size="sm" />
+          <MDBadge badgeContent={chemical.status} color={chemical.status === "active" ? "success" : "info"} variant="gradient" size="sm" />
         </MDBox>
       ),
       action: (

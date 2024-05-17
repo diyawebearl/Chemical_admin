@@ -13,7 +13,7 @@ import MDTypography from "components/MDTypography";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-function CatalogStatisticsCard({ color, title, count, percentage, icon, price, quantity, storage, packaging_size, packaging_type, bank_name, appearance, grade , max_lot_q, one_lot_qty_price, purity, subcat, supply_capacity, country_origin}) {
+function CatalogStatisticsCard({ color, title, count, percentage, icon, price, quantity, storage, packaging_size, packaging_type, bank_name, appearance, grade, max_lot_q, one_lot_qty_price, purity, subcat, supply_capacity, country_origin, coa }) {
 
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ function CatalogStatisticsCard({ color, title, count, percentage, icon, price, q
         </MDBox>
         <MDBox textAlign="right" lineHeight={1.25}>
           <MDTypography variant="button" fontWeight="light" color="text">
-            {title}
+            {title?.slice(0, 10)}
           </MDTypography>
           <MDTypography variant="h4">{count}</MDTypography>
           <button variant="outlined" color="info"
@@ -228,6 +228,19 @@ function CatalogStatisticsCard({ color, title, count, percentage, icon, price, q
               <MDTypography variant="h6" color="text">
                 {appearance}
               </MDTypography>
+            </MDBox>
+          </>
+        )}
+        {country_origin && (
+          <>
+            <MDBox display="flex" gap="5px" alignItems="center" justifyContent="center" style={{marginTop: "10px"}} >
+              <Button color="primary" variant="contained"
+                
+                >
+                <a href="/selling-inquiry-detail" style={{color: "white"}} target="_blank" fontSize="10px" >
+                  COA
+                </a>
+              </Button>
             </MDBox>
           </>
         )}

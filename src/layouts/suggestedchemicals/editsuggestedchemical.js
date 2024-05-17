@@ -43,7 +43,7 @@ const EditSuggestedChemical = () => {
     const { _id } = useParams()
 
     const [exist, setExist] = useState("")
-    console.log(exist);
+    const [purl, setPurl] = useState("")
 
     useEffect(() => {
         const fetchChemical = async () => {
@@ -59,28 +59,19 @@ const EditSuggestedChemical = () => {
                 );
 
                 const chemicalData = response.data.data?.[0];
-                // Fetch image data as data URL
-                const imageResponse = await axios.get(chemicalData.structure, {
-                    responseType: 'blob' // Receive image data as Blob
+
+                setExist(chemicalData.company?.[0]);
+                setFormData({
+                    name_of_chemical: chemicalData.name_of_chemical,
+                    molecularFormula: chemicalData.molecularFormula,
+                    CAS_number: chemicalData.CAS_number,
+                    IUPAC_name: chemicalData.IUPAC_name,
+                    mol_weight: chemicalData.mol_weight,
+                    synonums: chemicalData.synonums,
+                    Appearance: chemicalData.Appearance,
+                    storage: chemicalData.storage,
                 });
-                const reader = new FileReader();
-                reader.onload = () => {
-                    // Set state with chemical data and data URL of the image
-                    setExist(chemicalData.company?.[0]);
-                    setFormData({
-                        name_of_chemical: chemicalData.name_of_chemical,
-                        molecularFormula: chemicalData.molecularFormula,
-                        CAS_number: chemicalData.CAS_number,
-                        IUPAC_name: chemicalData.IUPAC_name,
-                        status: chemicalData.status,
-                        mol_weight: chemicalData.mol_weight,
-                        synonums: chemicalData.synonums,
-                        Appearance: chemicalData.Appearance,
-                        storage: chemicalData.storage,
-                        structure: reader.result // Set the data URL
-                    });
-                };
-                reader.readAsDataURL(imageResponse.data);
+                setPurl(chemicalData.structure)
 
             } catch (error) {
                 console.log(error);
@@ -97,13 +88,14 @@ const EditSuggestedChemical = () => {
         molecularFormula: "",
         CAS_number: "",
         IUPAC_name: "",
-        status: "",
         structure: "",
         mol_weight: "",
         synonums: "",
         Appearance: "",
         storage: ""
     });
+
+    console.log(formData);
 
 
     const handleChange = (e) => {
@@ -167,9 +159,9 @@ const EditSuggestedChemical = () => {
 
     const handleSubmit = async () => {
 
-        const { name_of_chemical, molecularFormula, CAS_number, IUPAC_name, status, structure, mol_weight, synonums, Appearance, storage } = formData;
+        const { name_of_chemical, molecularFormula, CAS_number, IUPAC_name, structure, mol_weight, synonums, Appearance, storage } = formData;
 
-        if (!name_of_chemical && !molecularFormula && !CAS_number && !IUPAC_name && !status && !structure && !mol_weight && !synonums && !Appearance && !storage) {
+        if (!name_of_chemical && !molecularFormula && !CAS_number && !IUPAC_name && !mol_weight && !synonums && !Appearance && !storage) {
             setErrorMessage("Please Fill All Fields!")
             openErrorSB();
             return;
@@ -199,13 +191,7 @@ const EditSuggestedChemical = () => {
             return;
         }
 
-        if (!status.trim()) {
-            setErrorMessage("Please Select Status!")
-            openErrorSB();
-            return;
-        }
-
-        if (!structure) {
+        if (!structure && !purl) {
             setErrorMessage("Please Select Chemical Photo!")
             openErrorSB();
             return;
@@ -252,25 +238,41 @@ const EditSuggestedChemical = () => {
         formDataToSend.append("molecularFormula", stringFields.molecularFormula);
         formDataToSend.append("CAS_number", stringFields.CAS_number);
         formDataToSend.append("IUPAC_name", stringFields.IUPAC_name);
-        formDataToSend.append("status", status);
-        formDataToSend.append("structure", structure);
         formDataToSend.append("mol_weight", mol_weight);
         formDataToSend.append("synonums", stringFields.synonums);
         formDataToSend.append("Appearance", stringFields.Appearance);
         formDataToSend.append("storage", stringFields.storage);
+        formDataToSend.append("pc_id", _id);
+        formDataToSend.append("status", "active");
 
-        const response = await axios.post(`${BASE_URL}/api/product/create`, formDataToSend, {
-            headers: {
-                Authorization: token,
-                "Content-Type": "multipart/form-data",
-            },
-        });
+        if (structure) {
+            formDataToSend.append("structure", structure);
+            formDataToSend.append("p_url", "");
+        } else {
+            formDataToSend.append("structure", "");
+            formDataToSend.append("p_url", purl);
+        }
 
-        openSuccessSB();
-        setSuccessMessage("Chemical Successfully Edited")
-        setTimeout(() => {
-            navigate(-1)
-        }, 2000);
+        try {
+
+            const response = await axios.post(`${BASE_URL}/api/product/create`, formDataToSend, {
+                headers: {
+                    Authorization: token,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            openSuccessSB();
+            setSuccessMessage("Chemical Successfully Edited")
+            setTimeout(() => {
+                navigate(-1)
+            }, 2000);
+        } catch (error) {
+            console.log(error)
+            setErrorMessage(error.response.data.message)
+            openErrorSB();
+        }
+
 
     }
 
@@ -300,17 +302,6 @@ const EditSuggestedChemical = () => {
             document.documentElement.clientWidth ||
             document.body.clientWidth;
         return screenWidth < 850;
-    };
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        boxShadow: 24,
-
     };
 
     const [open, setOpen] = React.useState(false);
@@ -624,7 +615,7 @@ const EditSuggestedChemical = () => {
                                                 style={{ marginBottom: "20px" }}
                                             />
                                         </MDBox>
-                                        <MDBox mb={4}>
+                                        {/* <MDBox mb={4}>
                                             <Grid item xl={2}>
                                                 <div className="d-flex align-items-center" style={{ gap: "15px" }}>
                                                     <h6 className="mb-0">STATUS</h6>
@@ -645,7 +636,7 @@ const EditSuggestedChemical = () => {
                                                     </select>
                                                 </div>
                                             </Grid>
-                                        </MDBox>
+                                        </MDBox> */}
                                         <MDBox mt={4} mb={1}>
                                             <MDBox display="flex" gap="10px">
                                                 {/* <MDButton

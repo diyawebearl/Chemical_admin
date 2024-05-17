@@ -46,7 +46,7 @@ function Catelog() {
                     color="dark"
                     icon="weekend"
                     // title="Selling Inquiries"
-                    count={20}
+                    count={e.product_details?.[0]?.name_of_chemical}
                     percentage={{
                       color: "success",
                       amount: "+55%",
@@ -55,16 +55,14 @@ function Catelog() {
                     bank_name={e.category}
                     grade={e.grade}
                     max_lot_q={e.max_lot_qty}
-                    one_lot_qty_price={`${e.one_lot_qty_price} ${e.one_lot_qty_type}`}
-                    price={`${e.min_price} - ${e.max_price} rs`}
-                    purity={e.purity}
+                    one_lot_qty_price={`${e.one_lot_qty} ${e.one_lot_qty_type}`}
+                    price={`${e.min_price}rs - ${e.max_price}rs`}
+                    purity={`${e.purity}%`}
                     quantity={`${e.qty} ${e.qty_type}`}
                     subcat={e.subcategory}
                     storage={e.storage}
                     supply_capacity={e.supply_capacity}
                     country_origin={e.country_origin}
-                    packaging_size="10 * 10 sqf"
-                    packaging_type="box"
                     appearance={e.appearance}
                   />
                 </MDBox>

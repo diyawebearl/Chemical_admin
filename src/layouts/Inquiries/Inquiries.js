@@ -72,14 +72,14 @@ function Inquiries() {
     try {
       const token = `Bearer ${localStorage.getItem("chemToken")}`;
       const response = await axios.get(
-        `${BASE_URL}/api/superadmin/inquiry`,
+        `${BASE_URL}/api/inquiryRoutes/all`,
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      setCategoryList(response.data.inquiryList);
+      setCategoryList(response.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -135,7 +135,6 @@ function Inquiries() {
     if (state) {
       setCities(state.cities);
     }
-
   }
 
   const handleCityChange = (e) => {
@@ -146,11 +145,6 @@ function Inquiries() {
     const selectedDateAsDate = date.toDate(); // Convert to JavaScript Date object
     setSelectedDate(selectedDateAsDate);
   }
-
-
-
-
-
 
   return (
     <DashboardLayout>

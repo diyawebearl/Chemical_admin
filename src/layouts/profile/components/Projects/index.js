@@ -83,6 +83,7 @@ function Projects() {
           noEndBorder
           entriesPerPage={false}
         />
+        {/* po data and sales data ma dropdown ma inquiry type  */}
       </MDBox>
     </Card>
   );

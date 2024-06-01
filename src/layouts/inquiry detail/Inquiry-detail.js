@@ -110,18 +110,21 @@ function Inquiry_detail() {
   const [seller, setSeller] = useState("")
   const [messages, setMessages] = useState([])
 
+  
+
   const fetchUserList = async () => {
     try {
       const token = `Bearer ${localStorage.getItem("chemToken")}`;
-      const response = await axios.get(`${BASE_URL}/api/superadmin/inquiry/${_id}`, {
+      const response = await axios.get(`${BASE_URL}/api/inquiryRoutes/inquiryDisplayById/${_id}`, {
         headers: {
           Authorization: token,
         },
       });
-      setCompanyDetails(response?.data?.inquiryList?.[0])
-      setProduct(response?.data?.inquiryList?.[0]?.product)
-      setSeller(response?.data?.inquiryList?.[0]?.seller_company)
-      setBuyer(response?.data?.inquiryList?.[0]?.buyer_company)
+      console.log(response.data.data);
+      setCompanyDetails(response?.data?.data?.[0])
+      setProduct(response?.data?.data?.[0]?.product)
+      setSeller(response?.data?.data?.[0]?.seller_company)
+      setBuyer(response?.data?.data?.[0]?.buyer_company)
     } catch (error) {
       console.log(error);
     }
@@ -267,7 +270,7 @@ function Inquiry_detail() {
                     inquiry_type: companyDetails?.inq_type,
                     inquiry_date: `${companyDetails?.createdAt?.slice(0, 10)}`,
                     inquiry_quantity: `${companyDetails?.inquiry_qty} ${companyDetails?.qty_type}`,
-                    price_range: `${companyDetails?.min_price} ₹ - ${companyDetails?.max_price} ₹`,
+                    price_range: `${companyDetails?.min_price}₹ - ${companyDetails?.max_price} ₹`,
                     // one_lot_quantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
                     // one_lot_qty_price: companyDetails.one_lot_qty_price,
                     payment_type: companyDetails.payment_type,
@@ -289,7 +292,7 @@ function Inquiry_detail() {
                   inquiry_type: companyDetails?.inq_type,
                   inquiry_date: `${companyDetails?.createdAt?.slice(0, 10)}`,
                   inquiry_quantity: `${companyDetails.inquiry_qty} ${companyDetails.qty_type}`,
-                  price: `${companyDetails.min_price} ₹`,
+                  price: `₹${companyDetails.min_price} - ₹${companyDetails.max_price}`,
                   one_lot_quantity: `${companyDetails.one_lot_qty} ${companyDetails.one_lot_qty_type}`,
                   one_lot_qty_price: companyDetails.one_lot_qty_price,
                   total_lot: companyDetails.total_lot,

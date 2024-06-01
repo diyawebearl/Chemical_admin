@@ -79,6 +79,9 @@ import AddDesign from "layouts/design/AddDesign";
 import Suggested from "layouts/suggestedchemicals/chemical";
 import EditSuggestedChemical from "layouts/suggestedchemicals/editsuggestedchemical";
 import StandardTerms from "layouts/standardtermsandcondition/terms";
+import Categories from "layouts/categories";
+import Subcategories from "layouts/subcategories";
+import Grade from "layouts/grade";
 
 
 const routes = [
@@ -194,30 +197,30 @@ const routes = [
     route: "/Standard-Term-and-condition",
     component: <StandardTerms />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Categories",
-  //   key: "categories",
-  //   icon: <Icon fontSize="small">category</Icon>,
-  //   route: "/category-list",
-  //   component: <Categories />,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Subcategories",
-  //   key: "subcategories",
-  //   icon: <Icon fontSize="small">category</Icon>,
-  //   route: "/subcategory-list",
-  //   component: <Subcategories />,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Grade",
-  //   key: "grade",
-  //   icon: <Icon fontSize="small">grading</Icon>,
-  //   route: "/grade-list",
-  //   component: <Grade />,
-  // },
+  {
+    type: "collapse",
+    name: "Categories",
+    key: "categories",
+    icon: <Icon fontSize="small">category</Icon>,
+    route: "/category-list",
+    component: <Categories />,
+  },
+  {
+    type: "collapse",
+    name: "Subcategories",
+    key: "subcategories",
+    icon: <Icon fontSize="small">category</Icon>,
+    route: "/subcategory-list",
+    component: <Subcategories />,
+  },
+  {
+    type: "collapse",
+    name: "Grade",
+    key: "grade",
+    icon: <Icon fontSize="small">grading</Icon>,
+    route: "/grade-list",
+    component: <Grade />,
+  },
   // {
   //   type: "collapse",
   //   name: "Employee",

@@ -58,7 +58,7 @@ export default function AuthorsTableData({ categoryList, productNameFilter, stat
             color="text"
             fontWeight="medium"
           >
-            {category?.buyer_company_id?.company_name}
+            {category?.buyer_company?.company_name}
           </MDTypography>
         ),
         seller: (

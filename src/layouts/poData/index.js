@@ -62,8 +62,6 @@ function PoData() {
   const [buyerFilter, setBuyerFilter] = useState("");
   const [sellerFilter, setSellerFilter] = useState("");
   const [inquiryTypeFilter, setInquiryTypeFilter] = useState("");
-  const [stateFilter, setStateFilter] = useState("");
-  const [cityFilter, setCityFilter] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
 
   const [cities, setCities] = useState([]);
@@ -116,21 +114,7 @@ function PoData() {
   //   setSelectedDateRange(dateRange);
   // };
 
-  const handleStateChange = (e) => {
-    const selectedState = e.target.value;
-    setStateFilter(e.target.value)
-    setCityFilter("")
-    const state = india.states.find((state) => state.name === selectedState);
 
-    if (state) {
-      setCities(state.cities);
-    }
-
-  }
-
-  const handleCityChange = (e) => {
-    setCityFilter(e.target.value)
-  }
 
   const handleDateChange = (date) => {
     const selectedDateAsDate = date.toDate(); // Convert to JavaScript Date object
@@ -167,8 +151,6 @@ function PoData() {
     buyerFilter,
     sellerFilter,
     inquiryTypeFilter,
-    stateFilter,
-    cityFilter,
     handleOpenModal,
   });
 
@@ -199,7 +181,7 @@ function PoData() {
           <Grid item xs={12}>
             <Grid container spacing={1}>
               {/* product name  */}
-              <Grid item xs={2} className="mt-2">
+              <Grid item xs={1.8} className="mt-2">
                 <FormControl fullWidth>
                   <TextField id="outlined-basic" label="Product Name" variant="outlined"
                     value={productNameFilter}
@@ -226,7 +208,7 @@ function PoData() {
                 </FormControl>
               </Grid>
               {/* date  */}
-              <Grid item xs={2.2}>
+              <Grid item xs={2.6}>
                 <FormControl fullWidth>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DatePicker']} style={{ paddingTop: "0px" }}>
@@ -253,7 +235,7 @@ function PoData() {
                 </FormControl>
               </Grid> */}
               {/* status  */}
-              <Grid item xs={1} className="mt-2">
+              <Grid item xs={1.8} className="mt-2">
                 <FormControl fullWidth>
                   <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">status</InputLabel>
                   <Select
@@ -272,9 +254,9 @@ function PoData() {
                 </FormControl>
               </Grid>
               {/* inquiry type  */}
-              <Grid item xs={1} className="mt-2">
+              <Grid item xs={1.8} className="mt-2">
                 <FormControl fullWidth>
-                  <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">inq type</InputLabel>
+                  <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">Inquiry Type</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -284,13 +266,13 @@ function PoData() {
                     style={{ padding: "10px 0px" }}
                   >
                     <MenuItem value="">All</MenuItem>
-                    <MenuItem value="inquiry">buying inquiry</MenuItem>
-                    <MenuItem value="sample inquiry">sample inquiry</MenuItem>
+                    <MenuItem value="inquiry">Commercial inquiry</MenuItem>
+                    <MenuItem value="sample inquiry">Sample inquiry</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               {/* state  */}
-              <Grid item xs={1} className="mt-2">
+              {/* <Grid item xs={1} className="mt-2">
                 <FormControl fullWidth>
                   <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">State</InputLabel>
                   <Select
@@ -307,9 +289,9 @@ function PoData() {
                     ))}
                   </Select>
                 </FormControl>
-              </Grid>
+              </Grid> */}
               {/* city  */}
-              <Grid item xs={1} className="mt-2">
+              {/* <Grid item xs={1} className="mt-2">
                 <FormControl fullWidth>
                   <InputLabel style={{ paddingBottom: "10px" }} id="demo-simple-select-label">City</InputLabel>
                   <Select
@@ -326,7 +308,7 @@ function PoData() {
                     ))}
                   </Select>
                 </FormControl>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
           <Grid item xs={12}>

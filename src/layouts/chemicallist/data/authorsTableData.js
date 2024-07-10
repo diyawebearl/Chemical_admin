@@ -117,7 +117,7 @@ export default function AuthorsTableData(chemicalList, searchTerm) {
         </MDBox>
       ),
       action: (
-        <MDTypography component="a" onClick={() => handleNavigate(chemical._id)} variant="caption" color="text" fontWeight="medium">
+        <MDTypography component="a" onClick={() => handleNavigate(chemical._id)} variant="caption" color="text" fontWeight="medium" style={{ cursor: "pointer" }} >
           Edit
         </MDTypography>
       ),

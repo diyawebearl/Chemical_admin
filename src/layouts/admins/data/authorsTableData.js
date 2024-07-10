@@ -81,7 +81,7 @@ const Data = () => {
         </MDBox>
       ),
       action: (
-        <MDTypography component="a" onClick={() => handleNav(admin._id, admin.status)} variant="caption" color="text" fontWeight="medium">
+        <MDTypography component="a" onClick={() => handleNav(admin._id, admin.status)} variant="caption" color="text" fontWeight="medium" style={{cursor:"pointer"}}>
           Edit
         </MDTypography>
       ),

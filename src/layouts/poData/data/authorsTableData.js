@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
-export default function AuthorsTableData({ categoryList, productNameFilter, statusFilter, buyerFilter, sellerFilter, inquiryTypeFilter, stateFilter, cityFilter, selectedDate, handleOpenModal }) {
+export default function AuthorsTableData({ categoryList, productNameFilter, statusFilter, buyerFilter, sellerFilter, inquiryTypeFilter, selectedDate, handleOpenModal }) {
   const Author = ({ name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDBox ml={2} lineHeight={1}>
@@ -48,6 +48,35 @@ export default function AuthorsTableData({ categoryList, productNameFilter, stat
     handleClose(_id)
   }
 
+  const filteredCategoryList = categoryList.filter((category) => {
+    const productNameMatch = productNameFilter
+      ? category?.product?.name_of_chemical.toLowerCase().includes(productNameFilter.toLowerCase())
+      : true;
+
+    const buyerMatch = buyerFilter
+      ? category?.buyer_company_id?.company_name.toLowerCase().includes(buyerFilter.toLowerCase())
+      : true;
+
+    const sellerMatch = sellerFilter
+      ? category?.seller_company?.company_name.toLowerCase().includes(sellerFilter.toLowerCase())
+      : true;
+
+    const statusMatch = statusFilter
+      ? category.status.toLowerCase() === statusFilter.toLowerCase()
+      : true;
+
+    const inquiryTypeMatch = inquiryTypeFilter
+      ? category.inq_type.toLowerCase() === inquiryTypeFilter.toLowerCase()
+      : true;
+
+
+    const dateMatch = selectedDate
+      ? new Date(category.createdAt).toDateString() === selectedDate.toDateString()
+      : true;
+
+    return productNameMatch && buyerMatch && sellerMatch && statusMatch && inquiryTypeMatch && dateMatch;
+  });
+
 
   return {
     columns: [
@@ -62,7 +91,7 @@ export default function AuthorsTableData({ categoryList, productNameFilter, stat
       { Header: "more details", accessor: "button", align: "center" },
     ],
 
-    rows: categoryList.map((category) => ({
+    rows: filteredCategoryList.map((category) => ({
       product: (
         <Author name={category?.product?.name_of_chemical} email={category?.product?.CAS_number} />
       ),
@@ -133,6 +162,7 @@ export default function AuthorsTableData({ categoryList, productNameFilter, stat
           color="text"
           fontWeight="medium"
           onClick={() => handleNavigate(category.inquiry_id)}
+          style={{ cursor: "pointer" }}
         >
           VIEW
         </MDTypography>

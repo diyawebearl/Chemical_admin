@@ -13,12 +13,11 @@ import MDTypography from "components/MDTypography";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-function CatalogStatisticsCard({ color, title, count, percentage, icon, price, quantity, storage, packaging_size, packaging_type, bank_name, appearance, grade, max_lot_q, one_lot_qty_price, purity, subcat, supply_capacity, country_origin, coa }) {
-
+function CatalogStatisticsCard({ company_id, product_id, color, title, count, percentage, icon, price, quantity, storage, packaging_size, packaging_type, bank_name, appearance, grade, max_lot_q, one_lot_qty_price, purity, subcat, supply_capacity, country_origin, coa }) {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate("/selling-inquiry-detail");
+    navigate(`/selling-inquiry-details/${company_id}/${product_id}`);
   }
 
   return (
@@ -54,8 +53,9 @@ function CatalogStatisticsCard({ color, title, count, percentage, icon, price, q
               borderRadius: "5px",
               fontSize: "14px",
             }}
-            onClick={handleNavigate}>
-            <MDTypography variant="a" href="/selling-inquiry-detail" fontSize="10px" color="text" >
+          onClick={handleNavigate}
+          >
+            <MDTypography  fontSize="10px" color="text" >
               VIEW
             </MDTypography>
           </button>
@@ -233,11 +233,11 @@ function CatalogStatisticsCard({ color, title, count, percentage, icon, price, q
         )}
         {country_origin && (
           <>
-            <MDBox display="flex" gap="5px" alignItems="center" justifyContent="center" style={{marginTop: "10px"}} >
+            <MDBox display="flex" gap="5px" alignItems="center" justifyContent="center" style={{ marginTop: "10px" }} >
               <Button color="primary" variant="contained"
-                
-                >
-                <a href="/selling-inquiry-detail" style={{color: "white"}} target="_blank" fontSize="10px" >
+
+              >
+                <a href="/selling-inquiry-detail" style={{ color: "white" }} target="_blank" fontSize="10px" >
                   COA
                 </a>
               </Button>

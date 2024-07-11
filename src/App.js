@@ -47,7 +47,9 @@ import createCache from "@emotion/cache";
 import routes from "routes";
 import SignIn from "layouts/authentication/sign-in";
 import ForgetPassword from "layouts/authentication/forget-password";
-
+import ManageFeature  from "layouts/feature/index";
+import InsertMembershipFeature from "layouts/feature/insert";
+import EditMembershipPackage from "layouts/feature/edit";
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
@@ -197,7 +199,9 @@ export default function App() {
         <Route path="*" element={<Navigate to="/dashboard" />} />
         <Route path="/authentication/sign-in" element={ <SignIn />} />
         <Route path="/authentication/forget-password" element={ <ForgetPassword />} />
-
+        <Route path = "/package-features" element={<ManageFeature />}/>
+        <Route path = "/insert-package-featured" element={<InsertMembershipFeature />} />
+        {/* <Route path = "/edit-package-featured/:_id" element={<InsertMembershipFeature />} /> */}
       </Routes>
     </ThemeProvider>
   );

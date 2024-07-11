@@ -35,7 +35,7 @@ const EditMembershipPackage = () => {
       color="success"
       icon="check"
       title="Successfull Added"
-      content="Membership Feature is successfully added."
+      content="Membership Feature is successfully updated."
       dateTime="1 sec"
       open={successSB}
       onClose={closeSuccessSB}
@@ -66,13 +66,13 @@ const EditMembershipPackage = () => {
   const getCategory = async (e) => {
 
     try {
-      console.log(_id);
-      const result = await axios.get(`${BASE_URL}api/membership_feature/byid?_id=${_id}`)
-      console.log(result.data.data[0]);
-      setMembershipFeature(result.data.data[0].feature_name);
+      console.log("Fetching membership feature with ID:", _id);
+      const result = await axios.get(`${BASE_URL}/api/membership_feature/findById/${_id}`)
+      console.log("Fetched membership feature:", result.data.data);
+      setMembershipFeature(result.data.data.feature_name);
 
     } catch (error) {
-
+      console.error("Error fetching membership feature:", error);
     }
   }
   useEffect(() => {
@@ -89,6 +89,7 @@ const EditMembershipPackage = () => {
     }
     try {
       const token = `Bearer ${localStorage.getItem("chemToken")}`;
+      console.log("Updating membership feature with ID:", _id);
       const response = await axios.put(
         `${BASE_URL}/api/membership_feature/update/${_id}`,
         {
@@ -100,12 +101,13 @@ const EditMembershipPackage = () => {
           },
         }
       );
-      if (response.data.status === "OK") {
+      // if (response.data.status === "OK") {
+        console.log("Updated membership feature response:", response.data);
         openSuccessSB();
         setTimeout(() => {
-          navigate("/package-features");
+          navigate(-1);
         }, 2000);
-      }
+    
     } catch (error) {
       console.log(error);
     }

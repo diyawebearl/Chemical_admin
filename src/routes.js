@@ -82,7 +82,9 @@ import StandardTerms from "layouts/standardtermsandcondition/terms";
 import Categories from "layouts/categories";
 import Subcategories from "layouts/subcategories";
 import Grade from "layouts/grade";
-
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ShowChartIcon from "@mui/icons-material/ShowChart"
 
 const routes = [
   {
@@ -137,7 +139,7 @@ const routes = [
     type: "collapse",
     name: "Inquiries",
     key: "inquiries",
-    icon: <Icon fontSize="small">apartment</Icon>,
+    icon: <Icon fontSize="small">quiz</Icon>,
     route: "/inquiries",
     component: <Inquiries />,
   },
@@ -145,7 +147,7 @@ const routes = [
     type: "collapse",
     name: "Packages",
     key: "packages",
-    icon: <Icon fontSize="small">apartment</Icon>,
+    icon: <Icon fontSize="small">book</Icon>,
     route: "/packages",
     component: <Packages />,
   },
@@ -153,7 +155,7 @@ const routes = [
     type: "collapse",
     name: "packages features",
     key: "packages-features",
-    icon: <Icon fontSize="small">apartment</Icon>,
+    icon: <Icon fontSize="small">book</Icon>,
     route: "/package-features",
     component: <ManageFeature />,
   },
@@ -161,7 +163,7 @@ const routes = [
     type: "collapse",
     name: "Po Data",
     key: "po-data",
-    icon: <Icon fontSize="small">apartment</Icon>,
+    icon: <ShoppingCartIcon fontSize="small" />,
     route: "/po-data",
     component: <PoData />,
   },
@@ -169,7 +171,7 @@ const routes = [
     type: "collapse",
     name: "Sales Data",
     key: "sales-data",
-    icon: <Icon fontSize="small">apartment</Icon>,
+    icon: <ShowChartIcon fontSize="small" />,
     route: "/sales-data",
     component: <SalesData />,
   },
@@ -177,7 +179,8 @@ const routes = [
     type: "collapse",
     name: "Expiry Days",
     key: "expiry",
-    icon: <Icon fontSize="small">apartment</Icon>,
+    // icon: <Icon fontSize="small">thumbdown</Icon>,
+    icon: <ThumbDownIcon fontSize="small" />,
     route: "/expiry-days",
     component: <Expiry />,
   },
@@ -185,7 +188,7 @@ const routes = [
     type: "collapse",
     name: "Terms & Condition",
     key: "Terms",
-    icon: <Icon fontSize="small">apartment</Icon>,
+    icon: <Icon fontSize="small">gavel</Icon>,
     route: "/Terms-and-condition",
     component: <Terms />,
   },
@@ -193,7 +196,7 @@ const routes = [
     type: "collapse",
     name: "Standard Terms & Condition",
     key: "Standard",
-    icon: <Icon fontSize="small">apartment</Icon>,
+    icon: <Icon fontSize="small">gavel</Icon>,
     route: "/Standard-Term-and-condition",
     component: <StandardTerms />,
   },
@@ -354,7 +357,7 @@ const routes = [
     name: "Selling Inquiry",
     key: "selling-inquiry-details",
     icon: <Icon fontSize="small">add_box</Icon>,
-    route: "/selling-inquiry-details",
+    route: "/selling-inquiry-detail/:company_id/:product_id",
     component: <Sellling />,
   },
   {
@@ -362,7 +365,7 @@ const routes = [
     name: "Selling Inquiry",
     key: "selling-inquiry-details",
     icon: <Icon fontSize="small">add_box</Icon>,
-    route: "/selling-inquiry-detail",
+    route: "/selling-inquiry-details/:company_id/:product_id",
     component: <Sells />,
   },
   {

@@ -179,6 +179,7 @@ export default function AuthorsTableData(filteredData) {
             variant="caption"
             color="text"
             fontWeight="medium"
+            style={{cursor:"pointer"}}
           >
             EDIT
           </MDTypography>
@@ -190,6 +191,7 @@ export default function AuthorsTableData(filteredData) {
             variant="caption"
             color="text"
             fontWeight="medium"
+            style={{cursor:"pointer"}}
           >
             VIEW
           </MDTypography>

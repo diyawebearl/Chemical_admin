@@ -84,7 +84,9 @@ import Subcategories from "layouts/subcategories";
 import Grade from "layouts/grade";
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import ShowChartIcon from "@mui/icons-material/ShowChart"
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import RequestDemo from "./layouts/RequestDemo";
+import ContactMessage from "layouts/Contactmessage";
 
 const routes = [
   {
@@ -199,6 +201,22 @@ const routes = [
     icon: <Icon fontSize="small">gavel</Icon>,
     route: "/Standard-Term-and-condition",
     component: <StandardTerms />,
+  },
+  {
+    type: "collapse",
+    name: "Request Demo",
+    key: "requestdemo",
+    icon: <Icon fontSize="small">group</Icon>,
+    route: "/requestdemo",
+    component: <RequestDemo />,
+  },
+  {
+    type: "collapse",
+    name: "Contact Message",
+    key: "contact message",
+    icon: <Icon fontSize="small">group</Icon>,
+    route: "/contactmessage",
+    component: <ContactMessage />,
   },
   // {
   //   type: "collapse",

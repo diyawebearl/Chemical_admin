@@ -1,4 +1,4 @@
-// import React from 'react';
+// import React, { useEffect, useState } from 'react';
 // import {
 //   Box,
 //   Typography,
@@ -11,12 +11,86 @@
 //   TableRow,
 //   Grid,
 // } from '@mui/material';
+// import { useParams } from 'react-router-dom';
 
 // const borderStyle = '1px solid #0000FF';
 // const headerBgColor = '#ADD8E6';
-// const blue = '#0000FF';
+
+// const numberToWords = (num) => {
+//   const a = [
+//     '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
+//   ];
+//   const b = [
+//     '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
+//   ];
+
+//   const inWords = (num) => {
+//     if ((num = num.toString()).length > 9) return 'overflow';
+//     const n = ('000000000' + num).substr(-9).match(/.{1,3}/g);
+//     let str = '';
+//     str += (n[0] !== '000') ? (a[Number(n[0])] || b[n[0][0]] + ' ' + a[n[0][1]]) + 'crore ' : '';
+//     str += (n[1] !== '000') ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'lakh ' : '';
+//     str += (n[2] !== '000') ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'thousand ' : '';
+//     str += (n[3] !== '000') ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'hundred ' : '';
+//     str += (n[4] !== '00') ? ((str !== '') ? 'and ' : '') + (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + '' : '';
+//     return str.trim();
+//   };
+
+//   return inWords(num);
+// };
 
 // function PurchaseOrderForm() {
+//   const { _id } = useParams(); 
+//   const [po_data, setPo_data] = useState(null);
+//   console.log(_id);
+
+//   useEffect(() => {
+
+//     const fetchData = async () => {
+//       try {
+//         const token = localStorage.getItem('chemToken');
+//         if (!token) {
+//           throw new Error('Token not found');
+//         }
+
+//         const url = `https://chemical-api-usa2.onrender.com/api/inquiryRoutes/inquiryDetailsForCompany/${_id}`;
+//         const response = await fetch(url, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+
+//         if (!response.ok) {
+//           throw new Error('Failed to fetch data');
+//         }
+
+//         const data = await response.json();
+//         console.log(data);
+//         if (data.success && data.data && data.data.length > 0) {
+//           setPo_data(data.data[0].po_data[0]);
+//         } else {
+//           throw new Error('No data found');
+//         }
+//       } catch (error) {
+//         console.error('Error fetching data:', error);
+//         // Handle error state or display a message
+//       }
+      
+//     };
+
+//     fetchData();
+//   }, [_id]);
+//   useEffect(() => {
+//     console.log('po_data:', po_data); 
+//   }, [po_data]);
+
+//   if (!po_data) {
+//     return <Typography>Loading...</Typography>; // Placeholder while data is being fetched
+//   }
+
+//   const productDetails = po_data.product_details || [];
+//   const buyerDetails = po_data.buyer_company_details || [];
+
 //   return (
 //     <Paper sx={{ maxWidth: 800, mx: 'auto', p: 2, boxShadow: 'none', border: borderStyle }}>
 //       {/* Header */}
@@ -26,16 +100,22 @@
 //             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>DR</Typography>
 //           </Box>
 //           <Box>
-//             <Typography>Maninagar</Typography>
-//             <Typography>Ahmedabad, Gujarat - 380008</Typography>
-//             <Typography>22AAAAA0000A1Z8</Typography>
+//             <Typography>{po_data.bill_to_name}</Typography>
+//             <Typography>{po_data.bill_to_address}</Typography>
+//             <Typography>{po_data.bill_to_city}, {po_data.bill_to_state} - {po_data.bill_to_pincode}</Typography>
+//             <Typography>{po_data.bill_to_gst_in}</Typography>
 //           </Box>
 //         </Box>
 //         <Box sx={{ textAlign: 'right' }}>
-//           <Typography>Name : Rutvi Shah</Typography>
-//           <Typography>Phone : 9898989898</Typography>
-//         </Box>
+//   {buyerDetails.map((buyer, index) => (
+//     <div key={index}>
+//       <Typography>Name: {buyer.contact_person_name}</Typography>
+//       <Typography>Phone: {buyer.mobile_num}</Typography>
+//     </div>
+//   ))}
+// </Box>      
 //       </Box>
+  
 
 //       {/* Main content */}
 //       <Box sx={{ borderBottom: borderStyle, mb: 2 }}>
@@ -46,31 +126,31 @@
 //         <Grid container>
 //           <Grid item xs={4} sx={{ borderRight: borderStyle, p: 1 }}>
 //             <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Details of Buyer :</Typography>
-//             <Typography>Name : DR</Typography>
-//             <Typography>GSTIN : 22AAAAA0000A1Z8</Typography>
-//             <Typography>Address : Maninagar</Typography>
-//             <Typography>Country : India</Typography>
-//             <Typography>State : Gujarat</Typography>
-//             <Typography>City : Ahmedabad</Typography>
-//             <Typography>Pincode : 380008</Typography>
-//             <Typography>Phone : 9898989898</Typography>
+//             <Typography>Name : {po_data.bill_to_name}</Typography>
+//             <Typography>GSTIN : {po_data.bill_to_gst_in}</Typography>
+//             <Typography>Address : {po_data.bill_to_address}</Typography>
+//             <Typography>Country : {po_data.bill_to_country}</Typography>
+//             <Typography>State : {po_data.bill_to_state}</Typography>
+//             <Typography>City : {po_data.bill_to_city}</Typography>
+//             <Typography>Pincode : {po_data.bill_to_pincode}</Typography>
+//             <Typography>Phone : {po_data.bill_to_phone}</Typography>
 //           </Grid>
 //           <Grid item xs={4} sx={{ borderRight: borderStyle, p: 1 }}>
 //             <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Seller Detail / Shipped to :</Typography>
-//             <Typography>Name : Siya Ram Chemicals</Typography>
-//             <Typography>GSTIN : 12ABCDE1534F1Z5</Typography>
-//             <Typography>Address : 22, Crodile, EDII, Near Bhat Circle</Typography>
-//             <Typography>Country : India</Typography>
-//             <Typography>State : Gujarat</Typography>
-//             <Typography>City : Gandhinagar</Typography>
-//             <Typography>Pincode : 380058</Typography>
-//             <Typography>Phone : 8804880488</Typography>
+//             <Typography>Name : {po_data.shipped_to_name}</Typography>
+//             <Typography>GSTIN : {po_data.shipped_to_gst_in}</Typography>
+//             <Typography>Address : {po_data.shipped_to_address}</Typography>
+//             <Typography>Country : {po_data.shipped_to_country}</Typography>
+//             <Typography>State : {po_data.shipped_to_state}</Typography>
+//             <Typography>City : {po_data.shipped_to_city}</Typography>
+//             <Typography>Pincode : {po_data.shipped_to_pincode}</Typography>
+//             <Typography>Phone : {po_data.shipped_to_phone}</Typography>
 //           </Grid>
 //           <Grid item xs={4} sx={{ p: 1 }}>
-//             <Typography>P.O. No : FYF_2427</Typography>
-//             <Typography>P.O. Date : 2024-07-10</Typography>
-//             <Typography>Inco Terms : EXW</Typography>
-//             <Typography>Payment Terms : Immediate</Typography>
+//             <Typography>P.O. No : {po_data.po_num}</Typography>
+//             <Typography>P.O. Date : {po_data.po_date}</Typography>
+//             <Typography>Inco Terms : {po_data.inco_terms}</Typography>
+//             <Typography>Payment Terms : {po_data.payment_terms}</Typography>
 //           </Grid>
 //         </Grid>
 //       </Box>
@@ -86,30 +166,30 @@
 //               <TableCell sx={{ border: borderStyle }}>Qty</TableCell>
 //               <TableCell sx={{ border: borderStyle }}>Rate</TableCell>
 //               <TableCell sx={{ border: borderStyle }}>Taxable Value</TableCell>
-//               <TableCell sx={{ border: borderStyle }} colSpan={2}>GST</TableCell>
+//               <TableCell sx={{ border: borderStyle }}>GST</TableCell>
 //               <TableCell sx={{ border: borderStyle }}>Total</TableCell>
 //             </TableRow>
 //           </TableHead>
 //           <TableBody>
+//             {productDetails.map((product, index) => (
+//               <TableRow key={product._id}>
+//                 <TableCell sx={{ border: borderStyle }} >{index + 1}</TableCell>
+//                 <TableCell sx={{ border: borderStyle }}>{product.chem_name}</TableCell>
+//                 <TableCell sx={{ border: borderStyle }}>{product.hsn}</TableCell>
+//                 <TableCell sx={{ border: borderStyle }}>{product.qty} {product.qty_type}</TableCell>
+//                 <TableCell sx={{ border: borderStyle }}>{product.rate}</TableCell>
+//                 <TableCell sx={{ border: borderStyle }}>{product.taxable_amount}</TableCell>
+//                 <TableCell sx={{ border: borderStyle }}>{product.igst} ({product.igst}%)</TableCell>
+//                 <TableCell sx={{ border: borderStyle }}>{product.taxable_amount}</TableCell>
+//               </TableRow>
+//             ))}
 //             <TableRow>
-//               <TableCell sx={{ border: borderStyle }}>1</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>dichloromethane</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>123</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>20kg</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>15000</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>300000</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>7500 (2.5%)</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>7500 (2.5%)</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>315000</TableCell>
-//             </TableRow>
-//             <TableRow>
-//               <TableCell colSpan={3} sx={{ border: borderStyle }}>Total</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>20.00</TableCell>
+//               <TableCell sx={{ border: borderStyle }}>Total</TableCell>
+//               <TableCell sx={{ border: borderStyle }}>{productDetails.reduce((acc, curr) => acc + curr.qty, 0)}</TableCell>
 //               <TableCell sx={{ border: borderStyle }}></TableCell>
-//               <TableCell sx={{ border: borderStyle }}>300000</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>7500</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>7500</TableCell>
-//               <TableCell sx={{ border: borderStyle }}>315000</TableCell>
+//               <TableCell sx={{ border: borderStyle }}>{productDetails.reduce((acc, curr) => acc + curr.taxable_amount, 0)}</TableCell>
+//               <TableCell sx={{ border: borderStyle }}>{productDetails.reduce((acc, curr) => acc + curr.igst, 0)}</TableCell>
+//               <TableCell sx={{ border: borderStyle }}>{po_data.grand_total}</TableCell>
 //             </TableRow>
 //           </TableBody>
 //         </Table>
@@ -124,21 +204,69 @@
 //           </Box>
 //           <Box>
 //             <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>TERMS & CONDITIONS</Typography>
+//             <Typography variant="caption">Standard terms & condition</Typography>
+//           </Box>
+//         </Grid>
+//         <Grid item xs={6} sx={{ p: 1 }}>
+//           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, pb: 1, bgcolor: '#D3EAF5' }}>
+//             <Typography>Taxable Amount:</Typography>
+//             <Typography>{productDetails.reduce((acc, curr) => acc + curr.taxable_amount, 0)}</Typography>
+//           </Box>
+//           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+//             <Typography>Add: SGST</Typography>
+//             <Typography>{productDetails.reduce((acc, curr) => acc + curr.igst, 0)}</Typography>
+//           </Box>
+//           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+//             <Typography>Add: CGST</Typography>
+//             <Typography>{productDetails.reduce((acc, curr) => acc + curr.igst, 0)}</Typography>
+//           </Box>
+//           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+//             <Typography>Total Tax</Typography>
+//             <Typography>{productDetails.reduce((acc, curr) => acc + curr.igst, 0)}</Typography>
+//           </Box>
+//           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+//             <Typography>Total Amount After Tax</Typography>
+//             <Typography>{po_data.grand_total}</Typography>
+//           </Box>
+//           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+//             <Typography>Taxable Amount After Tax</Typography>
+//             <Typography>(E & O.E)</Typography>
+//           </Box>
+//           <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1 }}>
+//             <Typography>GST Payable on reverse charge</Typography>
+//             <Typography>N.A</Typography>
+//           </Box>
+//           <Box sx={{ mt: 2, pt: 2, borderTop: borderStyle, textAlign: 'right', minHeight: 60 }}>
+//             <Typography>Authority Signatory</Typography>
+//           </Box>
+//         </Grid>
+//       </Grid>
+//       {/* <Grid container sx={{ border: borderStyle, mt: 2 }}>
+//         <Grid item xs={6} sx={{ borderRight: borderStyle, p: 1 }}>
+//           <Box sx={{ borderBottom: borderStyle, pb: 1, mb: 1 }}>
+//             <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Total in Words</Typography>
+//             <Typography>THREE HUNDRED FIFTEEN THOUSAND</Typography>
+//           </Box>
+//           <Box sx={{ borderBottom: borderStyle, pb: 1, mb: 1 }}>
+//             <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }} rowspan={4}>Bank Details</Typography>
+//             <Typography>Name</Typography>
+//             <Typography>Branch</Typography>
+//             <Typography>Acc. Number</Typography>
+//             <Typography>IFSC</Typography>
+//           </Box>
+//           <Box>
+//             <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>TERMS & CONDITIONS</Typography>
 //             <Typography variant="caption">standard terms & condition</Typography>
 //           </Box>
 //         </Grid>
 //         <Grid item xs={6} sx={{ p: 1 }}>
 //           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, pb: 1, bgcolor: '#D3EAF5' }}>
-//             <Typography>Taxable Amount</Typography>
-//             <Typography>3,00,000.00</Typography>
+//             <Typography>Taxable Amount:</Typography>
+//             <Typography>{product.taxable_amount}</Typography>
 //           </Box>
 //           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
-//             <Typography>Add: SGST</Typography>
-//             <Typography>7,500.00</Typography>
-//           </Box>
-//           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
-//             <Typography>Add: CGST</Typography>
-//             <Typography>7,500.00</Typography>
+//             <Typography>Add: IGST</Typography>
+//             <Typography>{product.igst}</Typography>
 //           </Box>
 //           <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
 //             <Typography>Total Tax</Typography>
@@ -160,7 +288,7 @@
 //             <Typography>Authority Signatory</Typography>
 //           </Box>
 //         </Grid>
-//       </Grid>
+//       </Grid> */}
 //     </Paper>
 //   );
 // }
@@ -177,8 +305,11 @@
 
 
 
-import React, { useState, useEffect } from 'react';
+
+
+import React, { useEffect, useState } from 'react';
 import {
+  Box,
   Typography,
   Paper,
   Table,
@@ -188,134 +319,306 @@ import {
   TableHead,
   TableRow,
   Grid,
-  Box,
 } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
-const PurchaseOrderForm = ({ productId, authToken }) => {
-  const [formData, setFormData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const borderStyle = '1px solid #0000FF';
+const headerBgColor = '#ADD8E6';
+
+const numberToWords = (num) => {
+  const a = [
+    '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
+  ];
+  const b = [
+    '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
+  ];
+
+  const inWords = (num) => {
+    let str = '';
+    if (num >= 10000000) {
+      str += inWords(Math.floor(num / 10000000)) + ' crore ';
+      num %= 10000000;
+    }
+    if (num >= 100000) {
+      str += inWords(Math.floor(num / 100000)) + ' lakh ';
+      num %= 100000;
+    }
+    if (num >= 1000) {
+      str += inWords(Math.floor(num / 1000)) + ' thousand ';
+      num %= 1000;
+    }
+    if (num >= 100) {
+      str += inWords(Math.floor(num / 100)) + ' hundred ';
+      num %= 100;
+    }
+    if (num > 0) {
+      if (str !== '') str += 'and ';
+      str += (a[num] || b[Math.floor(num / 10)] + ' ' + a[num % 10]);
+    }
+    return str.trim();
+  };
+
+  // Round the number and convert to words
+  return inWords(Math.round(num));
+};
+
+
+
+
+
+function PurchaseOrderForm() {
+  const { _id } = useParams(); 
+  const [po_data, setPo_data] = useState(null);
+  console.log(_id);
 
   useEffect(() => {
-    if (!productId || !authToken) return;
 
-    setLoading(true);
-    setError(null);
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('chemToken');
+        if (!token) {
+          throw new Error('Token not found');
+        }
 
-    fetch(`https://chemical-api-usa2.onrender.com/api/salesInvoice/displayDetails/${productId}`, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    })
-      .then(response => {
+        const url = `https://chemical-api-usa2.onrender.com/api/inquiryRoutes/inquiryDetailsForCompany/${_id}`;
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Failed to fetch data');
         }
-        return response.json();
-      })
-      .then(data => {
-        if (data.success && data.data.length > 0) {
-          setFormData(data.data[0]); // Assuming data is an array and we take the first item
+
+        const data = await response.json();
+        console.log(data);
+        if (data.success && data.data && data.data.length > 0) {
+          setPo_data(data.data[0].po_data[0]);
         } else {
-          setError('No data found');
+          throw new Error('No data found');
         }
-      })
-      .catch(error => {
-        setError('Error fetching data');
+      } catch (error) {
         console.error('Error fetching data:', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [productId, authToken]);
+        // Handle error state or display a message
+      }
+      
+    };
 
-  if (loading) {
-    return <Typography>Loading...</Typography>; // Show loading indicator until data is fetched
+    fetchData();
+  }, [_id]);
+  useEffect(() => {
+    console.log('po_data:', po_data); 
+  }, [po_data]);
+
+  if (!po_data) {
+    return 
   }
 
-  if (error) {
-    return <Typography>Error: {error}</Typography>; // Show error message if fetch fails
-  }
-
-  if (!formData) {
-    return null; // or return a placeholder message if needed
-  }
-
+  const productDetails = po_data.product_details || [];
+  const buyerDetails = po_data.buyer_company_details || [];
+  const totalTaxableAmount = productDetails.reduce((acc, curr) => acc + curr.taxable_amount);
+  const totalInWords = numberToWords(totalTaxableAmount);
   return (
-    <Paper sx={{ p: 2, maxWidth: 800, mx: 'auto' }}>
-      <Typography variant="h5" align="center" gutterBottom>
-        Purchase Order Details
-      </Typography>
+    <Paper sx={{ maxWidth: 800, mx: 'auto', p: 2, boxShadow: 'none', border: borderStyle }}>
+      {/* Header */}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, borderBottom: borderStyle, pb: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ bgcolor: '#D3D3D3', p: 2, mr: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>DR</Typography>
+          </Box>
+          <Box>
+            <Typography>{po_data.bill_to_name}</Typography>
+            <Typography>{po_data.bill_to_address}</Typography>
+            <Typography>{po_data.bill_to_city}, {po_data.bill_to_state} - {po_data.bill_to_pincode}</Typography>
+            <Typography>{po_data.bill_to_gst_in}</Typography>
+          </Box>
+        </Box>
+        <Box sx={{ textAlign: 'right' }}>
+  {buyerDetails.map((buyer, index) => (
+    <div key={index}>
+      <Typography>Name: {buyer.contact_person_name}</Typography>
+      <Typography>Phone: {buyer.mobile_num}</Typography>
+    </div>
+  ))}
+</Box>      
+      </Box>
+      {/* Main content */}
+      <Box sx={{ borderBottom: borderStyle, mb: 2 }}>
+        <Typography variant="h6" align="center" sx={{ bgcolor: headerBgColor, py: 1, borderBottom: borderStyle }}>
+          PURCHASE ORDER
+        </Typography>
 
-      <Box sx={{ mb: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Typography variant="subtitle1" gutterBottom>
-              Buyer Details:
-            </Typography>
-            <Typography variant="body2">
-              Name: {formData.bill_to_name}<br />
-              GSTIN: {formData.bill_to_gst_in}<br />
-              Address: {formData.bill_to_address}<br />
-              Country: {formData.bill_to_country}<br />
-              State: {formData.bill_to_state}<br />
-              City: {formData.bill_to_city}<br />
-              Pincode: {formData.bill_to_pincode}<br />
-              Phone: {formData.bill_to_phone}
-            </Typography>
+        <Grid container>
+          <Grid item xs={4} sx={{ borderRight: borderStyle, p: 1 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Details of Buyer :</Typography>
+            <Typography>Name : {po_data.bill_to_name}</Typography>
+            <Typography>GSTIN : {po_data.bill_to_gst_in}</Typography>
+            <Typography>Address : {po_data.bill_to_address}</Typography>
+            <Typography>Country : {po_data.bill_to_country}</Typography>
+            <Typography>State : {po_data.bill_to_state}</Typography>
+            <Typography>City : {po_data.bill_to_city}</Typography>
+            <Typography>Pincode : {po_data.bill_to_pincode}</Typography>
+            <Typography>Phone : {po_data.bill_to_phone}</Typography>
           </Grid>
-          <Grid item xs={6}>
-            <Typography variant="subtitle1" gutterBottom>
-              Seller / Shipped To Details:
-            </Typography>
-            <Typography variant="body2">
-              Name: {formData.shipped_to_name}<br />
-              GSTIN: {formData.shipped_to_gst_in}<br />
-              Address: {formData.shipped_to_address}<br />
-              Country: {formData.shipped_to_country}<br />
-              State: {formData.shipped_to_state}<br />
-              City: {formData.shipped_to_city}<br />
-              Pincode: {formData.shipped_to_pincode}<br />
-              Phone: {formData.shipped_to_phone}
-            </Typography>
+          <Grid item xs={4} sx={{ borderRight: borderStyle, p: 1 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Seller Detail / Shipped to :</Typography>
+            <Typography>Name : {po_data.shipped_to_name}</Typography>
+            <Typography>GSTIN : {po_data.shipped_to_gst_in}</Typography>
+            <Typography>Address : {po_data.shipped_to_address}</Typography>
+            <Typography>Country : {po_data.shipped_to_country}</Typography>
+            <Typography>State : {po_data.shipped_to_state}</Typography>
+            <Typography>City : {po_data.shipped_to_city}</Typography>
+            <Typography>Pincode : {po_data.shipped_to_pincode}</Typography>
+            <Typography>Phone : {po_data.shipped_to_phone}</Typography>
+          </Grid>
+          <Grid item xs={4} sx={{ p: 1 }}>
+            <Typography>P.O. No : {po_data.po_num}</Typography>
+            <Typography>P.O. Date : {po_data.po_date}</Typography>
+            <Typography>Inco Terms : {po_data.inco_terms}</Typography>
+            <Typography>Payment Terms : {po_data.payment_terms}</Typography>
           </Grid>
         </Grid>
       </Box>
 
-      <TableContainer component={Paper}>
-        <Table>
+      {/* Product table */}
+      <TableContainer component={Paper} sx={{ mb: 2, boxShadow: 'none', border: borderStyle }}>
+        <Table size="small" sx={{ border: borderStyle }}>
           <TableHead>
-            <TableRow>
-              <TableCell>Product Name</TableCell>
-              <TableCell>CAS No.</TableCell>
-              <TableCell>Chemical Formula</TableCell>
-              <TableCell>HSN Code</TableCell>
-              <TableCell>Quantity</TableCell>
-              <TableCell>Rate</TableCell>
-              <TableCell>Taxable Amount</TableCell>
-              <TableCell>IGST</TableCell>
-              <TableCell>Total</TableCell>
+            <TableRow sx={{ bgcolor: headerBgColor }}>
+              <TableCell sx={{ border: borderStyle }}>Sr No</TableCell>
+              <TableCell sx={{ border: borderStyle }}>Name Of Product / Service</TableCell>
+              <TableCell sx={{ border: borderStyle }}>HSN/SAC</TableCell>
+              <TableCell sx={{ border: borderStyle }}>Qty</TableCell>
+              <TableCell sx={{ border: borderStyle }}>Rate</TableCell>
+              <TableCell sx={{ border: borderStyle }}>Taxable Value</TableCell>
+              <TableCell sx={{ border: borderStyle }}>GST</TableCell>
+              <TableCell sx={{ border: borderStyle }}>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {formData.product_details.map(product => (
+            {productDetails.map((product, index) => (
               <TableRow key={product._id}>
-                <TableCell>{product.chem_name}</TableCell>
-                <TableCell>{product.cas_no}</TableCell>
-                <TableCell>{product.mol_formula}</TableCell>
-                <TableCell>{product.hsn}</TableCell>
-                <TableCell>{product.qty} {product.qty_type}</TableCell>
-                <TableCell>{product.rate}</TableCell>
-                <TableCell>{product.taxable_amount}</TableCell>
-                <TableCell>{product.igst}</TableCell>
-                <TableCell>{product.taxable_amount * (1 + parseFloat(product.igst) / 100)}</TableCell>
+                <TableCell sx={{ border: borderStyle }} >{index + 1}</TableCell>
+                <TableCell sx={{ border: borderStyle }}>{product.chem_name}</TableCell>
+                <TableCell sx={{ border: borderStyle }}>{product.hsn}</TableCell>
+                <TableCell sx={{ border: borderStyle }}>{product.qty} {product.qty_type}</TableCell>
+                <TableCell sx={{ border: borderStyle }}>{product.rate}</TableCell>
+                <TableCell sx={{ border: borderStyle }}>{product.taxable_amount}</TableCell>
+                <TableCell sx={{ border: borderStyle }}>{product.igst} ({product.igst}%)</TableCell>
+                <TableCell sx={{ border: borderStyle }}>{product.taxable_amount}</TableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell sx={{ border: borderStyle }}>Total</TableCell>
+              <TableCell sx={{ border: borderStyle }}>{productDetails.reduce((acc, curr) => acc + curr.qty, 0)}</TableCell>
+              <TableCell sx={{ border: borderStyle }}></TableCell>
+              <TableCell sx={{ border: borderStyle }}>{productDetails.reduce((acc, curr) => acc + curr.taxable_amount, 0)}</TableCell>
+              <TableCell sx={{ border: borderStyle }}>{productDetails.reduce((acc, curr) => acc + curr.igst, 0)}</TableCell>
+              <TableCell sx={{ border: borderStyle }}>{po_data.grand_total}</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Footer details */}
+      <Grid container sx={{ border: borderStyle, mt: 2 }}>
+        <Grid item xs={6} sx={{ borderRight: borderStyle, p: 1 }}>
+          <Box sx={{ borderBottom: borderStyle, pb: 1, mb: 1 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Total in Words</Typography>
+            {/* <Typography>THREE HUNDRED FIFTEEN THOUSAND</Typography> */}
+            <Typography sx={{ border: borderStyle, p: 2, mb: 2 }}><b>{totalInWords}</b>
+      </Typography>
+          </Box>
+          <Box>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>TERMS & CONDITIONS</Typography>
+            <Typography variant="caption">Standard terms & condition</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={6} sx={{ p: 1 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, pb: 1, bgcolor: '#D3EAF5' }}>
+            <Typography>Taxable Amount:</Typography>
+            <Typography>{productDetails.reduce((acc, curr) => acc + curr.taxable_amount, 0)}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+            <Typography>Add: SGST</Typography>
+            <Typography>{productDetails.reduce((acc, curr) => acc + curr.igst, 0)}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+            <Typography>Add: CGST</Typography>
+            <Typography>{productDetails.reduce((acc, curr) => acc + curr.igst, 0)}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+            <Typography>Total Tax</Typography>
+            <Typography>{productDetails.reduce((acc, curr) => acc + curr.igst, 0)}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+            <Typography>Total Amount After Tax</Typography>
+            <Typography>{po_data.grand_total}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+            <Typography>Taxable Amount After Tax</Typography>
+            <Typography>(E & O.E)</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1 }}>
+            <Typography>GST Payable on reverse charge</Typography>
+            <Typography>N.A</Typography>
+          </Box>
+          <Box sx={{ mt: 2, pt: 2, borderTop: borderStyle, textAlign: 'right', minHeight: 60 }}>
+            <Typography>Authority Signatory</Typography>
+          </Box>
+        </Grid>
+      </Grid>
+      {/* <Grid container sx={{ border: borderStyle, mt: 2 }}>
+        <Grid item xs={6} sx={{ borderRight: borderStyle, p: 1 }}>
+          <Box sx={{ borderBottom: borderStyle, pb: 1, mb: 1 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>Total in Words</Typography>
+            <Typography>THREE HUNDRED FIFTEEN THOUSAND</Typography>
+          </Box>
+          <Box sx={{ borderBottom: borderStyle, pb: 1, mb: 1 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }} rowspan={4}>Bank Details</Typography>
+            <Typography>Name</Typography>
+            <Typography>Branch</Typography>
+            <Typography>Acc. Number</Typography>
+            <Typography>IFSC</Typography>
+          </Box>
+          <Box>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>TERMS & CONDITIONS</Typography>
+            <Typography variant="caption">standard terms & condition</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={6} sx={{ p: 1 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, pb: 1, bgcolor: '#D3EAF5' }}>
+            <Typography>Taxable Amount:</Typography>
+            <Typography>{product.taxable_amount}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+            <Typography>Add: IGST</Typography>
+            <Typography>{product.igst}</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+            <Typography>Total Tax</Typography>
+            <Typography>15,000.00</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+            <Typography>Total Amount After Tax</Typography>
+            <Typography>3,15,000.00</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', borderBottom: borderStyle, py: 1 }}>
+            <Typography>Taxable Amount After Tax</Typography>
+            <Typography>(E & O.E)</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1 }}>
+            <Typography>GST Payable on reverse charge</Typography>
+            <Typography>N.A</Typography>
+          </Box>
+          <Box sx={{ mt: 2, pt: 2, borderTop: borderStyle, textAlign: 'right', minHeight: 60 }}>
+            <Typography>Authority Signatory</Typography>
+          </Box>
+        </Grid>
+      </Grid> */}
     </Paper>
   );
-};
+}
 
 export default PurchaseOrderForm;

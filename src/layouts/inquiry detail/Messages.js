@@ -1,166 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import { deepOrange } from "@material-ui/core/colors";
+import { BASE_URL } from "BASE_URL"; // Replace with actual base URL
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         messageRow: {
             display: "flex",
-        },
-        messageRowRight: {
-            display: "flex",
-            justifyContent: "flex-end"
-        },
-        displyFlex: {
-            display: "flex",
             alignItems: "center",
-            gap: "20px"
-        },
-        messageBlue: {
-            position: "relative",
-            marginLeft: "20px",
             marginBottom: "10px",
-            padding: "10px 25px",
-            backgroundColor: "gainsboro",
-            width: "60%",
-            textAlign: "left",
-            font: "400 .9em 'Open Sans', sans-serif",
-            // border: "1px solid #97C6E3",
-            borderRadius: "10px",
-            "&:after": {
-                content: "''",
-                position: "absolute",
-                width: "0",
-                height: "0",
-                borderTop: "15px solid gainsboro",
-                borderLeft: "15px solid transparent",
-                borderRight: "15px solid transparent",
-                top: "0",
-                left: "-15px"
-            },
-            "&:before": {
-                content: "''",
-                position: "absolute",
-                width: "0",
-                height: "0",
-                // borderTop: "17px solid #97C6E3",
-                borderLeft: "16px solid transparent",
-                borderRight: "16px solid transparent",
-                top: "-1px",
-                left: "-17px"
-            }
-        },
-        messageOrange: {
-            position: "relative",
-            marginRight: "20px",
-            marginBottom: "10px",
-            padding: "10px",
-            backgroundColor: "gainsboro",
-            width: "60%",
-            textAlign: "left",
-            font: "400 .9em 'Open Sans', sans-serif",
-            // border: "1px solid #dfd087",
-            borderRadius: "10px",
-            "&:after": {
-                content: "''",
-                position: "absolute",
-                width: "0",
-                height: "0",
-                borderTop: "15px solid gainsboro",
-                borderLeft: "15px solid transparent",
-                borderRight: "15px solid transparent",
-                top: "0",
-                right: "-15px"
-            },
-            "&:before": {
-                content: "''",
-                position: "absolute",
-                width: "0",
-                height: "0",
-                // borderTop: "17px solid #dfd087",
-                borderLeft: "16px solid transparent",
-                borderRight: "16px solid transparent",
-                top: "-1px",
-                right: "-17px"
-            }
-        },
-
-        messageContent: {
-            margin: 0,
-            lineHeight: "22px",
-            fontSize: "14px"
-        },
-        messageTimeStampRight: {
-            position: "absolute",
-            fontSize: "10px",
-            fontWeight: "300",
-            marginTop: "10px",
-            bottom: "-6px",
-            right: "5px",
-            marginBottom: "10px",
-            textAlign: "end"
-        },
-
-        orange: {
-            color: theme.palette.getContrastText(deepOrange[500]),
-            backgroundColor: deepOrange[500],
-            width: theme.spacing(4),
-            height: theme.spacing(4)
-        },
-        avatarNothing: {
-            color: "transparent",
-            backgroundColor: "transparent",
-            width: theme.spacing(4),
-            height: theme.spacing(4)
-        },
-        displayName: {
-            marginLeft: "20px",
-            fontWeight: "700",
-            fontSize: "14px"
-        },
-        displayImage: {
-            marginLeft: "20px",
-            fontWeight: "700",
-            fontSize: "14px"
         },
         messageBgSet: {
+            backgroundColor: "gainsboro",
+            width: "60%",
+            textAlign: "left",
+            padding: "10px",
+            borderRadius: "10px",
             position: "relative",
             marginLeft: "20px",
-            marginBottom: "10px",
-            // padding: "10px 25px",
-            padding: "10px 0px",
-            backgroundColor: "gainsboro",
-            width: "310px",
-            textAlign: "left",
-            font: "400 .9em 'Open Sans', sans-serif",
-            // border: "1px solid #97C6E3",
-            borderRadius: "10px",
         },
         cancelCard: {
-            width: "310px",
-            padding: "0px 15px"
+            marginBottom: "10px",
         },
         cancelCardFirstP: {
-            fontSize: "10px"
+            fontSize: "10px",
         },
         cancelCardSecondP: {
             fontSize: "14px",
-            textAlign: "end",
+            textAlign: "left",
             fontWeight: "600",
             borderBottom: "1px solid black",
             paddingBottom: "7px",
-            marginBottom: "4px"
+            marginBottom: "4px",
         },
         cancelCardThirdP: {
             fontSize: "10px",
-            textAlign: "end",
-            paddingBottom: "7px"
+            textAlign: "left",
+            paddingBottom: "7px",
         },
         cancelGroup: {
             fontSize: "16px",
-            textAlign: "end",
-            paddingBottom: "7px"
+            textAlign: "left",
+            paddingBottom: "7px",
+        },
+        orange: {
+            color: theme.palette.getContrastText(theme.palette.secondary.main),
+            backgroundColor: theme.palette.secondary.main,
+            width: theme.spacing(4),
+            height: theme.spacing(4)
         },
         cancelBtn: {
             fontSize: "18px",
@@ -168,144 +56,84 @@ const useStyles = makeStyles((theme) =>
             border: "1px solid black",
             borderRadius: "10px",
             padding: "10px 0px",
-            width: "100%"
+            width: "100%",
+            cursor: "pointer",
         },
         approvedBtn: {
             fontSize: "18px",
             backgroundColor: "black",
-            
             color: "white",
             border: "1px solid black",
             borderRadius: "10px",
             padding: "10px 0px",
-            width: "100%"
-        }
-
+            width: "100%",
+            cursor: "pointer",
+        },
     })
 );
 
-export const MessageLeft = (props) => {
-    const message = props.message ? props.message : "no message";
-    const timestamp = props.timestamp ? props.timestamp : "";
-    const photoURL = props.photoURL ? props.photoURL : "dummy.js";
-    const displayName = props.displayName ? props.displayName : "whySOserious";
+export const MessageRight = () => {};
+
+export const MessageLeft = () => {
     const classes = useStyles();
+    const { _id } = useParams();
+    const [message, setMessage] = useState(null);
+    const [receiverLogo, setReceiverLogo] = useState("");
+
+    useEffect(() => {
+        fetch(`${BASE_URL}/api/chat/display/${_id}`) // Replace with your API endpoint
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(`Data fetched for ID ${_id}:`, data);
+                if (data.success && data.data.length > 0) {
+                    setMessage(data.data[0]);
+                    // Set receiver logo
+                    if (data.data[0].receiverDetails && data.data[0].receiverDetails.length > 0) {
+                        const logo = data.data[0].receiverDetails[0].logo;
+                        setReceiverLogo(logo);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching chat details:', error);
+            });
+    }, [_id]);
+
+    if (!message) {
+        return <div></div>;
+    }
+
+    const senderCompany = message.senderDetails ? message.senderDetails[0].company_name : 'Unknown';
+
     return (
-        <>
-            <div>
-                <div className={classes.messageRow}>
-                    <Avatar
-                        alt={displayName}
-                        className={classes.orange}
-                        src={photoURL}
-                    ></Avatar>
-                    <div>
-                        <div className={classes.displayName}>{displayName}</div>
-                        <div className={classes.messageBlue}>
-                            <div className="py-2">
-                                <p className={classes.messageContent}>{message}</p>
-                            </div>
-                            <div className={classes.messageTimeStampRight}>{timestamp}</div>
-                        </div>
-                    </div>
+        <div className={classes.messageRow}>
+          
+            <Avatar
+                alt={message.receiverDetails ? message.receiverDetails[0].company_name : 'Receiver'}
+                className={classes.orange}
+                src={receiverLogo}
+            ></Avatar>
+            <div className={classes.messageBgSet}>
+                <div className={classes.cancelCard}>
+                    <p className={classes.cancelCardFirstP}>Id: {message.senderId}</p>
+                    <p className={classes.cancelCardSecondP}>Request from {senderCompany}</p>
+                    <p className={classes.cancelCardThirdP}>{new Date(message.datetime).toLocaleTimeString()}</p>
+                    <h6 className={classes.cancelGroup}>Quantity: {message.quantity} kg</h6>
+                    <h6 className={classes.cancelGroup}>Price: ₹{message.final_price}</h6>
+                    <h6 className={classes.cancelGroup}>Payment Term: {message.payment_terms}</h6>
+                    <h6 className={classes.cancelGroup}>Delivery Time: {message.delivery_time}</h6>
+                    <h6 className={classes.cancelGroup}>Inco Terms: {message.inco_terms}</h6>
+                    {message.request_status === "approved" ? (
+                        <button className={classes.approvedBtn}>Approved</button>
+                    ) : (
+                        message.request_status === "denied" ? (
+                            <button className={classes.cancelBtn}>Denied</button>
+                        ) : null // Added null as fallback in case neither condition matches
+                    )}
                 </div>
-                {/* <div className={classes.messageRow}>
-                    <Avatar
-                        alt={displayName}
-                        className={classes.orange}
-                        src={photoURL}
-                    ></Avatar>
-                    <div>
-                        <div className={classes.displayName}>{displayName}</div>
-                        <div className={classes.messageBgSet}>
-                            <div className={classes.cancelCard}>
-                                <p className={classes.cancelCardFirstP}>Id: 165JKsy2ut4W6Sdb</p>
-                                <p className={classes.cancelCardSecondP}>Request from you</p>
-                                <p className={classes.cancelCardThirdP}>Today, 8:33pm</p>
-                                <h6 className={classes.cancelGroup}>Quantity : 20kg</h6>
-                                <h6 className={classes.cancelGroup}>Price : 1500</h6>
-                                <h6 className={classes.cancelGroup}>Payment Term : Advance</h6>
-                                <h6 className={classes.cancelGroup}>Delivery Time : Immediate</h6>
-                                <button className={classes.cancelBtn}>Canceled</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={classes.messageRow}>
-                    <Avatar
-                        alt={displayName}
-                        className={classes.orange}
-                        src={photoURL}
-                    ></Avatar>
-                    <div>
-                        <div className={classes.displayName}>{displayName}</div>
-                        <div className={classes.messageBgSet}>
-                            <div className={classes.cancelCard}>
-                                <p className={classes.cancelCardFirstP}>Id: 165JKsy2ut4W6Sdb</p>
-                                <p className={classes.cancelCardSecondP}>Request from you</p>
-                                <p className={classes.cancelCardThirdP}>Today, 8:33pm</p>
-                                <h6 className={classes.cancelGroup}>Quantity : 20kg</h6>
-                                <h6 className={classes.cancelGroup}>Price : 1500</h6>
-                                <h6 className={classes.cancelGroup}>Payment Term : Advance</h6>
-                                <h6 className={classes.cancelGroup}>Delivery Time : Immediate</h6>
-                                <button className={classes.approvedBtn}>approved</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={classes.messageRow}>
-                    <Avatar
-                        alt={displayName}
-                        className={classes.orange}
-                        src={photoURL}
-                    ></Avatar>
-                    <div>
-                        <div className={classes.displayName}>{displayName}</div>
-                        <div className={classes.messageBgSet}>
-                            <div className={classes.cancelCard}>
-                                <p className={classes.cancelCardFirstP}>Id: 165JKsy2ut4W6Sdb</p>
-                                <p className={classes.cancelCardSecondP}>Request from you</p>
-                                <p className={classes.cancelCardThirdP}>Today, 8:33pm</p>
-                                <h6 className={classes.cancelGroup}>Quantity : 20kg</h6>
-                                <h6 className={classes.cancelGroup}>Price : 1500</h6>
-                                <h6 className={classes.cancelGroup}>Payment Term : Advance</h6>
-                                <h6 className={classes.cancelGroup}>Delivery Time : Immediate</h6>
-                                <button className={classes.approvedBtn}>Denied</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
             </div>
-        </>
+        </div>
     );
 };
 
-export const MessageRight = (props) => {
-    const classes = useStyles();
-    const message = props.message ? props.message : "no message";
-    const timestamp = props.timestamp ? props.timestamp : "";
-    const photoURL = props.photoURL ? props.photoURL : "dummy.js";
-    const displayName = props.displayName ? props.displayName : "whySOserious";
-    return (
-        <>
-            <div>
-                <div className={classes.messageRowRight}>
-                    <span>
-                        <div className={classes.displyFlex}>
-                            <div className={classes.displayImage}>{displayName}</div>
-                            <Avatar
-                                alt={displayName}
-                                className={classes.orange}
-                                src={photoURL}
-                            ></Avatar>
-                        </div>
-                        <div className={classes.messageOrange}>
-                            <p className={classes.messageContent}>{message}</p>
-                            <div className={classes.messageTimeStampRight}>{timestamp}</div>
-                        </div>
-                    </span>
-                </div>
-            </div>
-        </>
-    );
-};
+export default MessageLeft;

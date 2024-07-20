@@ -87,6 +87,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import RequestDemo from "./layouts/RequestDemo";
 import ContactMessage from "layouts/Contactmessage";
+import Subscriber from "layouts/subscriber";
 
 const routes = [
   {
@@ -218,6 +219,7 @@ const routes = [
     route: "/contactmessage",
     component: <ContactMessage />,
   },
+ 
   // {
   //   type: "collapse",
   //   name: "Categories",
@@ -258,6 +260,14 @@ const routes = [
   //   route: "/certificates",
   //   component: <Certificate />,
   // },
+  {
+    type: "collapse",
+    name: "Subscriber",
+    key: "subscriber",
+    icon: <Icon fontSize="small">group</Icon>,
+    route: "/subscriber",
+    component: <Subscriber />,
+  },
   {
     type: "collapse",
     name: "Change Password",

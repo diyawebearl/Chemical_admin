@@ -10,10 +10,14 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 import { useNavigate } from "react-router-dom";
 import authorsTableData from "layouts/RequestDemo/data/authorsTableData";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
 
 function RequestDemo() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedId, setSelectedId] = useState("");
   const token = localStorage.getItem("chemToken");
   const navigate = useNavigate();
 
@@ -46,11 +50,54 @@ function RequestDemo() {
     }
   }, [token, navigate]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleClickOpen = (id, status) => {
+    console.log("Clicked item ID:", id);
+    console.log("Selected status:", status);
+    setSelectedId(id);
+    setSelectedStatus(status);
+    setOpen(true);
+  };
 
-  const { columns, rows } = authorsTableData(data);
+  const handleClose = (confirmed) => {
+    setOpen(false);
+    if (confirmed) {
+      console.log("Confirmed status change for ID:", selectedId);
+      handleStatusChange(selectedId, selectedStatus);
+    }
+  };
+
+  const handleStatusChange = (id, newStatus) => {
+    console.log("Updating status for ID:", id, "to", newStatus);
+
+    // Update the status in your state
+    const updatedData = data.map((item) =>
+      item._id === id ? { ...item, status: newStatus } : item
+    );
+    setData(updatedData);
+
+    // Make an API call to update the status
+    fetch(`https://chemical-api-usa2.onrender.com/api/request_demo/update/${id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: newStatus }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log("Status updated:", response);
+      })
+      .catch((error) => {
+        console.error("Error updating status:", error);
+      });
+  };
+
+  // if (loading) {
+  //   return <div></div>;
+  // }
+
+  const { columns, rows } = authorsTableData(data, handleClickOpen, handleStatusChange);
 
   return (
     <DashboardLayout>
@@ -87,9 +134,27 @@ function RequestDemo() {
         </Grid>
       </MDBox>
       <Footer />
+      <Dialog
+        open={open}
+        onClose={() => handleClose(false)}
+      >
+        <DialogTitle>Confirm Status Change</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to change the status?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClose(false)} color="primary">
+            No
+          </Button>
+          <Button onClick={() => handleClose(true)} color="primary" autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </DashboardLayout>
   );
 }
 
 export default RequestDemo;
-

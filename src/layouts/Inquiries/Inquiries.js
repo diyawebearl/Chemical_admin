@@ -399,6 +399,7 @@ function Inquiries() {
           },
         }
       );
+      console.log("API Response Data:", response.data); 
       setCategoryList(response.data.data);
     } catch (error) {
       console.log(error);

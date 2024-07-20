@@ -51,6 +51,7 @@ import ManageFeature  from "layouts/feature/index";
 import InsertMembershipFeature from "layouts/feature/insert";
 import EditMembershipPackage from "layouts/feature/edit";
 import PurchaseOrderForm from "layouts/poData/PurchaseOrderForm";
+import InvoiceForm from "layouts/poData/InvoiceDataForm";
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
@@ -202,8 +203,8 @@ export default function App() {
         <Route path="/authentication/forget-password" element={ <ForgetPassword />} />
         <Route path = "/package-features" element={<ManageFeature />}/>
         <Route path = "/insert-package-featured" element={<InsertMembershipFeature />} />
-        <Route path="/purchase-order/:inquiryId" element={<PurchaseOrderForm />} />
-        {/* <Route path = "/edit-package-featured/:_id" element={<InsertMembershipFeature />} /> */}
+        <Route path="/invoice-form/:_id" element={<InvoiceForm />} />
+        <Route path="/purchase-order/:_id" element={<PurchaseOrderForm />} />
       </Routes>
     </ThemeProvider>
   );

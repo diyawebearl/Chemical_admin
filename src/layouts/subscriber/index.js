@@ -8,9 +8,9 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable"; // Adjust the import path based on your project structure
 import { useNavigate } from "react-router-dom";
-import authorsTableData from "layouts/Contactmessage/data/authorsTableData";
+import authorsTableData from "layouts/subscriber/data/authorsTableData";
 
-function ContactMessage() {
+function Subscriber() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("chemToken");
@@ -21,7 +21,7 @@ function ContactMessage() {
       navigate("/authentication/sign-in");
     } else {
       // Fetch data from your API
-      fetch("https://chemical-api-usa2.onrender.com/api/contactMessage/display", {
+      fetch("https://chemical-api-usa2.onrender.com/api/subscriber/display", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -46,11 +46,7 @@ function ContactMessage() {
     }
   }, [token, navigate]);
 
-  if (loading) {
-    return <div></div>;
-  }
-
-  const { columns, rows } = authorsTableData(messages);
+const { columns, rows } = authorsTableData(messages);
 
   return (
     <DashboardLayout>
@@ -70,7 +66,7 @@ function ContactMessage() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Contact Message ({rows.length})
+                  Subscriber ({rows.length})
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -91,4 +87,4 @@ function ContactMessage() {
   );
 }
 
-export default ContactMessage;
+export default Subscriber;

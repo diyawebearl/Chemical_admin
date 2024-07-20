@@ -206,14 +206,16 @@
 
 
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDBadge from "components/MDBadge";
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-export default function AuthorsTableData({ categoryList, productNameFilter, statusFilter, buyerFilter, sellerFilter, inquiryTypeFilter, selectedDate }) {
+export default function AuthorsTableData({ categoryList, productNameFilter, statusFilter, buyerFilter, sellerFilter, inquiryTypeFilter, selectedDate, handleOpenModal }) {
   const Author = ({ name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDBox ml={2} lineHeight={1}>
@@ -231,8 +233,29 @@ export default function AuthorsTableData({ categoryList, productNameFilter, stat
     navigate(`/inquiries/inquiry-detail/${_id}`);
   };
 
-  const handleOpenForm = (inquiryId) => {
-    navigate(`/purchase-order/${inquiryId}`);
+  const [openMenus, setOpenMenus] = useState({});
+
+  const handleClick = (event, _id) => {
+    setOpenMenus({
+      ...openMenus,
+      [_id]: event.currentTarget,
+    });
+  };
+
+  const handleClose = (_id) => {
+    setOpenMenus({
+      ...openMenus,
+      [_id]: null,
+    });
+  };
+
+  const handleModalOpen = (menuItem, _id) => {
+    handleClose(_id);
+    if (menuItem === 'View/Print PO') {
+      navigate(`/purchase-order/${_id}`);
+    } else if (menuItem === 'View/Print Invoice') {
+      navigate(`/invoice-form/${_id}`);
+    }
   };
 
   const filteredCategoryList = categoryList.filter((category) => {
@@ -356,13 +379,41 @@ export default function AuthorsTableData({ categoryList, productNameFilter, stat
         <div>
           <Button
             id={`demo-positioned-button-${category.inquiry_id}`}
+            aria-controls={`demo-positioned-menu-${category.inquiry_id}`}
             aria-haspopup="true"
-            onClick={() => handleOpenForm(category.inquiry_id)}
+            onClick={(event) => handleClick(event, category.inquiry_id)}
           >
             <MoreVertIcon />
           </Button>
+          <Menu
+            id={`demo-positioned-menu-${category.inquiry_id}`}
+            anchorEl={openMenus[category.inquiry_id]}
+            open={Boolean(openMenus[category.inquiry_id])}
+            onClose={() => handleClose(category.inquiry_id)}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <MenuItem onClick={() => handleModalOpen('View/Print PO', category.inquiry_id)}>View/Print PO</MenuItem>
+            <MenuItem onClick={() => handleModalOpen('View/Print Invoice', category.inquiry_id)}>View/Print Invoice</MenuItem>
+          </Menu>
         </div>
       ),
     })),
   };
 }
+
+
+
+
+
+
+
+
+
+

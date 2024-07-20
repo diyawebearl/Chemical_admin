@@ -220,8 +220,8 @@ function Dashboard() {
                 count={dashboardData.totalCompanies}
                 percentage={{
                   color: "success",
-                  amount: "+55%",
-                  label: "than last week",
+                  amount: "",
+                  label: "Just updated",
                 }}
               />
             </MDBox>
@@ -234,8 +234,8 @@ function Dashboard() {
                 count={dashboardData.totalInquiries}
                 percentage={{
                   color: "success",
-                  amount: "+3%",
-                  label: "than last month",
+                  amount: "",
+                  label: "Just updated",
                 }}
               />
             </MDBox>
@@ -249,8 +249,8 @@ function Dashboard() {
                 count={dashboardData.totalApprovedInquiries}
                 percentage={{
                   color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
+                  amount: "",
+                  label: "Just updated",
                 }}
               />
             </MDBox>
@@ -280,7 +280,7 @@ function Dashboard() {
                 percentage={{
                   color: "info",
                   amount: "",
-                  label: "Updated recently",
+                  label: "Just Updated",
                 }}
               />
              
@@ -296,7 +296,7 @@ function Dashboard() {
                 percentage={{
                   color: "warning",
                   amount: "",
-                  label: "Updated recently",
+                  label: "Just Updated",
                 }}
               />
             </MDBox>
